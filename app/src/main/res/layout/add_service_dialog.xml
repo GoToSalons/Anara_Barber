@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/colorMediumGrey"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="40dp"
+    android:layout_marginEnd="40dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="Add Service"
+            android:textColor="@color/colorBlack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="14dp"
+            android:textStyle="bold"
+            android:textSize="16sp"/>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:background="@color/colorDarkGrey"/>
+
+    <TextView
+        android:id="@+id/tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name Of Service"
+        android:textColor="@color/colorBlack"
+        android:textSize="18sp"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="10dp"/>
+
+    <RelativeLayout
+        android:id="@+id/l1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/grey_mobile_number"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp">
+
+        <EditText
+            android:id="@+id/service_name"
+            android:inputType="phone"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@null"
+            android:paddingStart="10dp"
+            android:textColor="@color/colorBlack"
+            android:layout_centerInParent="true"
+            android:layout_margin="3dp"
+            />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Short Description"
+        android:textColor="@color/colorBlack"
+        android:textSize="18sp"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="10dp"/>
+
+    <RelativeLayout
+        android:id="@+id/l2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/grey_mobile_number"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp">
+
+        <EditText
+            android:id="@+id/description"
+            android:inputType="phone"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@null"
+            android:paddingStart="10dp"
+            android:textColor="@color/colorBlack"
+            android:layout_centerInParent="true"
+            android:layout_margin="3dp"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Time to Complete:"
+        android:textColor="@color/colorBlack"
+        android:textSize="18sp"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="10dp"/>
+
+    <LinearLayout
+        android:id="@+id/tv_l"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:id="@+id/tv5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Hours"
+            android:textColor="@color/colorBlack"
+            android:textSize="18sp"
+            android:layout_marginEnd="10dp"/>
+
+        <TextView
+            android:id="@+id/tv6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Minutes"
+            android:textColor="@color/colorBlack"
+            android:textSize="18sp"
+            android:layout_marginStart="10dp"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/exp_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp">
+
+            <RelativeLayout
+                android:id="@+id/l7"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/grey_mobile_number"
+                android:layout_weight="1"
+                android:layout_marginEnd="10dp">
+
+                <EditText
+                    android:id="@+id/hours"
+                    android:inputType="phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:paddingStart="10dp"
+                    android:textColor="@color/colorBlack"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="3dp"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/l8"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/grey_mobile_number"
+                android:layout_weight="1"
+                android:layout_marginStart="10dp">
+
+                <EditText
+                    android:id="@+id/mins"
+                    android:inputType="phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:paddingStart="10dp"
+                    android:textColor="@color/colorBlack"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="3dp"
+                    />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Price"
+        android:textColor="@color/colorBlack"
+        android:textSize="18sp"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="10dp"/>
+
+    <RelativeLayout
+        android:id="@+id/l5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/grey_mobile_number"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp">
+
+        <EditText
+            android:id="@+id/price"
+            android:inputType="phone"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@null"
+            android:paddingStart="10dp"
+            android:textColor="@color/colorBlack"
+            android:layout_centerInParent="true"
+            android:layout_margin="3dp"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose a Category to which this service belongs"
+        android:textColor="@color/colorBlack"
+        android:textSize="18sp"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="10dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp">
+
+        <LinearLayout
+            android:id="@+id/ll1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2">
+
+            <RadioButton
+                android:id="@+id/hair"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Hair"
+                android:layout_weight="1"/>
+
+            <RadioButton
+                android:id="@+id/beard_skin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Beard and Skin"
+                android:layout_weight="1"
+                />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ll1"
+            android:weightSum="2">
+
+        <RadioButton
+            android:id="@+id/beauty"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Beauty"
+            android:layout_weight="1"/>
+
+        <RadioButton
+            android:id="@+id/others"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Others"
+            android:layout_weight="1"/>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/continue_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button_bg"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ADD"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:textColor="@color/colorWhite"
+            android:textStyle="bold"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

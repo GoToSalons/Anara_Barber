@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Anara Barber</string>
+    <string name="terms">By clicking \'CONTINUE\', you are accepting to our <font color='#FF8C00'>Terms</font> and <font color="#FF8C00">Privacy Policy</font></string>
+    <string name="resend_code">Can\'t receive SMS? <font color='#FF8C00'>Resend Code</font></string>
+</resources>

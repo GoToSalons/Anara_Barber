@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.OTPActivity"
+    android:background="@color/colorMediumGrey">
+
+    <RelativeLayout
+        android:id="@+id/rl1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorDarkGrey">
+
+        <ImageView
+            android:id="@+id/back_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/back_black"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="12dp" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Verify Mobile Number"
+            android:textSize="18sp"
+            android:textColor="@color/colorBlack"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enter your code"
+        android:layout_below="@+id/rl1"
+        android:textColor="@color/colorBlack"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:layout_marginStart="24sp"
+        android:layout_marginEnd="24sp"
+        android:layout_marginTop="35sp"/>
+
+    <LinearLayout
+        android:id="@+id/opt_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="6"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/tv1"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp">
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/grey_mobile_number"
+            android:cursorVisible="false"
+            android:gravity="center"
+            android:maxLength="1"
+            android:textSize="35sp"
+            android:textColor="@color/colorBlack"
+            android:inputType="number"/>
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="5dp"
+            android:textSize="35sp"
+            android:background="@drawable/grey_mobile_number"
+            android:gravity="center"
+            android:cursorVisible="false"
+            android:maxLength="1"
+            android:textColor="@color/colorBlack"
+            android:inputType="number"/>
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="5dp"
+            android:textSize="35sp"
+            android:background="@drawable/grey_mobile_number"
+            android:gravity="center"
+            android:cursorVisible="false"
+            android:maxLength="1"
+            android:textColor="@color/colorBlack"
+            android:inputType="number"/>
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="5dp"
+            android:textSize="35sp"
+            android:background="@drawable/grey_mobile_number"
+            android:gravity="center"
+            android:cursorVisible="false"
+            android:maxLength="1"
+            android:textColor="@color/colorBlack"
+            android:inputType="number"/>
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="5dp"
+            android:textSize="35sp"
+            android:background="@drawable/grey_mobile_number"
+            android:gravity="center"
+            android:cursorVisible="false"
+            android:maxLength="1"
+            android:textColor="@color/colorBlack"
+            android:inputType="number"/>
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:layout_marginStart="5dp"
+            android:textSize="35sp"
+            android:background="@drawable/grey_mobile_number"
+            android:gravity="center"
+            android:cursorVisible="false"
+            android:maxLength="1"
+            android:textColor="@color/colorBlack"
+            android:inputType="number"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/continue_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/opt_layout"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/button_bg"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CONTINUE"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:textColor="@color/colorWhite"
+            android:textStyle="bold"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/terms"
+        android:layout_below="@+id/continue_button"
+        android:textColor="@color/colorBlack"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:layout_marginStart="24sp"
+        android:layout_marginEnd="24sp"
+        android:layout_marginTop="40sp"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/tv2"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/resend_code"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="18sp"
+            android:textColor="@color/colorBlack"
+            android:textSize="16sp"
+            />
+
+    </ScrollView>
+
+
+
+</RelativeLayout>

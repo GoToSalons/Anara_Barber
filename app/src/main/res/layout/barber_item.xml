@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="@drawable/dark_grey_bg"
+    android:layout_marginStart="4dp"
+    android:layout_marginEnd="4dp"
+    android:layout_marginTop="1dp"
+    android:layout_marginBottom="1dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/barber_image"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="8dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toEndOf="@+id/barber_image"
+        android:layout_centerInParent="true"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/barber_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Akim"
+            android:textColor="@color/colorBlack"/>
+
+        <LinearLayout
+            android:id="@+id/rating_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:layout_below="@id/barber_name"
+            android:orientation="horizontal">
+
+            <RatingBar
+                android:id="@+id/rating"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:rating="3.5"
+                android:stepSize="0.1"
+                android:theme="@style/RatingBar" />
+
+            <TextView
+                android:id="@+id/rating_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="3.5"
+                android:textColor="@color/colorBlack" />
+
+        </LinearLayout>
+
+
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/ll2"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="This Month"
+                android:textColor="@color/colorBlack"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="₹100"
+                android:textColor="@color/colorBlack"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ll2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp">
+
+            <TextView
+                android:id="@+id/today_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Today"
+                android:textColor="@color/colorBlack"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="₹100"
+                android:textColor="@color/colorBlack"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>
