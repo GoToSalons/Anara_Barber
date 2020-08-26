@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "541774978578",
+    "firebase_url": "https://anara-barber.firebaseio.com",
+    "project_id": "anara-barber",
+    "storage_bucket": "anara-barber.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:541774978578:android:e1c433194ecde8e9f642cb",
+        "android_client_info": {
+          "package_name": "com.anara.barber"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "541774978578-ctafauunvpahr9gtoohq5bnhmqg8afns.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBiYo0MxqfYNufKhdIJSttDGDhKdnzAp8g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "541774978578-ctafauunvpahr9gtoohq5bnhmqg8afns.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
