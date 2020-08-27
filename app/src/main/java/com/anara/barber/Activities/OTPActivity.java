@@ -13,11 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.anara.barber.Helpers.CustomTextWatcher;
 import com.anara.barber.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskExecutors;
 import com.google.firebase.FirebaseException;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
@@ -123,14 +120,12 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
 
         mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(OTPActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-
-                        } else {
-                            Toast.makeText(OTPActivity.this, "Invalid Code", Toast.LENGTH_SHORT).show();
-                        }
+                .addOnCompleteListener(OTPActivity.this, task -> {
+                    if (task.isSuccessful()) {
+                        Intent intent = new Intent(OTPActivity.this, ChooseActivity.class);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(OTPActivity.this, "Invalid Code", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
