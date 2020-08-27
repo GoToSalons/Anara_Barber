@@ -1,9 +1,14 @@
 package com.anara.barber.Activities;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.EditText;
@@ -13,7 +18,9 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import com.anara.barber.Apis.Const;
 import com.anara.barber.Model.SalonModel;
 import com.anara.barber.R;
 import com.bumptech.glide.Glide;
@@ -26,7 +33,7 @@ public class SalonDetailsActivity extends AppCompatActivity implements View.OnCl
 
     ImageView im1, im2, im3, im4, a1, a2, a3, a4;
     EditText name, address;
-    ArrayList<File> files = new ArrayList<>();
+    ArrayList<String> files = new ArrayList<>();
     SalonModel salonModel = new SalonModel();
 
     @Override
@@ -72,18 +79,55 @@ public class SalonDetailsActivity extends AppCompatActivity implements View.OnCl
                 validateAndPass();
                 break;
             case R.id.iml_1:
-                startActivityForResult(Intent.createChooser(i, "Select Picture"), 1);
+                if (check_permissions())
+                    startActivityForResult(Intent.createChooser(i, "Select Picture"), 1);
                 break;
             case R.id.iml_2:
-                startActivityForResult(Intent.createChooser(i, "Select Picture"), 2);
+                if (check_permissions())
+                    startActivityForResult(Intent.createChooser(i, "Select Picture"), 2);
                 break;
             case R.id.iml_3:
-                startActivityForResult(Intent.createChooser(i, "Select Picture"), 3);
+                if (check_permissions())
+                    startActivityForResult(Intent.createChooser(i, "Select Picture"), 3);
                 break;
             case R.id.iml_4:
-                startActivityForResult(Intent.createChooser(i, "Select Picture"), 4);
+                if (check_permissions())
+                    startActivityForResult(Intent.createChooser(i, "Select Picture"), 4);
                 break;
         }
+    }
+
+    public boolean check_permissions() {
+
+        String[] PERMISSIONS = {
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA
+        };
+
+        if (!hasPermissions(this, PERMISSIONS)) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(PERMISSIONS, 2);
+            } else {
+                return true;
+            }
+        } else {
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean hasPermissions(Context context, String... permissions) {
+        if (context != null && permissions != null) {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     @Override
@@ -92,29 +136,32 @@ public class SalonDetailsActivity extends AppCompatActivity implements View.OnCl
         Bitmap img = null;
         File file = null;
         try {
-            Uri filePath = data.getData();
-            img = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-            file = new File(filePath.getPath());
+            if (data != null) {
+                Uri filePath = data.getData();
+                img = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                if (filePath != null && filePath.getPath() != null) {
+                    file = new File(filePath.getPath());
+                }
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
         if (requestCode == 1) {
             Glide.with(im1).load(img).centerCrop().into(im1);
             a1.setVisibility(View.GONE);
-            files.add(file);
-
         } else if (requestCode == 2) {
             Glide.with(im2).load(img).centerCrop().into(im2);
             a2.setVisibility(View.GONE);
-            files.add(file);
         } else if (requestCode == 3) {
             Glide.with(im3).load(img).centerCrop().into(im3);
             a3.setVisibility(View.GONE);
-            files.add(file);
         } else if (requestCode == 4) {
             Glide.with(im4).load(img).centerCrop().into(im4);
             a4.setVisibility(View.GONE);
-            files.add(file);
+        }
+        if (file != null) {
+            files.add(file.getAbsolutePath());
         }
     }
 
@@ -126,11 +173,11 @@ public class SalonDetailsActivity extends AppCompatActivity implements View.OnCl
         } else if (files.size() < 2) {
             Toast.makeText(this, "2 Photos Minimum", Toast.LENGTH_SHORT).show();
         } else {
-            salonModel.setOwnerName(name.getText().toString());
-            salonModel.setOwnerAddress(address.getText().toString());
-            salonModel.setFiles(files);
+            salonModel.setSaloonName(name.getText().toString());
+            salonModel.setSaloonAddress(address.getText().toString());
+            salonModel.setSaloonImages(files);
             Intent intent = new Intent(SalonDetailsActivity.this, OwnerDetailsActivity.class);
-            intent.putExtra("data", salonModel);
+            intent.putExtra(Const.SALOON_DATA_KEY, (Parcelable) salonModel);
             startActivity(intent);
 
         }

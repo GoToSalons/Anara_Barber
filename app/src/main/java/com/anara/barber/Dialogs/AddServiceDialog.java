@@ -2,13 +2,12 @@ package com.anara.barber.Dialogs;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 import java.util.Objects;
 
@@ -16,15 +15,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import com.anara.barber.Activities.BarberDetailsActivity;
 import com.anara.barber.R;
 
 public class AddServiceDialog extends DialogFragment implements View.OnClickListener {
 
-    private BarberDetailsActivity barberDetailsActivity;
+    private Context context;
 
-    public AddServiceDialog(BarberDetailsActivity barberDetailsActivity) {
-        this.barberDetailsActivity = barberDetailsActivity;
+    public AddServiceDialog(Context context) {
+        this.context = context;
     }
 
 
