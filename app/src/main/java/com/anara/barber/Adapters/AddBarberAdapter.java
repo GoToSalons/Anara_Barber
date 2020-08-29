@@ -36,6 +36,10 @@ public class AddBarberAdapter extends RecyclerView.Adapter<AddBarberAdapter.MyVi
         this.onImageClick = onImageClick;
     }
 
+    public ArrayList<AddBarberItem> getAddBarberItems() {
+        return addBarberItems;
+    }
+
     @NonNull
     @Override
     public AddBarberAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -55,7 +59,7 @@ public class AddBarberAdapter extends RecyclerView.Adapter<AddBarberAdapter.MyVi
         return addBarberItems.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder implements AddServiceDialog.AddService {
 
         EditText barber_name, e_mail, phone_number, exp_yrs, exp_mon;
         TextView add_service, add_barber;
@@ -100,6 +104,7 @@ public class AddBarberAdapter extends RecyclerView.Adapter<AddBarberAdapter.MyVi
 
             add_service.setOnClickListener(view -> {
                 AddServiceDialog addServiceDialog = new AddServiceDialog(barberDetailsActivity);
+                addServiceDialog.setAddService(this);
                 addServiceDialog.show(barberDetailsActivity.getSupportFragmentManager(), "AddDetails");
             });
 
@@ -111,6 +116,21 @@ public class AddBarberAdapter extends RecyclerView.Adapter<AddBarberAdapter.MyVi
 
         }
 
+        @Override
+        public void onAddServiceClick(AddBarberItem.BarberService barberService) {
+            ArrayList<AddBarberItem.BarberService> barberServices = new ArrayList<>();
+            barberServices.add(barberService);
+            AddBarberItem addBarberItem = addBarberItems.get(getAdapterPosition());
+            addBarberItem.setName(barber_name.getText().toString());
+            addBarberItem.setEmail(e_mail.getText().toString());
+            addBarberItem.setMobile(phone_number.getText().toString());
+            addBarberItem.setExp_year(exp_yrs.getText().toString());
+            addBarberItem.setExp_month(exp_mon.getText().toString());
+            addBarberItem.setServices(barberServices);
+            addBarberItems.remove(getAdapterPosition());
+            addBarberItems.add(getAdapterPosition(), addBarberItem);
+            notifyItemChanged(getAdapterPosition());
+        }
     }
 
     public interface OnImageClick {

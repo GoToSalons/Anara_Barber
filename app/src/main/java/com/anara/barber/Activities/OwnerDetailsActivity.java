@@ -1,6 +1,7 @@
 package com.anara.barber.Activities;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.anara.barber.Apis.Const;
+import com.anara.barber.Model.AddBarberItem;
 import com.anara.barber.Model.OwnerModel;
 import com.anara.barber.Model.SalonModel;
 import com.anara.barber.R;
@@ -68,10 +70,10 @@ public class OwnerDetailsActivity extends AppCompatActivity implements View.OnCl
                 next();
                 break;
             case R.id.profile_image:
-                Intent i = new Intent();
-                i.setType("image/*");
-                i.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(i, "Select Picture"), 1);
+                Intent i = new Intent(
+                        Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(i, 1);
                 break;
         }
     }
@@ -102,22 +104,36 @@ public class OwnerDetailsActivity extends AppCompatActivity implements View.OnCl
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == 1) {
-            try {
-                if (data != null) {
-                    Uri filePath = data.getData();
-                    Bitmap img = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                    if (filePath != null && filePath.getPath() != null) {
-                        file = new File(filePath.getPath());
-                        ownerImagePath = file.getAbsolutePath();
-                        Glide.with(circleImageView).load(img).centerCrop().into(circleImageView);
-                        a1.setVisibility(View.GONE);
-                    }
-                }
+            if (data != null) {
+                Uri filePath = data.getData();
+                convertUriToPath(filePath);
+            }
+        }
+    }
 
-            } catch (IOException e) {
-                e.printStackTrace();
+    void convertUriToPath(Uri selectedImage) {
+        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+        Cursor cursor = null;
+        if (selectedImage != null) {
+            cursor = getContentResolver().query(selectedImage,
+                    filePathColumn, null, null, null);
+        }
+        if (cursor != null) {
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String filePath = cursor.getString(columnIndex);
+
+            cursor.close();
+
+            if (filePath != null) {
+                file = new File(filePath);
+                ownerImagePath = file.getAbsolutePath();
+                Glide.with(circleImageView).load(filePath).centerCrop().into(circleImageView);
+                a1.setVisibility(View.GONE);
             }
 
         }
     }
+
 }

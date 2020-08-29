@@ -52,7 +52,7 @@
 
         <EditText
             android:id="@+id/service_name"
-            android:inputType="phone"
+            android:inputType="text"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="@null"
@@ -86,7 +86,7 @@
 
         <EditText
             android:id="@+id/description"
-            android:inputType="phone"
+            android:inputType="text"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="@null"
@@ -297,7 +297,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/continue_button"
+        android:id="@+id/add_service"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"

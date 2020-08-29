@@ -8,8 +8,8 @@ import retrofit2.http.POST;
 public interface ApiInterface {
 
     @Headers({"Content-type: application/json"})
-    @POST("/admin/api/saloons/fetch-saloons")
-    Call<String> getSalonList(@Body String serviceId);
+    @POST("/admin/api/saloons/register")
+    Call<String> registerSaloon(@Body String serviceId);
 
     @Headers({"Content-type: application/json"})
     @POST("/admin/api/saloons/login")

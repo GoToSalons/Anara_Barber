@@ -8,6 +8,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.RadioButton;
 
 import java.util.Objects;
 
@@ -15,16 +17,28 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.anara.barber.Model.AddBarberItem;
 import com.anara.barber.R;
 
 public class AddServiceDialog extends DialogFragment implements View.OnClickListener {
 
     private Context context;
+    private AddBarberItem.BarberService barberService;
+
+    private EditText service_name, description, hours, mins, price;
+    private RadioButton hair, beard_skin, beauty, others;
+    private String serviceId = "";
+
+    private AddService addService;
+
 
     public AddServiceDialog(Context context) {
         this.context = context;
     }
 
+    public void setAddService(AddService addService) {
+        this.addService = addService;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,21 +65,78 @@ public class AddServiceDialog extends DialogFragment implements View.OnClickList
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View contentView = inflater.inflate(R.layout.add_service_dialog, container, false);
 
+        barberService = new AddBarberItem.BarberService();
+
+        service_name = contentView.findViewById(R.id.service_name);
+        description = contentView.findViewById(R.id.description);
+        hours = contentView.findViewById(R.id.hours);
+        mins = contentView.findViewById(R.id.mins);
+        price = contentView.findViewById(R.id.price);
+        hair = contentView.findViewById(R.id.hair);
+        beard_skin = contentView.findViewById(R.id.beard_skin);
+        beauty = contentView.findViewById(R.id.beauty);
+        others = contentView.findViewById(R.id.others);
 
         return contentView;
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+
+        view.findViewById(R.id.add_service).setOnClickListener(this);
+
+        hair.setOnClickListener(this);
+        beard_skin.setOnClickListener(this);
+        beauty.setOnClickListener(this);
+        others.setOnClickListener(this);
+
+    }
+
+    @Override
     public void onClick(View v) {
 
-//        if (v.getId()==R.id.profile_layout){
-//            Intent intent = new Intent(mainActivity, ProfileActivity.class);
-//            startActivity(intent);
-//        }else if (v.getId()==R.id.appointments){
-//            Intent intent = new Intent(mainActivity, BookingsActivity.class);
-//            startActivity(intent);
-//        }
+        if (v.getId()==R.id.add_service){
+            barberService.setService_name(service_name.getText().toString());
+            barberService.setService_description(description.getText().toString());
+            barberService.setPrice(price.getText().toString());
+            barberService.setHours(hours.getText().toString());
+            barberService.setMinutes(mins.getText().toString());
+            barberService.setService_id(serviceId);
+            addService.onAddServiceClick(barberService);
+            dismiss();
+        } else if (v.getId() == R.id.hair) {
+            serviceId = "hair";
+            hair.setChecked(true);
+            beard_skin.setChecked(false);
+            beauty.setChecked(false);
+            others.setChecked(false);
+        } else if (v.getId() == R.id.beard_skin) {
+            serviceId = "beauty skin";
+            hair.setChecked(false);
+            beard_skin.setChecked(true);
+            beauty.setChecked(false);
+            others.setChecked(false);
+        } else if (v.getId() == R.id.beauty) {
+            serviceId = "beauty";
+            hair.setChecked(false);
+            beard_skin.setChecked(false);
+            beauty.setChecked(true);
+            others.setChecked(false);
+        } else if (v.getId() == R.id.others) {
+            serviceId = "others";
+            hair.setChecked(false);
+            beard_skin.setChecked(false);
+            beauty.setChecked(false);
+            others.setChecked(true);
+        }
 
+    }
+
+
+    public interface AddService {
+        void onAddServiceClick(AddBarberItem.BarberService barberService);
     }
 
 }

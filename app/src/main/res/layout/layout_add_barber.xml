@@ -16,7 +16,6 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_image"
-            android:src="@mipmap/ic_launcher"
             android:layout_width="100dp"
             android:layout_height="100dp" />
 
@@ -58,7 +57,7 @@
             android:layout_centerInParent="true"
             android:layout_margin="3dp"
             android:background="@null"
-            android:inputType="phone"
+            android:inputType="text"
             android:paddingStart="10dp"
             android:textColor="@color/colorBlack" />
 
@@ -93,7 +92,7 @@
             android:layout_centerInParent="true"
             android:layout_margin="3dp"
             android:background="@null"
-            android:inputType="phone"
+            android:inputType="textEmailAddress"
             android:paddingStart="10dp"
             android:textColor="@color/colorBlack" />
 

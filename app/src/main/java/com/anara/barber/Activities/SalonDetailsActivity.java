@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
@@ -71,9 +72,7 @@ public class SalonDetailsActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View view) {
-        Intent i = new Intent();
-        i.setType("image/*");
-        i.setAction(Intent.ACTION_GET_CONTENT);
+        Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         switch (view.getId()) {
             case R.id.next:
                 validateAndPass();
@@ -133,35 +132,9 @@ public class SalonDetailsActivity extends AppCompatActivity implements View.OnCl
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Bitmap img = null;
-        File file = null;
-        try {
-            if (data != null) {
-                Uri filePath = data.getData();
-                img = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                if (filePath != null && filePath.getPath() != null) {
-                    file = new File(filePath.getPath());
-                }
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (requestCode == 1) {
-            Glide.with(im1).load(img).centerCrop().into(im1);
-            a1.setVisibility(View.GONE);
-        } else if (requestCode == 2) {
-            Glide.with(im2).load(img).centerCrop().into(im2);
-            a2.setVisibility(View.GONE);
-        } else if (requestCode == 3) {
-            Glide.with(im3).load(img).centerCrop().into(im3);
-            a3.setVisibility(View.GONE);
-        } else if (requestCode == 4) {
-            Glide.with(im4).load(img).centerCrop().into(im4);
-            a4.setVisibility(View.GONE);
-        }
-        if (file != null) {
-            files.add(file.getAbsolutePath());
+        if (data != null) {
+            Uri filePath = data.getData();
+            convertUriToPath(filePath, requestCode);
         }
     }
 
@@ -182,4 +155,40 @@ public class SalonDetailsActivity extends AppCompatActivity implements View.OnCl
 
         }
     }
+
+    void convertUriToPath(Uri selectedImage, int requestCode) {
+        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+        Cursor cursor = null;
+        if (selectedImage != null) {
+            cursor = getContentResolver().query(selectedImage,
+                    filePathColumn, null, null, null);
+        }
+        if (cursor != null) {
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String img = cursor.getString(columnIndex);
+
+            cursor.close();
+
+            if (img != null) {
+                if (requestCode == 1) {
+                    Glide.with(im1).load(img).centerCrop().into(im1);
+                    a1.setVisibility(View.GONE);
+                } else if (requestCode == 2) {
+                    Glide.with(im2).load(img).centerCrop().into(im2);
+                    a2.setVisibility(View.GONE);
+                } else if (requestCode == 3) {
+                    Glide.with(im3).load(img).centerCrop().into(im3);
+                    a3.setVisibility(View.GONE);
+                } else if (requestCode == 4) {
+                    Glide.with(im4).load(img).centerCrop().into(im4);
+                    a4.setVisibility(View.GONE);
+                }
+                files.add(img);
+            }
+
+        }
+    }
+
 }
