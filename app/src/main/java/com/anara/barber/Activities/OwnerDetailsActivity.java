@@ -41,7 +41,7 @@ public class OwnerDetailsActivity extends AppCompatActivity implements View.OnCl
     // for owner data
     OwnerModel ownerModel;
 
-    EditText owner_name, e_mail, phone_number;
+    EditText owner_name, e_mail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +53,6 @@ public class OwnerDetailsActivity extends AppCompatActivity implements View.OnCl
 
         owner_name = findViewById(R.id.owner_name);
         e_mail = findViewById(R.id.e_mail);
-        phone_number = findViewById(R.id.phone_number);
 
         circleImageView = findViewById(R.id.profile_image);
         RelativeLayout continueButton = findViewById(R.id.continue_button);
@@ -83,14 +82,12 @@ public class OwnerDetailsActivity extends AppCompatActivity implements View.OnCl
             Toast.makeText(this, "Owner Name Must be Longer " + owner_name.getText().toString().length(), Toast.LENGTH_SHORT).show();
         } else if (e_mail.getText().toString().equals("")) {
             Toast.makeText(this, "Enter valid email", Toast.LENGTH_SHORT).show();
-        } else if (phone_number.getText().toString().equals("") || phone_number.getText().toString().length() < 10) {
-            Toast.makeText(this, "Enter valid number", Toast.LENGTH_SHORT).show();
         } else if (ownerImagePath.equals("")) {
             Toast.makeText(this, "select image", Toast.LENGTH_SHORT).show();
         } else {
             ownerModel.setOwnerName(owner_name.getText().toString());
             ownerModel.setOwnerEmailAddress(e_mail.getText().toString());
-            ownerModel.setOwnerNumber(phone_number.getText().toString());
+            ownerModel.setOwnerNumber(getIntent().getStringExtra("number"));
             ownerModel.setOwnerImages(ownerImagePath);
             Intent intent = new Intent(OwnerDetailsActivity.this, BarberDetailsActivity.class);
             intent.putExtra(Const.SALOON_DATA_KEY, (Parcelable) salonModel);

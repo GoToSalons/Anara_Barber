@@ -94,6 +94,7 @@ public class BarberDetailsActivity extends AppCompatActivity implements AddBarbe
                 saloonImageJsonArray.put(Const.getBase64ImageFromBitmap(s));
             }
             jsonObject.put("saloon_gallery", saloonImageJsonArray);
+            jsonObject.put("saloon_type", salonModel.getType());
 
             // owner data add to json
             jsonObject.put("contact_person",ownerModel.getOwnerName());
@@ -133,6 +134,7 @@ public class BarberDetailsActivity extends AppCompatActivity implements AddBarbe
 
             jsonObject.put("barbers", barberJsonArray);
 
+            Log.e("tag"," = == = = " + salonModel.getType());
             RequestResponseManager.getApiCall(jsonObject, Const.Saloon_Register_Request, response -> {
                 if (response != null) {
                     BaseRs baseRs = (BaseRs) response;

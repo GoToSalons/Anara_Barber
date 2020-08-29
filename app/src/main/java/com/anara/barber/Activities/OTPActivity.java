@@ -1,7 +1,9 @@
 package com.anara.barber.Activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -11,7 +13,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.anara.barber.Apis.Const;
+import com.anara.barber.Apis.RequestResponseManager;
 import com.anara.barber.Helpers.CustomTextWatcher;
+import com.anara.barber.MainActivityBarbers;
+import com.anara.barber.MainActivityOwner;
+import com.anara.barber.Model.BaseRs;
 import com.anara.barber.R;
 import com.google.android.gms.tasks.TaskExecutors;
 import com.google.firebase.FirebaseException;
@@ -19,15 +26,24 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.concurrent.TimeUnit;
 
 
 public class OTPActivity extends AppCompatActivity implements View.OnClickListener {
 
+    // progress dialog
+    ProgressDialog progressDialog;
+
     String mobileNumber;
     EditText ed1, ed2, ed3, ed4, ed5, ed6;
     private FirebaseAuth mAuth;
     private String mVerificationId;
+
+    private String loginType;
+
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallback = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
         @Override
         public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
@@ -62,8 +78,14 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_otp);
 
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Please wait......");
+        progressDialog.setCancelable(false);
+
+
         Intent intent = getIntent();
         mobileNumber = intent.getStringExtra("mobile");
+        loginType = intent.getStringExtra(Const.LOGIN_TYPE_KEY);
         mAuth = FirebaseAuth.getInstance();
         sendVerificationCode(mobileNumber);
 
@@ -122,11 +144,73 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(OTPActivity.this, task -> {
                     if (task.isSuccessful()) {
-                        Intent intent = new Intent(OTPActivity.this, ChooseActivity.class);
-                        startActivity(intent);
+                        if (loginType.equals(Const.LOGIN_TYPE_OWNER)) {
+                            checkRegister();
+                        } else {
+                            checkBarberRegister();
+                        }
                     } else {
                         Toast.makeText(OTPActivity.this, "Invalid Code", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
+
+    private void checkRegister() {
+
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("mobile", mobileNumber);
+            Log.e("tag"," = =  = call owner = = = " + jsonObject.toString());
+            RequestResponseManager.checkRegister(jsonObject, Const.Check_Register_Request, response -> {
+                if (response != null) {
+                    BaseRs baseRs = (BaseRs) response;
+                    Log.e("tag"," = =  = call = = = " + baseRs.getStatus());
+                    if (baseRs.getLogin().equals("false")) {
+                        Intent intent = new Intent(OTPActivity.this, SalonDetailsActivity.class);
+                        intent.putExtra("number", mobileNumber);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(OTPActivity.this, MainActivityOwner.class);
+                        startActivity(intent);
+                    }
+                }
+                if (progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    private void checkBarberRegister() {
+
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("mobile", mobileNumber);
+            Log.e("tag"," = =  = call barber= = = " + jsonObject.toString());
+            RequestResponseManager.checkBarberRegister(jsonObject, Const.Check_Barber_Register_Request, response -> {
+                if (response != null) {
+                    BaseRs baseRs = (BaseRs) response;
+                    Log.e("tag"," = =  = call = = = " + baseRs.getStatus());
+                    if (baseRs.getLogin().equals("false")) {
+                        Toast.makeText(this, "Owner han't added to you a barber", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Intent intent = new Intent(OTPActivity.this, MainActivityBarbers.class);
+                        startActivity(intent);
+                    }
+                }
+                if (progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
 }

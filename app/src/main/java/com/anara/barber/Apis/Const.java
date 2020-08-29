@@ -13,9 +13,17 @@ public class Const {
     public static String BASE_URL = "http://anarasalons.com/";
 
     public static int Saloon_Register_Request = 1;
+    public static int Check_Register_Request = 2;
+    public static int Check_Barber_Register_Request = 3;
 
     public static final String SALOON_DATA_KEY = "saloon_data";
     public static final String OWNER_DATA_KEY = "owner_data";
+
+
+
+    public static final String LOGIN_TYPE_KEY = "login_type";
+    public static final String LOGIN_TYPE_OWNER = "owner";
+    public static final String LOGIN_TYPE_BARBER = "barber";
 
 
     public static String getBase64ImageFromBitmap(String filePath) {

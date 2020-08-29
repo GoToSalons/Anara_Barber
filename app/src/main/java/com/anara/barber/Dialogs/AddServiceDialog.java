@@ -107,25 +107,25 @@ public class AddServiceDialog extends DialogFragment implements View.OnClickList
             addService.onAddServiceClick(barberService);
             dismiss();
         } else if (v.getId() == R.id.hair) {
-            serviceId = "hair";
+            serviceId = "1";
             hair.setChecked(true);
             beard_skin.setChecked(false);
             beauty.setChecked(false);
             others.setChecked(false);
         } else if (v.getId() == R.id.beard_skin) {
-            serviceId = "beauty skin";
+            serviceId = "2";
             hair.setChecked(false);
             beard_skin.setChecked(true);
             beauty.setChecked(false);
             others.setChecked(false);
         } else if (v.getId() == R.id.beauty) {
-            serviceId = "beauty";
+            serviceId = "3";
             hair.setChecked(false);
             beard_skin.setChecked(false);
             beauty.setChecked(true);
             others.setChecked(false);
         } else if (v.getId() == R.id.others) {
-            serviceId = "others";
+            serviceId = "4";
             hair.setChecked(false);
             beard_skin.setChecked(false);
             beauty.setChecked(false);

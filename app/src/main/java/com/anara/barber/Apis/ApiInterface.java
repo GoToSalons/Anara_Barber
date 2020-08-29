@@ -14,4 +14,8 @@ public interface ApiInterface {
     @Headers({"Content-type: application/json"})
     @POST("/admin/api/saloons/login")
     Call<String> sendMobile(@Body String mobile);
+
+    @Headers({"Content-type: application/json"})
+    @POST("/admin/api/barbers/login")
+    Call<String> checkBarberRegister(@Body String mobile);
 }

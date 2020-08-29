@@ -10,15 +10,18 @@ public class SalonModel implements Serializable, Parcelable {
 
     String saloonName;
     String saloonAddress;
+    String type;
     ArrayList<String> saloonImages;
 
     public SalonModel() {
     }
 
+
     protected SalonModel(Parcel in) {
         saloonName = in.readString();
         saloonAddress = in.readString();
         saloonImages = in.createStringArrayList();
+        type = in.readString();
     }
 
     @Override
@@ -26,6 +29,7 @@ public class SalonModel implements Serializable, Parcelable {
         dest.writeString(saloonName);
         dest.writeString(saloonAddress);
         dest.writeStringList(saloonImages);
+        dest.writeString(type);
     }
 
     @Override
@@ -67,5 +71,13 @@ public class SalonModel implements Serializable, Parcelable {
 
     public void setSaloonImages(ArrayList<String> saloonImages) {
         this.saloonImages = saloonImages;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

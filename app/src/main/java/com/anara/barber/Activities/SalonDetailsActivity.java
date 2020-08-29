@@ -14,6 +14,7 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -34,8 +35,16 @@ public class SalonDetailsActivity extends AppCompatActivity implements View.OnCl
 
     ImageView im1, im2, im3, im4, a1, a2, a3, a4;
     EditText name, address;
+
     ArrayList<String> files = new ArrayList<>();
+
+    // for salon data
     SalonModel salonModel = new SalonModel();
+
+    RadioButton male, female, unisex;
+
+    // salon type
+    String salonType = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +71,14 @@ public class SalonDetailsActivity extends AppCompatActivity implements View.OnCl
 
         name = findViewById(R.id.salon_name);
         address = findViewById(R.id.salon_address);
+
+        male = findViewById(R.id.male);
+        female = findViewById(R.id.female);
+        unisex = findViewById(R.id.unisex);
+
+        male.setOnClickListener(this);
+        female.setOnClickListener(this);
+        unisex.setOnClickListener(this);
 
         iml1.setOnClickListener(this);
         iml2.setOnClickListener(this);
@@ -92,6 +109,24 @@ public class SalonDetailsActivity extends AppCompatActivity implements View.OnCl
             case R.id.iml_4:
                 if (check_permissions())
                     startActivityForResult(Intent.createChooser(i, "Select Picture"), 4);
+                break;
+            case R.id.male:
+                salonType = "Male";
+                male.setChecked(true);
+                female.setChecked(false);
+                unisex.setChecked(false);
+                break;
+            case R.id.female:
+                salonType = "Female";
+                male.setChecked(false);
+                female.setChecked(true);
+                unisex.setChecked(false);
+                break;
+            case R.id.unisex:
+                salonType = "Unisex";
+                male.setChecked(false);
+                female.setChecked(false);
+                unisex.setChecked(true);
                 break;
         }
     }
@@ -145,12 +180,16 @@ public class SalonDetailsActivity extends AppCompatActivity implements View.OnCl
             Toast.makeText(this, "Salon Address Must be Longer", Toast.LENGTH_SHORT).show();
         } else if (files.size() < 2) {
             Toast.makeText(this, "2 Photos Minimum", Toast.LENGTH_SHORT).show();
+        } else if (salonType == "") {
+            Toast.makeText(this, "Select Salon Type", Toast.LENGTH_SHORT).show();
         } else {
             salonModel.setSaloonName(name.getText().toString());
             salonModel.setSaloonAddress(address.getText().toString());
             salonModel.setSaloonImages(files);
+            salonModel.setType(salonType);
             Intent intent = new Intent(SalonDetailsActivity.this, OwnerDetailsActivity.class);
             intent.putExtra(Const.SALOON_DATA_KEY, (Parcelable) salonModel);
+            intent.putExtra("number", getIntent().getStringExtra("number"));
             startActivity(intent);
 
         }
