@@ -12,7 +12,7 @@ import retrofit2.Response;
 
 public class RequestResponseManager {
 
-    public static void getApiCall(JSONObject parameters, int requestCode,OnResponseListener onResponseListener) {
+    public static void getApiCall(JSONObject parameters, int requestCode, OnResponseListener onResponseListener) {
         ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
         Call<String> call = apiInterface.registerSaloon(parameters.toString());
         call.enqueue(new Callback<String>() {
@@ -20,26 +20,25 @@ public class RequestResponseManager {
             public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
 
                 try {
-                    Log.e("tag",response.message() + " = =  = call n = = = " + response.body() + " = = = " + response.code());
+                    Log.e("tag", response.message() + " = =  = call n = = = " + response.body() + " = = = " + response.code());
                     Object object = invokeParser(response.body(), requestCode);
                     onResponseListener.onResponse(object);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }
 
             @Override
             public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
 
-                Log.e("tag"," = =  = call error = = = " + t.getMessage());
+                Log.e("tag", " = =  = call error = = = " + t.getMessage());
                 onResponseListener.onResponse(null);
 
             }
         });
     }
 
-    public static void checkRegister(JSONObject parameters, int requestCode,OnResponseListener onResponseListener) {
+    public static void checkRegister(JSONObject parameters, int requestCode, OnResponseListener onResponseListener) {
         ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
         Call<String> call = apiInterface.sendMobile(parameters.toString());
         call.enqueue(new Callback<String>() {
@@ -47,27 +46,25 @@ public class RequestResponseManager {
             public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
 
                 try {
-                    Log.e("tag"," = =  = call n = = = " + response.body());
+                    Log.e("tag", " = =  = call n = = = " + response.body());
                     Object object = invokeParser(response.body(), requestCode);
                     onResponseListener.onResponse(object);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
-
             }
 
             @Override
             public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
 
-                Log.e("tag"," = =  = call error = = = " + t.getMessage());
+                Log.e("tag", " = =  = call error = = = " + t.getMessage());
                 onResponseListener.onResponse(null);
 
             }
         });
     }
 
-    public static void checkBarberRegister(JSONObject parameters, int requestCode,OnResponseListener onResponseListener) {
+    public static void checkBarberRegister(JSONObject parameters, int requestCode, OnResponseListener onResponseListener) {
         ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
         Call<String> call = apiInterface.checkBarberRegister(parameters.toString());
         call.enqueue(new Callback<String>() {
@@ -75,7 +72,7 @@ public class RequestResponseManager {
             public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
 
                 try {
-                    Log.e("tag"," = =  = call n = = = " + response.body());
+                    Log.e("tag", " = =  = call n = = = " + response.body());
                     Object object = invokeParser(response.body(), requestCode);
                     onResponseListener.onResponse(object);
                 } catch (Exception e) {
@@ -88,7 +85,7 @@ public class RequestResponseManager {
             @Override
             public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
 
-                Log.e("tag"," = =  = call error = = = " + t.getMessage());
+                Log.e("tag", " = =  = call error = = = " + t.getMessage());
                 onResponseListener.onResponse(null);
 
             }
