@@ -274,16 +274,5 @@
         android:textColor="@color/colorPrimary"
         android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/add_service"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/exp_layout"
-        android:layout_marginStart="24sp"
-        android:layout_marginTop="10sp"
-        android:text="Add Service"
-        android:textColor="@color/colorPrimary"
-        android:textSize="16sp" />
-
 
 </RelativeLayout>

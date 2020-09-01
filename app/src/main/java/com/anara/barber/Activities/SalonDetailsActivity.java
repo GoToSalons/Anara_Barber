@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -23,6 +24,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.anara.barber.Apis.Const;
+import com.anara.barber.Dialogs.AddServiceDialog;
+import com.anara.barber.Model.AddBarberItem;
 import com.anara.barber.Model.SalonModel;
 import com.anara.barber.R;
 import com.bumptech.glide.Glide;
@@ -31,10 +34,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class SalonDetailsActivity extends AppCompatActivity implements View.OnClickListener {
+public class SalonDetailsActivity extends AppCompatActivity implements View.OnClickListener, AddServiceDialog.AddService {
 
     ImageView im1, im2, im3, im4, a1, a2, a3, a4;
     EditText name, address;
+    TextView add_service;
 
     ArrayList<String> files = new ArrayList<>();
 
@@ -76,6 +80,8 @@ public class SalonDetailsActivity extends AppCompatActivity implements View.OnCl
         female = findViewById(R.id.female);
         unisex = findViewById(R.id.unisex);
 
+        add_service = findViewById(R.id.add_service);
+
         male.setOnClickListener(this);
         female.setOnClickListener(this);
         unisex.setOnClickListener(this);
@@ -85,6 +91,8 @@ public class SalonDetailsActivity extends AppCompatActivity implements View.OnCl
         iml3.setOnClickListener(this);
         iml4.setOnClickListener(this);
         next.setOnClickListener(this);
+
+        add_service.setOnClickListener(this);
     }
 
     @Override
@@ -128,6 +136,10 @@ public class SalonDetailsActivity extends AppCompatActivity implements View.OnCl
                 female.setChecked(false);
                 unisex.setChecked(true);
                 break;
+            case R.id.add_service:
+                AddServiceDialog addServiceDialog = new AddServiceDialog(SalonDetailsActivity.this);
+                addServiceDialog.setAddService(this);
+                addServiceDialog.show(getSupportFragmentManager(), "AddDetails");
         }
     }
 
@@ -230,4 +242,21 @@ public class SalonDetailsActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
+    @Override
+    public void onAddServiceClick(AddBarberItem.BarberService barberService) {
+
+//        ArrayList<AddBarberItem.BarberService> barberServices = new ArrayList<>();
+//        barberServices.add(barberService);
+//        AddBarberItem addBarberItem = addBarberItems.get(getAdapterPosition());
+//        addBarberItem.setName(barber_name.getText().toString());
+//        addBarberItem.setEmail(e_mail.getText().toString());
+//        addBarberItem.setMobile(phone_number.getText().toString());
+//        addBarberItem.setExp_year(exp_yrs.getText().toString());
+//        addBarberItem.setExp_month(exp_mon.getText().toString());
+//        addBarberItem.setServices(barberServices);
+//        addBarberItems.remove(getAdapterPosition());
+//        addBarberItems.add(getAdapterPosition(), addBarberItem);
+//        notifyItemChanged(getAdapterPosition());
+
+    }
 }
