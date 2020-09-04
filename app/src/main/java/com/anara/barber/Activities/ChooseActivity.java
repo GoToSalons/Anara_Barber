@@ -26,11 +26,11 @@ public class ChooseActivity extends AppCompatActivity {
         Glide.with(imageView).load(R.drawable.main_page_image).centerCrop().into(imageView);
 
         findViewById(R.id.owner).setOnClickListener(view -> {
-            Intent intent = new Intent(ChooseActivity.this, MobileNumberActivity.class);
-            intent.putExtra(Const.LOGIN_TYPE_KEY, Const.LOGIN_TYPE_OWNER);
-            startActivity(intent);
-//            Intent intent = new Intent(ChooseActivity.this,SalonDetailsActivity.class);
+//            Intent intent = new Intent(ChooseActivity.this, MobileNumberActivity.class);
+//            intent.putExtra(Const.LOGIN_TYPE_KEY, Const.LOGIN_TYPE_OWNER);
 //            startActivity(intent);
+            Intent intent = new Intent(ChooseActivity.this,SalonDetailsActivity.class);
+            startActivity(intent);
         });
         findViewById(R.id.barbers).setOnClickListener(view -> {
             Intent intent = new Intent(ChooseActivity.this, MobileNumberActivity.class);

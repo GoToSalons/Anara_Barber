@@ -16,7 +16,6 @@ import android.util.Log;
 import com.anara.barber.Adapters.AddBarberAdapter;
 import com.anara.barber.Apis.Const;
 import com.anara.barber.Apis.RequestResponseManager;
-import com.anara.barber.MainActivityOwner;
 import com.anara.barber.Model.AddBarberItem;
 import com.anara.barber.Model.BaseRs;
 import com.anara.barber.Model.OwnerModel;
@@ -27,7 +26,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.ArrayList;
 
 public class BarberDetailsActivity extends AppCompatActivity implements AddBarberAdapter.OnImageClick {
@@ -89,56 +87,65 @@ public class BarberDetailsActivity extends AppCompatActivity implements AddBarbe
             // saloon data add to json
             jsonObject.put("saloon_name", salonModel.getSaloonName());
             jsonObject.put("street_address", salonModel.getSaloonAddress());
+            jsonObject.put("open_time", salonModel.getOpen_time());
+            jsonObject.put("close_time", salonModel.getOpen_time());
+            jsonObject.put("latitude", salonModel.getLatitude());
+            jsonObject.put("logitude", salonModel.getLogitude());
+            jsonObject.put("instagram", salonModel.getInstagram());
+            jsonObject.put("facebook", salonModel.getFacebook());
+            jsonObject.put("twitter", salonModel.getTwitter());
             JSONArray saloonImageJsonArray = new JSONArray();
-            for (String s: salonModel.getSaloonImages()) {
+            for (String s : salonModel.getSaloonImages()) {
                 saloonImageJsonArray.put(Const.getBase64ImageFromBitmap(s));
             }
             jsonObject.put("saloon_gallery", saloonImageJsonArray);
             jsonObject.put("saloon_type", salonModel.getType());
 
             // owner data add to json
-            jsonObject.put("contact_person",ownerModel.getOwnerName());
-            jsonObject.put("email",ownerModel.getOwnerEmailAddress());
-            jsonObject.put("mobile",ownerModel.getOwnerNumber());
+            jsonObject.put("contact_person", ownerModel.getOwnerName());
+            jsonObject.put("email", ownerModel.getOwnerEmailAddress());
+//            jsonObject.put("mobile", ownerModel.getOwnerNumber());
+            jsonObject.put("mobile", "9973553344");
             jsonObject.put("owner_image", Const.getBase64ImageFromBitmap(ownerModel.getOwnerImages()));
+
+            JSONArray serviceJsonArray = new JSONArray();
+
+            if (salonModel.getServices() != null) {
+                for (SalonModel.SalonService salonService : salonModel.getServices()) {
+                    JSONObject serviceJsonObject = new JSONObject();
+                    serviceJsonObject.put("service_name", salonService.getService_name());
+                    serviceJsonObject.put("service_description", salonService.getService_description());
+                    serviceJsonObject.put("service_id", salonService.getService_id());
+                    serviceJsonObject.put("hours", salonService.getHours());
+                    serviceJsonObject.put("minutes", salonService.getMinutes());
+                    serviceJsonObject.put("price", salonService.getPrice());
+                    Log.e("tag", " = =  = d = = = " + salonService.getService_name());
+                    serviceJsonArray.put(serviceJsonObject);
+                }
+            }
+            jsonObject.put("services", serviceJsonArray);
 
             // barber data add to json
             JSONArray barberJsonArray = new JSONArray();
 
-            for (AddBarberItem addBarberItem: addBarberAdapter.getAddBarberItems()) {
+            for (AddBarberItem addBarberItem : addBarberAdapter.getAddBarberItems()) {
                 JSONObject barberJsonObject = new JSONObject();
                 barberJsonObject.put("name", addBarberItem.getName());
                 barberJsonObject.put("email", addBarberItem.getEmail());
                 barberJsonObject.put("mobile", addBarberItem.getMobile());
                 barberJsonObject.put("exp_year", addBarberItem.getExp_year());
                 barberJsonObject.put("exp_month", addBarberItem.getExp_month());
-                barberJsonObject.put("barber_profile", addBarberItem.getBarber_profile());
+                barberJsonObject.put("barber_profile", Const.getBase64ImageFromBitmap(addBarberItem.getBarber_profile()));
 
-                JSONArray serviceJsonArray = new JSONArray();
-
-                if (addBarberItem.getServices() != null) {
-                    for (AddBarberItem.BarberService barberService : addBarberItem.getServices()) {
-                        JSONObject serviceJsonObject = new JSONObject();
-                        serviceJsonObject.put("service_name", barberService.getService_name());
-                        serviceJsonObject.put("service_description", barberService.getService_description());
-                        serviceJsonObject.put("service_id", barberService.getService_id());
-                        serviceJsonObject.put("hours", barberService.getHours());
-                        serviceJsonObject.put("minutes", barberService.getMinutes());
-                        serviceJsonObject.put("price", barberService.getPrice());
-                        serviceJsonArray.put(serviceJsonObject);
-                    }
-                }
-                barberJsonObject.put("services", serviceJsonArray);
                 barberJsonArray.put(barberJsonObject);
             }
 
             jsonObject.put("barbers", barberJsonArray);
 
-            Log.e("tag"," = == = = " + salonModel.getType());
             RequestResponseManager.getApiCall(jsonObject, Const.Saloon_Register_Request, response -> {
                 if (response != null) {
                     BaseRs baseRs = (BaseRs) response;
-                    Log.e("tag"," = =  = call = = = " + baseRs.getStatus());
+                    Log.e("tag", " = =  = call = = = " + baseRs.getStatus());
                 }
                 if (progressDialog.isShowing()) {
                     progressDialog.dismiss();

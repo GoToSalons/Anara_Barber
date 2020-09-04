@@ -18,12 +18,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.anara.barber.Model.AddBarberItem;
+import com.anara.barber.Model.SalonModel;
 import com.anara.barber.R;
 
 public class AddServiceDialog extends DialogFragment implements View.OnClickListener {
 
     private Context context;
-    private AddBarberItem.BarberService barberService;
+    private SalonModel.SalonService salonService;
 
     private EditText service_name, description, hours, mins, price;
     private RadioButton hair, beard_skin, beauty, others;
@@ -65,7 +66,7 @@ public class AddServiceDialog extends DialogFragment implements View.OnClickList
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View contentView = inflater.inflate(R.layout.add_service_dialog, container, false);
 
-        barberService = new AddBarberItem.BarberService();
+        salonService = new SalonModel.SalonService();
 
         service_name = contentView.findViewById(R.id.service_name);
         description = contentView.findViewById(R.id.description);
@@ -98,13 +99,13 @@ public class AddServiceDialog extends DialogFragment implements View.OnClickList
     public void onClick(View v) {
 
         if (v.getId()==R.id.add_service){
-            barberService.setService_name(service_name.getText().toString());
-            barberService.setService_description(description.getText().toString());
-            barberService.setPrice(price.getText().toString());
-            barberService.setHours(hours.getText().toString());
-            barberService.setMinutes(mins.getText().toString());
-            barberService.setService_id(serviceId);
-            addService.onAddServiceClick(barberService);
+            salonService.setService_name(service_name.getText().toString());
+            salonService.setService_description(description.getText().toString());
+            salonService.setPrice(price.getText().toString());
+            salonService.setHours(hours.getText().toString());
+            salonService.setMinutes(mins.getText().toString());
+            salonService.setService_id(serviceId);
+            addService.onAddServiceClick(salonService);
             dismiss();
         } else if (v.getId() == R.id.hair) {
             serviceId = "1";
@@ -136,7 +137,7 @@ public class AddServiceDialog extends DialogFragment implements View.OnClickList
 
 
     public interface AddService {
-        void onAddServiceClick(AddBarberItem.BarberService barberService);
+        void onAddServiceClick(SalonModel.SalonService salonService);
     }
 
 }
