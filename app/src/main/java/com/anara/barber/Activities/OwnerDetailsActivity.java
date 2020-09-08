@@ -41,7 +41,7 @@ public class OwnerDetailsActivity extends AppCompatActivity implements View.OnCl
     // for owner data
     OwnerModel ownerModel;
 
-    EditText owner_name, e_mail;
+    EditText owner_name, e_mail, bank_name, account_number, ifsc_code;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +53,9 @@ public class OwnerDetailsActivity extends AppCompatActivity implements View.OnCl
 
         owner_name = findViewById(R.id.owner_name);
         e_mail = findViewById(R.id.e_mail);
+        bank_name = findViewById(R.id.bank_name);
+        account_number = findViewById(R.id.account_number);
+        ifsc_code = findViewById(R.id.ifsc_code);
 
         circleImageView = findViewById(R.id.profile_image);
         RelativeLayout continueButton = findViewById(R.id.continue_button);
@@ -87,6 +90,9 @@ public class OwnerDetailsActivity extends AppCompatActivity implements View.OnCl
         } else {
             ownerModel.setOwnerName(owner_name.getText().toString());
             ownerModel.setOwnerEmailAddress(e_mail.getText().toString());
+            ownerModel.setBank_name(bank_name.getText().toString());
+            ownerModel.setAccount_number(account_number.getText().toString());
+            ownerModel.setIfsc_code(ifsc_code.getText().toString());
             ownerModel.setOwnerNumber(getIntent().getStringExtra("number"));
             ownerModel.setOwnerImages(ownerImagePath);
             Intent intent = new Intent(OwnerDetailsActivity.this, BarberDetailsActivity.class);

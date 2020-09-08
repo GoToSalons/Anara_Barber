@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -24,6 +24,7 @@
             android:layout_marginEnd="8dp"/>
 
         <TextView
+            android:id="@+id/barber_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -36,6 +37,7 @@
             android:id="@+id/menu"
             android:layout_width="35dp"
             android:layout_height="35dp"
+            android:visibility="invisible"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:layout_marginEnd="12dp"
@@ -103,6 +105,7 @@
                     android:gravity="center"/>
 
                 <TextView
+                    android:id="@+id/today_earning"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="₹100"
@@ -129,6 +132,7 @@
                     android:gravity="center"/>
 
                 <TextView
+                    android:id="@+id/weekly_earning"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="₹100"
@@ -155,6 +159,7 @@
                     android:gravity="center"/>
 
                 <TextView
+                    android:id="@+id/monthly_earning"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="₹100"
@@ -179,6 +184,7 @@
                     android:gravity="center"/>
 
                 <TextView
+                    android:id="@+id/yearly_earning"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="₹100"

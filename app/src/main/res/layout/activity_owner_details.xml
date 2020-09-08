@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -33,122 +33,242 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/im_layout"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
+    <ScrollView
         android:layout_below="@id/rl1"
-        android:background="@drawable/circle">
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profile_image"
-            android:layout_width="100dp"
-            android:layout_height="100dp" />
-
-        <ImageView
-            android:id="@+id/a1"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_centerInParent="true"
-            android:src="@drawable/ic_baseline_add_24" />
-
-    </RelativeLayout>
-
-    <TextView
-        android:id="@+id/tv1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Name Of Owner"
-        android:textColor="@color/colorBlack"
-        android:textSize="18sp"
-        android:layout_marginTop="15dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginBottom="10dp"
-        android:layout_below="@+id/im_layout"/>
-
-    <RelativeLayout
-        android:id="@+id/l1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@drawable/grey_mobile_number"
-        android:layout_below="@id/tv1"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp">
+        android:layout_height="match_parent" >
 
-        <EditText
-            android:id="@+id/owner_name"
-            android:inputType="textPersonName"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@null"
-            android:paddingStart="10dp"
-            android:textColor="@color/colorBlack"
-            android:layout_centerInParent="true"
-            android:layout_margin="3dp"
-            />
+            android:layout_height="match_parent" >
 
-    </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/im_layout"
+                android:layout_centerHorizontal="true"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/circle">
 
-    <TextView
-        android:id="@+id/tv2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Email Address"
-        android:textColor="@color/colorBlack"
-        android:textSize="18sp"
-        android:layout_marginTop="15dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginBottom="10dp"
-        android:layout_below="@+id/l1"/>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile_image"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp" />
 
-    <RelativeLayout
-        android:id="@+id/l2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@drawable/grey_mobile_number"
-        android:layout_below="@id/tv2"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp">
+                <ImageView
+                    android:id="@+id/a1"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/ic_baseline_add_24" />
 
-        <EditText
-            android:id="@+id/e_mail"
-            android:inputType="textEmailAddress"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@null"
-            android:paddingStart="10dp"
-            android:textColor="@color/colorBlack"
-            android:layout_centerInParent="true"
-            android:layout_margin="3dp"
-            />
+            </RelativeLayout>
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/tv1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name Of Owner"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginBottom="10dp"
+                android:layout_below="@+id/im_layout"/>
+
+            <RelativeLayout
+                android:id="@+id/l1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/grey_mobile_number"
+                android:layout_below="@id/tv1"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp">
+
+                <EditText
+                    android:id="@+id/owner_name"
+                    android:inputType="textPersonName"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:paddingStart="10dp"
+                    android:textColor="@color/colorBlack"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="3dp"
+                    />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email Address"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginBottom="10dp"
+                android:layout_below="@+id/l1"/>
+
+            <RelativeLayout
+                android:id="@+id/l2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/grey_mobile_number"
+                android:layout_below="@id/tv2"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp">
+
+                <EditText
+                    android:id="@+id/e_mail"
+                    android:inputType="textEmailAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:paddingStart="10dp"
+                    android:textColor="@color/colorBlack"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="3dp"
+                    />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bank Name"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginBottom="10dp"
+                android:layout_below="@+id/l2"/>
+
+            <RelativeLayout
+                android:id="@+id/l3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/grey_mobile_number"
+                android:layout_below="@id/tv3"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp">
+
+                <EditText
+                    android:id="@+id/bank_name"
+                    android:inputType="textEmailAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:paddingStart="10dp"
+                    android:textColor="@color/colorBlack"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="3dp"
+                    />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Account Number"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginBottom="10dp"
+                android:layout_below="@+id/l3"/>
+
+            <RelativeLayout
+                android:id="@+id/l4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/grey_mobile_number"
+                android:layout_below="@id/tv4"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp">
+
+                <EditText
+                    android:id="@+id/account_number"
+                    android:inputType="number"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:paddingStart="10dp"
+                    android:textColor="@color/colorBlack"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="3dp"
+                    />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="IFSC code"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginBottom="10dp"
+                android:layout_below="@+id/l4"/>
+
+            <RelativeLayout
+                android:id="@+id/l5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/grey_mobile_number"
+                android:layout_below="@id/tv5"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp">
+
+                <EditText
+                    android:id="@+id/ifsc_code"
+                    android:inputType="text"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:paddingStart="10dp"
+                    android:textColor="@color/colorBlack"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="3dp"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/continue_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/l5"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/button_bg"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="NEXT"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:textColor="@color/colorWhite"
+                    android:textStyle="bold"/>
+
+            </RelativeLayout>
 
 
-    <RelativeLayout
-        android:id="@+id/continue_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/l2"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/button_bg"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp">
+        </RelativeLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="NEXT"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
-            android:textColor="@color/colorWhite"
-            android:textStyle="bold"/>
-
-    </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>

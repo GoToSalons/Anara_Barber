@@ -11,15 +11,22 @@ public class OwnerModel implements Serializable, Parcelable {
     String ownerEmailAddress;
     String ownerNumber;
     String ownerImages;
+    String bank_name;
+    String account_number;
+    String ifsc_code;
 
     public OwnerModel() {
     }
+
 
     protected OwnerModel(Parcel in) {
         ownerName = in.readString();
         ownerEmailAddress = in.readString();
         ownerNumber = in.readString();
         ownerImages = in.readString();
+        bank_name = in.readString();
+        account_number = in.readString();
+        ifsc_code = in.readString();
     }
 
     @Override
@@ -28,6 +35,9 @@ public class OwnerModel implements Serializable, Parcelable {
         dest.writeString(ownerEmailAddress);
         dest.writeString(ownerNumber);
         dest.writeString(ownerImages);
+        dest.writeString(bank_name);
+        dest.writeString(account_number);
+        dest.writeString(ifsc_code);
     }
 
     @Override
@@ -78,4 +88,29 @@ public class OwnerModel implements Serializable, Parcelable {
     public void setOwnerImages(String ownerImages) {
         this.ownerImages = ownerImages;
     }
+
+    public String getBank_name() {
+        return bank_name;
+    }
+
+    public void setBank_name(String bank_name) {
+        this.bank_name = bank_name;
+    }
+
+    public String getAccount_number() {
+        return account_number;
+    }
+
+    public void setAccount_number(String account_number) {
+        this.account_number = account_number;
+    }
+
+    public String getIfsc_code() {
+        return ifsc_code;
+    }
+
+    public void setIfsc_code(String ifsc_code) {
+        this.ifsc_code = ifsc_code;
+    }
+
 }

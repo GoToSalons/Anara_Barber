@@ -13,13 +13,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.anara.barber.ApiRS.OwnerRS;
 import com.anara.barber.Apis.Const;
 import com.anara.barber.Apis.RequestResponseManager;
 import com.anara.barber.Helpers.CustomTextWatcher;
 import com.anara.barber.MainActivityBarbers;
 import com.anara.barber.MainActivityOwner;
-import com.anara.barber.Model.BaseRs;
+import com.anara.barber.ApiRS.BaseRs;
 import com.anara.barber.R;
+import com.anara.barber.utils.PrefManager;
 import com.google.android.gms.tasks.TaskExecutors;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
@@ -147,7 +149,10 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
                         if (loginType.equals(Const.LOGIN_TYPE_OWNER)) {
                             checkRegister();
                         } else {
-                            checkBarberRegister();
+                            PrefManager prefManager = new PrefManager(this);
+                            prefManager.setString(Const.isLoginBarber,"true");
+                            Intent intent = new Intent(OTPActivity.this, MainActivityBarbers.class);
+                            startActivity(intent);
                         }
                     } else {
                         Toast.makeText(OTPActivity.this, "Invalid Code", Toast.LENGTH_SHORT).show();
@@ -170,6 +175,21 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
                         intent.putExtra("number", mobileNumber);
                         startActivity(intent);
                     } else {
+                        OwnerRS ownerRS = baseRs.getOwnerRS();
+                        PrefManager prefManager = new PrefManager(this);
+                        prefManager.setString(Const.SALON_ID, ownerRS.getSaloon_id());
+                        prefManager.setString(Const.SALON_NAME, ownerRS.getSaloon_name());
+                        prefManager.setString(Const.OPEN_TIME, ownerRS.getOpen_time());
+                        prefManager.setString(Const.CLOSE_TIME, ownerRS.getClose_time());
+                        prefManager.setString(Const.SALON_TYPE, ownerRS.getSaloon_type());
+                        prefManager.setString(Const.CONTACT_NO, ownerRS.getContact_no());
+                        prefManager.setString(Const.STREET_ADDRESS, ownerRS.getStreet_address());
+                        prefManager.setString(Const.OWNER_IMAGE, ownerRS.getOwner_image());
+                        prefManager.setString(Const.INSTAGRAM, ownerRS.getInstagram());
+                        prefManager.setString(Const.FACEBOOK, ownerRS.getFacebook());
+                        prefManager.setString(Const.TWITTER, ownerRS.getTwitter());
+                        prefManager.setString(Const.LATITUDE, ownerRS.getLatitude());
+                        prefManager.setString(Const.LONGITUDE, ownerRS.getLogitude());
                         Intent intent = new Intent(OTPActivity.this, MainActivityOwner.class);
                         startActivity(intent);
                     }
@@ -184,33 +204,6 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
 
     }
 
-
-    private void checkBarberRegister() {
-
-        try {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("mobile", mobileNumber);
-            Log.e("tag"," = =  = call barber= = = " + jsonObject.toString());
-            RequestResponseManager.checkBarberRegister(jsonObject, Const.Check_Barber_Register_Request, response -> {
-                if (response != null) {
-                    BaseRs baseRs = (BaseRs) response;
-                    Log.e("tag"," = =  = call = = = " + baseRs.getStatus());
-                    if (baseRs.getLogin().equals("false")) {
-                        Toast.makeText(this, "Owner han't added to you a barber", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Intent intent = new Intent(OTPActivity.this, MainActivityBarbers.class);
-                        startActivity(intent);
-                    }
-                }
-                if (progressDialog.isShowing()) {
-                    progressDialog.dismiss();
-                }
-            });
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-    }
 
 
 }

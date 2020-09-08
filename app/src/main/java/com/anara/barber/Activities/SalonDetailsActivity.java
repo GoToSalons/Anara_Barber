@@ -274,18 +274,6 @@ public class SalonDetailsActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onAddServiceClick(SalonModel.SalonService salonService) {
-
         salonServices.add(salonService);
-//        AddBarberItem addBarberItem = addBarberItems.get(getAdapterPosition());
-//        addBarberItem.setName(barber_name.getText().toString());
-//        addBarberItem.setEmail(e_mail.getText().toString());
-//        addBarberItem.setMobile(phone_number.getText().toString());
-//        addBarberItem.setExp_year(exp_yrs.getText().toString());
-//        addBarberItem.setExp_month(exp_mon.getText().toString());
-//        addBarberItem.setServices(salonServices);
-//        addBarberItems.remove(getAdapterPosition());
-//        addBarberItems.add(getAdapterPosition(), addBarberItem);
-//        notifyItemChanged(getAdapterPosition());
-
     }
 }

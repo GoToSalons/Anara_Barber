@@ -8,6 +8,10 @@ import retrofit2.http.POST;
 public interface ApiInterface {
 
     @Headers({"Content-type: application/json"})
+    @POST("/admin/api/barbers/login")
+    Call<String> loginBarber(@Body String serviceId);
+
+    @Headers({"Content-type: application/json"})
     @POST("/admin/api/saloons/register")
     Call<String> registerSaloon(@Body String serviceId);
 
@@ -16,6 +20,12 @@ public interface ApiInterface {
     Call<String> sendMobile(@Body String mobile);
 
     @Headers({"Content-type: application/json"})
-    @POST("/admin/api/barbers/login")
-    Call<String> checkBarberRegister(@Body String mobile);
+    @POST("/admin/api/saloons/saloon-income")
+    Call<String> getSalonIncome(@Body String mobile);
+
+    @Headers({"Content-type: application/json"})
+    @POST("/admin/api/barbers/barber-income")
+    Call<String> getBarberIncome(@Body String mobile);
+
+
 }

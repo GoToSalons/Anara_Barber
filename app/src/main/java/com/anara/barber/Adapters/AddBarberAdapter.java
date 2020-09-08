@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.anara.barber.Activities.BarberDetailsActivity;
-import com.anara.barber.Dialogs.AddServiceDialog;
 import com.anara.barber.Model.AddBarberItem;
 import com.anara.barber.R;
 import com.bumptech.glide.Glide;
@@ -51,7 +50,6 @@ public class AddBarberAdapter extends RecyclerView.Adapter<AddBarberAdapter.MyVi
     public void onBindViewHolder(@NonNull AddBarberAdapter.MyViewHolder holder, int position) {
         AddBarberItem addBarberItem = addBarberItems.get(holder.getAdapterPosition());
         holder.bindData(addBarberItem);
-
     }
 
     @Override
@@ -90,6 +88,8 @@ public class AddBarberAdapter extends RecyclerView.Adapter<AddBarberAdapter.MyVi
             exp_yrs.setText(addBarberItem.getExp_year());
             exp_mon.setText(addBarberItem.getExp_month());
 
+//            barber_name.addTextChangedListener(th);
+
             Log.e("tag"," = =  = = = kkk   = = = " + addBarberItem.getBarber_profile() );
             if (addBarberItem.getBarber_profile() != null) {
                 Glide.with(barberDetailsActivity)
@@ -100,7 +100,6 @@ public class AddBarberAdapter extends RecyclerView.Adapter<AddBarberAdapter.MyVi
             }
 
             im_layout.setOnClickListener(view -> onImageClick.onSelectImage(getAdapterPosition()));
-
 
 
             add_barber.setOnClickListener(view -> {

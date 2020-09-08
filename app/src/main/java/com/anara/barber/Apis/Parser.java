@@ -2,13 +2,11 @@ package com.anara.barber.Apis;
 
 import android.util.Log;
 
-import com.anara.barber.Model.BaseRs;
+import com.anara.barber.ApiRS.BaseRs;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Parser {
 

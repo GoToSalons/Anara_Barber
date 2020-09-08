@@ -4,46 +4,101 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.anara.barber.Adapters.BarbersAdapter;
+import com.anara.barber.Apis.Const;
+import com.anara.barber.Apis.RequestResponseManager;
 import com.anara.barber.Dialogs.AddRemoveBarber;
-import com.anara.barber.Model.BarberModel;
+import com.anara.barber.ApiRS.BaseRs;
+import com.anara.barber.ApiRS.SalonEarningsRS;
+import com.anara.barber.utils.PrefManager;
 import com.bumptech.glide.Glide;
 
-import java.util.ArrayList;
+import org.json.JSONObject;
 
 public class MainActivityOwner extends AppCompatActivity {
+
+
+    // progress dialog
+    ProgressDialog progressDialog;
+
+    TextView todayEarning, weeklyEarning, monthlyEarning, yearlyEarning, owner_name;
+
+    // barber list
+    RecyclerView recyclerView;
+
+    ImageView imageView;
+
+    PrefManager prefManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_owner);
-        ImageView imageView = findViewById(R.id.profile_image);
-        Glide.with(MainActivityOwner.this).load(getResources().getDrawable(R.drawable.akim)).into(imageView);
 
-        RecyclerView recyclerView = findViewById(R.id.barber_list);
+        prefManager = new PrefManager(this);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Please wait......");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        owner_name = findViewById(R.id.owner_name);
+        todayEarning = findViewById(R.id.today_earning);
+        weeklyEarning = findViewById(R.id.weekly_earning);
+        monthlyEarning = findViewById(R.id.monthly_earning);
+        yearlyEarning = findViewById(R.id.yearly_earning);
+
+        recyclerView = findViewById(R.id.barber_list);
+
+
+        imageView = findViewById(R.id.profile_image);
+
+        owner_name.setText(prefManager.getString(Const.SALON_NAME,""));
+
+        Glide.with(MainActivityOwner.this).load(prefManager.getString(Const.OWNER_IMAGE,"")).into(imageView);
+
 
         ImageView menu = findViewById(R.id.menu);
-        menu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AddRemoveBarber addRemoveBarber = new AddRemoveBarber(MainActivityOwner.this);
-                addRemoveBarber.show(getSupportFragmentManager(), "Add");
-            }
+        menu.setOnClickListener(view -> {
+            AddRemoveBarber addRemoveBarber = new AddRemoveBarber(MainActivityOwner.this);
+            addRemoveBarber.show(getSupportFragmentManager(), "Add");
         });
 
-        ArrayList<BarberModel> barberModels = new ArrayList<>();
-        barberModels.add(new BarberModel(getResources().getDrawable(R.drawable.akim),"Akim Kasmani"));
-        barberModels.add(new BarberModel(getResources().getDrawable(R.drawable.akim),"Akim Kasmani"));
-        barberModels.add(new BarberModel(getResources().getDrawable(R.drawable.akim),"Akim Kasmani"));
-        barberModels.add(new BarberModel(getResources().getDrawable(R.drawable.akim),"Akim Kasmani"));
 
-        BarbersAdapter chooseBarbersAdapter = new BarbersAdapter(MainActivityOwner.this,barberModels);
+        try {
+            JSONObject jsonObject = new JSONObject();
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivityOwner.this));
-        recyclerView.setAdapter(chooseBarbersAdapter);
+            jsonObject.put("saloon_id","21");
+
+            RequestResponseManager.getSalonIncome(jsonObject, Const.Saloon_Register_Request, response -> {
+                if (response != null) {
+                    BaseRs baseRs = (BaseRs) response;
+                    if (baseRs.getStatus().equals("success")) {
+                        SalonEarningsRS salonEarningsRS = baseRs.getSalonEarningsRS();
+                        todayEarning.setText(salonEarningsRS.getToday_earning());
+                        weeklyEarning.setText(salonEarningsRS.getWeek_earning());
+                        monthlyEarning.setText(salonEarningsRS.getMonth_earning());
+                        yearlyEarning.setText(salonEarningsRS.getYear_earning());
+
+                        BarbersAdapter chooseBarbersAdapter = new BarbersAdapter(MainActivityOwner.this, baseRs.getBarbersRSArrayList());
+                        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivityOwner.this));
+                        recyclerView.setAdapter(chooseBarbersAdapter);
+
+                    } else {
+                        Toast.makeText(this, "Try Again", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                if (progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

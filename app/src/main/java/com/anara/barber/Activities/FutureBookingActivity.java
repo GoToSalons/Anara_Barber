@@ -13,7 +13,6 @@ import com.anara.barber.Adapters.BarberSlotAdapter;
 import com.anara.barber.Dialogs.AddBreakDialog;
 import com.anara.barber.Dialogs.DatePickerDialog;
 import com.anara.barber.MainActivityBarbers;
-import com.anara.barber.Model.BarberSlotModel;
 import com.anara.barber.R;
 
 import java.util.ArrayList;
@@ -35,17 +34,17 @@ public class FutureBookingActivity extends AppCompatActivity {
             }
         });
 
-        ArrayList<BarberSlotModel> barberSlots = new ArrayList<>();
-        barberSlots.add(new BarberSlotModel("Akim Kasmani","Hair Cut | Beard","11:00 AM","12:00 PM","₹ 500"));
-        barberSlots.add(new BarberSlotModel("Akim Kasmani","Hair Cut | Beard","11:00 AM","12:00 PM","₹ 500"));
-        barberSlots.add(new BarberSlotModel("Empty","","11:00 AM","12:00 PM",""));
-        barberSlots.add(new BarberSlotModel("Akim Kasmani","Hair Cut | Beard","11:00 AM","12:00 PM","₹ 500"));
-        barberSlots.add(new BarberSlotModel("Akim Kasmani","Hair Cut | Beard","11:00 AM","12:00 PM","₹ 500"));
-
-        BarberSlotAdapter barberSlotAdapter = new BarberSlotAdapter(barberSlots,"no edit");
-
-        RecyclerView recyclerView = findViewById(R.id.slot_list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(FutureBookingActivity.this));
-        recyclerView.setAdapter(barberSlotAdapter);
+//        ArrayList<BarberSlotModel> barberSlots = new ArrayList<>();
+//        barberSlots.add(new BarberSlotModel("Akim Kasmani","Hair Cut | Beard","11:00 AM","12:00 PM","₹ 500"));
+//        barberSlots.add(new BarberSlotModel("Akim Kasmani","Hair Cut | Beard","11:00 AM","12:00 PM","₹ 500"));
+//        barberSlots.add(new BarberSlotModel("Empty","","11:00 AM","12:00 PM",""));
+//        barberSlots.add(new BarberSlotModel("Akim Kasmani","Hair Cut | Beard","11:00 AM","12:00 PM","₹ 500"));
+//        barberSlots.add(new BarberSlotModel("Akim Kasmani","Hair Cut | Beard","11:00 AM","12:00 PM","₹ 500"));
+//
+//        BarberSlotAdapter barberSlotAdapter = new BarberSlotAdapter(barberSlots,"no edit");
+//
+//        RecyclerView recyclerView = findViewById(R.id.slot_list);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(FutureBookingActivity.this));
+//        recyclerView.setAdapter(barberSlotAdapter);
     }
 }

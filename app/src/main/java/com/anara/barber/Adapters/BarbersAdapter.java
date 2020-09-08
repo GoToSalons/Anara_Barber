@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.anara.barber.Activities.ShowIncomeActivity;
+import com.anara.barber.ApiRS.BarbersRS;
 import com.anara.barber.MainActivityOwner;
 import com.anara.barber.Model.BarberModel;
 import com.anara.barber.R;
@@ -24,13 +25,15 @@ import java.util.ArrayList;
 
 public class BarbersAdapter extends RecyclerView.Adapter<BarbersAdapter.MyViewHolder> {
 
-    ArrayList<BarberModel> barberModels;
+    ArrayList<BarbersRS> barberModels;
 
     MainActivityOwner mainActivityOwner;
-    public BarbersAdapter(MainActivityOwner mainActivityOwner, ArrayList<BarberModel> barberModels) {
+
+    public BarbersAdapter(MainActivityOwner mainActivityOwner, ArrayList<BarbersRS> barberModels) {
         this.barberModels = barberModels;
         this.mainActivityOwner = mainActivityOwner;
     }
+
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -40,15 +43,17 @@ public class BarbersAdapter extends RecyclerView.Adapter<BarbersAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        BarberModel barberModel = barberModels.get(holder.getAdapterPosition());
-        holder.barberName.setText(barberModel.getBarberName());
-        Glide.with(holder.barberImage).load(barberModel.getBarberImage()).centerCrop().into(holder.barberImage);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(mainActivityOwner, ShowIncomeActivity.class);
-                mainActivityOwner.startActivity(intent);
-            }
+        BarbersRS barberModel = barberModels.get(holder.getAdapterPosition());
+
+        holder.barberName.setText(barberModel.getName());
+        holder.monthEarning.setText(barberModel.getMonth_earning());
+        holder.todayEarning.setText(barberModel.getToday_earning());
+
+        Glide.with(holder.barberImage).load(barberModel.getProfile_image()).centerCrop().into(holder.barberImage);
+
+        holder.itemView.setOnClickListener(view -> {
+            Intent intent = new Intent(mainActivityOwner, ShowIncomeActivity.class);
+            mainActivityOwner.startActivity(intent);
         });
 
     }
@@ -59,12 +64,18 @@ public class BarbersAdapter extends RecyclerView.Adapter<BarbersAdapter.MyViewHo
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
+
         ImageView barberImage;
-        TextView barberName;
+        TextView barberName, monthEarning, todayEarning;
+
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+
             barberImage = itemView.findViewById(R.id.barber_image);
             barberName = itemView.findViewById(R.id.barber_name);
+            monthEarning = itemView.findViewById(R.id.month_earning);
+            todayEarning = itemView.findViewById(R.id.today_earning);
+
         }
     }
 }

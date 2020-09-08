@@ -9,16 +9,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.anara.barber.Model.BarberSlotModel;
+import com.anara.barber.ApiRS.BarberSlotsRS;
 import com.anara.barber.R;
 
 import java.util.ArrayList;
 
 public class BarberSlotAdapter extends RecyclerView.Adapter<BarberSlotAdapter.MyViewHolder> {
-    ArrayList<BarberSlotModel> barberSlots;
+    ArrayList<BarberSlotsRS> barberSlots;
     String s;
-    public BarberSlotAdapter(ArrayList<BarberSlotModel> barberSlots, String s) {
-        this.barberSlots=barberSlots;
+
+    public BarberSlotAdapter(ArrayList<BarberSlotsRS> barberSlots, String s) {
+        this.barberSlots = barberSlots;
         this.s = s;
     }
 
@@ -31,20 +32,22 @@ public class BarberSlotAdapter extends RecyclerView.Adapter<BarberSlotAdapter.My
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        BarberSlotModel barberSlotModel = barberSlots.get(holder.getAdapterPosition());
-        holder.CustomerName.setText(barberSlotModel.getCustomerName());
-        holder.ServiceName.setText(barberSlotModel.getCustomerServices());
-        holder.Amount.setText(barberSlotModel.getAmount());
-        holder.From.setText(barberSlotModel.getFromTime());
-        holder.To.setText(barberSlotModel.getToTime());
+        BarberSlotsRS barberSlotModel = barberSlots.get(holder.getAdapterPosition());
 
-        if (s.equals("edit")){
+        holder.CustomerName.setText(barberSlotModel.getBarber_name());
+        holder.ServiceName.setText(barberSlotModel.getServices().get(0).getService_name());
+        holder.Amount.setText(barberSlotModel.getTotal_price());
+        holder.From.setText(barberSlotModel.getFrom_time());
+        holder.To.setText(barberSlotModel.getTo_time());
+
+        if (s.equals("edit")) {
             holder.Amount.setVisibility(View.VISIBLE);
             holder.Delete.setVisibility(View.GONE);
-        }else {
+        } else {
             holder.Amount.setVisibility(View.GONE);
             holder.Delete.setVisibility(View.VISIBLE);
         }
+
     }
 
     @Override
@@ -53,15 +56,16 @@ public class BarberSlotAdapter extends RecyclerView.Adapter<BarberSlotAdapter.My
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView From,To,CustomerName,ServiceName,Amount;
+        TextView From, To, CustomerName, ServiceName, Amount;
         ImageView Delete;
+
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            From=itemView.findViewById(R.id.time_from);
-            To=itemView.findViewById(R.id.time_to);
-            CustomerName=itemView.findViewById(R.id.Name);
-            ServiceName =itemView.findViewById(R.id.service_name);
-            Amount =itemView.findViewById(R.id.amount);
+            From = itemView.findViewById(R.id.time_from);
+            To = itemView.findViewById(R.id.time_to);
+            CustomerName = itemView.findViewById(R.id.Name);
+            ServiceName = itemView.findViewById(R.id.service_name);
+            Amount = itemView.findViewById(R.id.amount);
             Delete = itemView.findViewById(R.id.delete);
         }
     }

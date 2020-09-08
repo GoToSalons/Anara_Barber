@@ -12,21 +12,25 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.anara.barber.Adapters.AddBarberAdapter;
 import com.anara.barber.Apis.Const;
 import com.anara.barber.Apis.RequestResponseManager;
 import com.anara.barber.Model.AddBarberItem;
-import com.anara.barber.Model.BaseRs;
+import com.anara.barber.ApiRS.BaseRs;
 import com.anara.barber.Model.OwnerModel;
 import com.anara.barber.Model.SalonModel;
 import com.anara.barber.R;
+import com.anara.barber.utils.PrefManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class BarberDetailsActivity extends AppCompatActivity implements AddBarberAdapter.OnImageClick {
 
@@ -104,9 +108,13 @@ public class BarberDetailsActivity extends AppCompatActivity implements AddBarbe
             // owner data add to json
             jsonObject.put("contact_person", ownerModel.getOwnerName());
             jsonObject.put("email", ownerModel.getOwnerEmailAddress());
-//            jsonObject.put("mobile", ownerModel.getOwnerNumber());
-            jsonObject.put("mobile", "9973553344");
+            jsonObject.put("bank_name", ownerModel.getBank_name());
+            jsonObject.put("account_number", ownerModel.getAccount_number());
+            jsonObject.put("ifsc_code", ownerModel.getIfsc_code());
+            jsonObject.put("mobile", ownerModel.getOwnerNumber());
+//            jsonObject.put("mobile", "9973553344");
             jsonObject.put("owner_image", Const.getBase64ImageFromBitmap(ownerModel.getOwnerImages()));
+            Log.e("tag", " = =  = d = = = " + ownerModel.getBank_name());
 
             JSONArray serviceJsonArray = new JSONArray();
 
@@ -119,7 +127,6 @@ public class BarberDetailsActivity extends AppCompatActivity implements AddBarbe
                     serviceJsonObject.put("hours", salonService.getHours());
                     serviceJsonObject.put("minutes", salonService.getMinutes());
                     serviceJsonObject.put("price", salonService.getPrice());
-                    Log.e("tag", " = =  = d = = = " + salonService.getService_name());
                     serviceJsonArray.put(serviceJsonObject);
                 }
             }
@@ -128,13 +135,16 @@ public class BarberDetailsActivity extends AppCompatActivity implements AddBarbe
             // barber data add to json
             JSONArray barberJsonArray = new JSONArray();
 
-            for (AddBarberItem addBarberItem : addBarberAdapter.getAddBarberItems()) {
+            ArrayList<AddBarberItem> barberItems = addBarberAdapter.getAddBarberItems();
+            for (int i = 0; i < barberItems.size(); i++) {
+                AddBarberItem addBarberItem = barberItems.get(i);
+
                 JSONObject barberJsonObject = new JSONObject();
-                barberJsonObject.put("name", addBarberItem.getName());
-                barberJsonObject.put("email", addBarberItem.getEmail());
-                barberJsonObject.put("mobile", addBarberItem.getMobile());
-                barberJsonObject.put("exp_year", addBarberItem.getExp_year());
-                barberJsonObject.put("exp_month", addBarberItem.getExp_month());
+                barberJsonObject.put("name", ((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(i)).itemView.findViewById(R.id.barber_name)).getText().toString());
+                barberJsonObject.put("email", ((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(i)).itemView.findViewById(R.id.e_mail)).getText().toString());
+                barberJsonObject.put("mobile", ((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(i)).itemView.findViewById(R.id.phone_number)).getText().toString());
+                barberJsonObject.put("exp_year", ((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(i)).itemView.findViewById(R.id.exp_yrs)).getText().toString());
+                barberJsonObject.put("exp_month", ((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(i)).itemView.findViewById(R.id.exp_mon)).getText().toString());
                 barberJsonObject.put("barber_profile", Const.getBase64ImageFromBitmap(addBarberItem.getBarber_profile()));
 
                 barberJsonArray.put(barberJsonObject);
@@ -145,6 +155,14 @@ public class BarberDetailsActivity extends AppCompatActivity implements AddBarbe
             RequestResponseManager.getApiCall(jsonObject, Const.Saloon_Register_Request, response -> {
                 if (response != null) {
                     BaseRs baseRs = (BaseRs) response;
+                    if (baseRs.getStatus().equals("success")) {
+                        PrefManager prefManager = new PrefManager(this);
+                        prefManager.setString(Const.isLoginOwner,"true");
+                        prefManager.setString(Const.isOwnerRegister,"true");
+                        Toast.makeText(this, "" + baseRs.getMessage(), Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(this, ChooseActivity.class));
+                        finish();
+                    }
                     Log.e("tag", " = =  = call = = = " + baseRs.getStatus());
                 }
                 if (progressDialog.isShowing()) {

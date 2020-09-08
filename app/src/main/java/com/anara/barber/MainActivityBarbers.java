@@ -4,27 +4,56 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.anara.barber.Adapters.BarberSlotAdapter;
+import com.anara.barber.ApiRS.BarbersRS;
+import com.anara.barber.ApiRS.BaseRs;
+import com.anara.barber.ApiRS.SalonEarningsRS;
+import com.anara.barber.Apis.Const;
+import com.anara.barber.Apis.RequestResponseManager;
 import com.anara.barber.Dialogs.DatePickerDialog;
-import com.anara.barber.Model.BarberSlotModel;
 import com.bumptech.glide.Glide;
 
-import java.util.ArrayList;
+import org.json.JSONObject;
+
 
 public class MainActivityBarbers extends AppCompatActivity {
+
+    // progress dialog
+    ProgressDialog progressDialog;
+
+    // barbers list
+    RecyclerView recyclerView;
+
+    ImageView barberProfile;
+
+    TextView barber_name, todayEarning, weeklyEarning, monthlyEarning, yearlyEarning;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ImageView imageView = findViewById(R.id.profile_image);
-        Glide.with(MainActivityBarbers.this).load(getResources().getDrawable(R.drawable.akim)).into(imageView);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Please wait......");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        recyclerView = findViewById(R.id.slot_list);
+
+        barber_name = findViewById(R.id.barber_name);
+        barberProfile = findViewById(R.id.profile_image);
+        todayEarning = findViewById(R.id.today_earning);
+        weeklyEarning = findViewById(R.id.weekly_earning);
+        monthlyEarning = findViewById(R.id.monthly_earning);
+        yearlyEarning = findViewById(R.id.yearly_earning);
+
 
         TextView textView = findViewById(R.id.manage_bookings);
         textView.setOnClickListener(new View.OnClickListener() {
@@ -35,17 +64,44 @@ public class MainActivityBarbers extends AppCompatActivity {
             }
         });
 
-        ArrayList<BarberSlotModel> barberSlots = new ArrayList<>();
-        barberSlots.add(new BarberSlotModel("Akim Kasmani","Hair Cut | Beard","11:00 AM","12:00 PM","₹ 500"));
-        barberSlots.add(new BarberSlotModel("Akim Kasmani","Hair Cut | Beard","11:00 AM","12:00 PM","₹ 500"));
-        barberSlots.add(new BarberSlotModel("Empty","","11:00 AM","12:00 PM",""));
-        barberSlots.add(new BarberSlotModel("Akim Kasmani","Hair Cut | Beard","11:00 AM","12:00 PM","₹ 500"));
-        barberSlots.add(new BarberSlotModel("Akim Kasmani","Hair Cut | Beard","11:00 AM","12:00 PM","₹ 500"));
 
-        BarberSlotAdapter barberSlotAdapter = new BarberSlotAdapter(barberSlots, "edit");
+        try {
+            JSONObject jsonObject = new JSONObject();
 
-        RecyclerView recyclerView = findViewById(R.id.slot_list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivityBarbers.this));
-        recyclerView.setAdapter(barberSlotAdapter);
+            jsonObject.put("barber_id","30");
+            jsonObject.put("date","06-09-2020");
+
+            RequestResponseManager.getBarberIncome(jsonObject, Const.Barber_Income_Request, response -> {
+                if (response != null) {
+                    BaseRs baseRs = (BaseRs) response;
+                    if (baseRs.getStatus().equals("success")) {
+
+                        BarbersRS barbersRS = baseRs.getBarbersRS();
+
+                        barber_name.setText(barbersRS.getName());
+                        Glide.with(MainActivityBarbers.this).load(barbersRS.getProfile_image()).into(barberProfile);
+
+                        SalonEarningsRS salonEarningsRS = baseRs.getSalonEarningsRS();
+                        todayEarning.setText(salonEarningsRS.getToday_earning());
+                        weeklyEarning.setText(salonEarningsRS.getWeek_earning());
+                        monthlyEarning.setText(salonEarningsRS.getMonth_earning());
+                        yearlyEarning.setText(salonEarningsRS.getYear_earning());
+
+                        BarberSlotAdapter barberSlotAdapter = new BarberSlotAdapter(baseRs.getBarberSlotsRS(), "edit");
+                        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivityBarbers.this));
+                        recyclerView.setAdapter(barberSlotAdapter);
+
+                    } else {
+                        Toast.makeText(this, "Try Again", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                if (progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
 }
