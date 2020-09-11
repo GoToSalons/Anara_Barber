@@ -96,6 +96,7 @@ public class OwnerDetailsActivity extends AppCompatActivity implements View.OnCl
             ownerModel.setOwnerNumber(getIntent().getStringExtra("number"));
             ownerModel.setOwnerImages(ownerImagePath);
             Intent intent = new Intent(OwnerDetailsActivity.this, BarberDetailsActivity.class);
+            intent.putExtra("barber_action","new");
             intent.putExtra(Const.SALOON_DATA_KEY, (Parcelable) salonModel);
             intent.putExtra(Const.OWNER_DATA_KEY, (Parcelable) ownerModel);
             startActivity(intent);

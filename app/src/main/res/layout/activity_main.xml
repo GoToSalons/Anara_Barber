@@ -207,7 +207,7 @@
                 android:id="@+id/tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Today's Slot"
+                android:text="Upcoming Bookings"
                 android:textColor="@color/colorBlack"
                 android:textSize="18sp"
                 android:layout_marginTop="25dp"

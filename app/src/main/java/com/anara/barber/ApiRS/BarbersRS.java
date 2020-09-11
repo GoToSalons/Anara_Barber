@@ -1,8 +1,11 @@
 package com.anara.barber.ApiRS;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 
-public class BarbersRS implements Serializable {
+public class BarbersRS implements Serializable, Parcelable {
 
     private int id;
     private String name;
@@ -10,6 +13,27 @@ public class BarbersRS implements Serializable {
     private String profile_image;
     private String today_earning;
     private String month_earning;
+
+    protected BarbersRS(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        mobile = in.readString();
+        profile_image = in.readString();
+        today_earning = in.readString();
+        month_earning = in.readString();
+    }
+
+    public static final Creator<BarbersRS> CREATOR = new Creator<BarbersRS>() {
+        @Override
+        public BarbersRS createFromParcel(Parcel in) {
+            return new BarbersRS(in);
+        }
+
+        @Override
+        public BarbersRS[] newArray(int size) {
+            return new BarbersRS[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -57,5 +81,20 @@ public class BarbersRS implements Serializable {
 
     public void setMonth_earning(String month_earning) {
         this.month_earning = month_earning;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeString(name);
+        parcel.writeString(mobile);
+        parcel.writeString(profile_image);
+        parcel.writeString(today_earning);
+        parcel.writeString(month_earning);
     }
 }

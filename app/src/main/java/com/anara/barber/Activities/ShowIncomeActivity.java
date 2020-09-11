@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ImageView;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,9 +19,10 @@ import com.anara.barber.Apis.Const;
 import com.anara.barber.Apis.RequestResponseManager;
 import com.anara.barber.MainActivityBarbers;
 import com.anara.barber.R;
-import com.bumptech.glide.Glide;
 
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 
 public class ShowIncomeActivity extends AppCompatActivity {
@@ -32,9 +33,10 @@ public class ShowIncomeActivity extends AppCompatActivity {
     // barbers list
     RecyclerView recyclerView;
 
-    ImageView barberProfile;
-
     TextView barber_name, todayEarning, weeklyEarning, monthlyEarning, yearlyEarning;
+
+    ArrayList<BarbersRS> barbersRS;
+    int selectPosition = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,24 +46,44 @@ public class ShowIncomeActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please wait......");
         progressDialog.setCancelable(false);
-        progressDialog.show();
 
+        barbersRS = getIntent().getParcelableArrayListExtra("barber_list");
+        selectPosition = getIntent().getIntExtra("select_position", 0);
 
-        recyclerView = findViewById(R.id.slot_list);
+        recyclerView = findViewById(R.id.slot_recycler);
 
         barber_name = findViewById(R.id.barber_name);
-
-        barberProfile = findViewById(R.id.profile_image);
 
         todayEarning = findViewById(R.id.today_earning);
         weeklyEarning = findViewById(R.id.weekly_earning);
         monthlyEarning = findViewById(R.id.monthly_earning);
         yearlyEarning = findViewById(R.id.yearly_earning);
 
+        getBarbersIncome();
+
+        findViewById(R.id.back).setOnClickListener(view -> {
+            if (selectPosition > 0) {
+                selectPosition = selectPosition - 1;
+                getBarbersIncome();
+            }
+        });
+
+        findViewById(R.id.next).setOnClickListener(view -> {
+            if (selectPosition < barbersRS.size()) {
+                selectPosition = selectPosition + 1;
+                getBarbersIncome();
+            }
+        });
+
+    }
+
+    private void getBarbersIncome() {
+        progressDialog.show();
+
         try {
             JSONObject jsonObject = new JSONObject();
 
-            jsonObject.put("barber_id","30");
+            jsonObject.put("barber_id", barbersRS.get(selectPosition).getId());
             jsonObject.put("date","06-09-2020");
 
             RequestResponseManager.getBarberIncome(jsonObject, Const.Barber_Income_Request, response -> {
@@ -70,10 +92,8 @@ public class ShowIncomeActivity extends AppCompatActivity {
                     if (baseRs.getStatus().equals("success")) {
 
                         BarbersRS barbersRS = baseRs.getBarbersRS();
-                        Log.e("tag"," = = = =  = mmmmmmmmmmm  " + barbersRS.getName());
 
                         barber_name.setText(barbersRS.getName());
-                        Glide.with(ShowIncomeActivity.this).load(barbersRS.getProfile_image()).into(barberProfile);
 
                         SalonEarningsRS salonEarningsRS = baseRs.getSalonEarningsRS();
                         todayEarning.setText(salonEarningsRS.getToday_earning());
@@ -81,12 +101,41 @@ public class ShowIncomeActivity extends AppCompatActivity {
                         monthlyEarning.setText(salonEarningsRS.getMonth_earning());
                         yearlyEarning.setText(salonEarningsRS.getYear_earning());
 
-                        BarberSlotAdapter barberSlotAdapter = new BarberSlotAdapter(baseRs.getBarberSlotsRS(), "no edit");
+                    } else {
+                        Toast.makeText(this, ""+baseRs.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+                if (progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e("tag"," = = = error = = " + e.getMessage());
+            if (progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
+        }
+
+        getBarberBookings();
+
+    }
+
+    private void getBarberBookings() {
+        try {
+            JSONObject jsonObject = new JSONObject();
+
+            jsonObject.put("barber_id", barbersRS.get(selectPosition).getId());
+
+            RequestResponseManager.getBarberBooking(jsonObject, Const.Barber_Income_Request, response -> {
+                if (response != null) {
+                    BaseRs baseRs = (BaseRs) response;
+                    if (baseRs.getStatus().equals("success")) {
+                        BarberSlotAdapter barberSlotAdapter = new BarberSlotAdapter(baseRs.getBookingListRS(), "edit");
                         recyclerView.setLayoutManager(new LinearLayoutManager(ShowIncomeActivity.this));
                         recyclerView.setAdapter(barberSlotAdapter);
-
                     } else {
-                        Toast.makeText(this, "Try Again", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, ""+baseRs.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
                 if (progressDialog.isShowing()) {

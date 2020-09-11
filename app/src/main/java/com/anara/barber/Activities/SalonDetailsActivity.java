@@ -1,6 +1,8 @@
 package com.anara.barber.Activities;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -17,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -32,6 +36,7 @@ import com.shivtechs.maplocationpicker.LocationPickerActivity;
 import com.shivtechs.maplocationpicker.MapUtility;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class SalonDetailsActivity extends AppCompatActivity implements View.OnClickListener, AddServiceDialog.AddService {
 
@@ -90,6 +95,18 @@ public class SalonDetailsActivity extends AppCompatActivity implements View.OnCl
         instagram_url = findViewById(R.id.instagram_url);
         twitter_url = findViewById(R.id.twitter_url);
 
+        start_time.setClickable(true);
+        start_time.setLongClickable(false);
+        start_time.setInputType(InputType.TYPE_NULL);
+
+        start_time.setOnClickListener(view -> Const.showTimePicker(this, start_time));
+
+        end_time.setClickable(true);
+        end_time.setLongClickable(false);
+        end_time.setInputType(InputType.TYPE_NULL);
+
+        end_time.setOnClickListener(view -> Const.showTimePicker(this, end_time));
+
         male = findViewById(R.id.male);
         female = findViewById(R.id.female);
         unisex = findViewById(R.id.unisex);
@@ -108,6 +125,8 @@ public class SalonDetailsActivity extends AppCompatActivity implements View.OnCl
 
         add_service.setOnClickListener(this);
     }
+
+
 
     @Override
     public void onClick(View view) {

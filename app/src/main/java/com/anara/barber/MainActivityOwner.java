@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.anara.barber.Adapters.BarbersAdapter;
+import com.anara.barber.ApiRS.BarbersRS;
 import com.anara.barber.Apis.Const;
 import com.anara.barber.Apis.RequestResponseManager;
 import com.anara.barber.Dialogs.AddRemoveBarber;
@@ -21,7 +22,9 @@ import com.bumptech.glide.Glide;
 
 import org.json.JSONObject;
 
-public class MainActivityOwner extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class MainActivityOwner extends AppCompatActivity implements BarbersAdapter.OnClick {
 
 
     // progress dialog
@@ -35,6 +38,10 @@ public class MainActivityOwner extends AppCompatActivity {
     ImageView imageView;
 
     PrefManager prefManager;
+
+    BarbersAdapter chooseBarbersAdapter;
+
+    ArrayList<BarbersRS> barbersRS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +65,9 @@ public class MainActivityOwner extends AppCompatActivity {
 
         imageView = findViewById(R.id.profile_image);
 
-        owner_name.setText(prefManager.getString(Const.SALON_NAME,""));
+        owner_name.setText(prefManager.getString(Const.SALON_NAME, ""));
 
-        Glide.with(MainActivityOwner.this).load(prefManager.getString(Const.OWNER_IMAGE,"")).into(imageView);
+        Glide.with(MainActivityOwner.this).load(prefManager.getString(Const.OWNER_IMAGE, "")).into(imageView);
 
 
         ImageView menu = findViewById(R.id.menu);
@@ -73,24 +80,25 @@ public class MainActivityOwner extends AppCompatActivity {
         try {
             JSONObject jsonObject = new JSONObject();
 
-            jsonObject.put("saloon_id","21");
+            jsonObject.put("saloon_id", "21");
 
             RequestResponseManager.getSalonIncome(jsonObject, Const.Saloon_Register_Request, response -> {
                 if (response != null) {
                     BaseRs baseRs = (BaseRs) response;
                     if (baseRs.getStatus().equals("success")) {
+                        barbersRS = baseRs.getBarbersRSArrayList();
                         SalonEarningsRS salonEarningsRS = baseRs.getSalonEarningsRS();
                         todayEarning.setText(salonEarningsRS.getToday_earning());
                         weeklyEarning.setText(salonEarningsRS.getWeek_earning());
                         monthlyEarning.setText(salonEarningsRS.getMonth_earning());
                         yearlyEarning.setText(salonEarningsRS.getYear_earning());
 
-                        BarbersAdapter chooseBarbersAdapter = new BarbersAdapter(MainActivityOwner.this, baseRs.getBarbersRSArrayList());
+                        chooseBarbersAdapter = new BarbersAdapter(MainActivityOwner.this, barbersRS);
+                        chooseBarbersAdapter.setOnClick(this);
                         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivityOwner.this));
                         recyclerView.setAdapter(chooseBarbersAdapter);
-
                     } else {
-                        Toast.makeText(this, "Try Again", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, ""+baseRs.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
                 if (progressDialog.isShowing()) {
@@ -101,4 +109,49 @@ public class MainActivityOwner extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+    public void onBarberDelete() {
+        if (chooseBarbersAdapter != null) {
+            chooseBarbersAdapter.setDelete(true);
+        }
+    }
+
+    @Override
+    public void onDelete(int barberId, int adapterPosition) {
+
+        progressDialog.show();
+        try {
+
+            JSONObject jsonObject = new JSONObject();
+
+//            jsonObject.put("barber_id", prefManager.getString(Const.SALON_ID, ""));
+            jsonObject.put("barber_id", "21");
+            jsonObject.put("saloon_id", barberId);
+
+            RequestResponseManager.deleteBarber(jsonObject, Const.Delete_Barber_Request, response -> {
+                if (response != null) {
+                    BaseRs baseRs = (BaseRs) response;
+                    if (baseRs.getStatus().equals("success")) {
+                        barbersRS.remove(adapterPosition);
+                        chooseBarbersAdapter.notifyItemRemoved(adapterPosition);
+                        Toast.makeText(MainActivityOwner.this, ""+baseRs.getMessage(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, ""+baseRs.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+                if (progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
+        }
+
+    }
+
+
 }

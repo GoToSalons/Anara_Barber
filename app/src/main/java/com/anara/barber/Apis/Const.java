@@ -1,11 +1,16 @@
 package com.anara.barber.Apis;
 
+import android.annotation.SuppressLint;
+import android.app.TimePickerDialog;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
 import android.util.Log;
+import android.widget.EditText;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Calendar;
 
 public class Const {
 
@@ -18,6 +23,8 @@ public class Const {
     public static int Salon_Income_Request = 4;
     public static int Barber_Income_Request = 5;
     public static int Login_Barber_Request = 6;
+    public static int Add_Barber_Request = 7;
+    public static int Delete_Barber_Request = 8;
 
     public static final String SALOON_DATA_KEY = "saloon_data";
     public static final String OWNER_DATA_KEY = "owner_data";
@@ -60,4 +67,14 @@ public class Const {
         byte[] byteArrayImage = byteArrayOutputStream.toByteArray();
         return Base64.encodeToString(byteArrayImage, Base64.DEFAULT);
     }
+
+    public static void showTimePicker(Context context, EditText editText){
+        Calendar mcurrentTime = Calendar.getInstance();
+        int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+        int minute = mcurrentTime.get(Calendar.MINUTE);
+        @SuppressLint("SetTextI18n")
+        TimePickerDialog timePickerDialog = new TimePickerDialog(context, (timePicker, selectedHour, selectedMinute) -> editText.setText(selectedHour + ":" + selectedMinute), hour, minute, false);
+        timePickerDialog.show();
+    }
+
 }

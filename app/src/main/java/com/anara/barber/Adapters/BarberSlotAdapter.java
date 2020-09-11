@@ -1,5 +1,6 @@
 package com.anara.barber.Adapters;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,15 +11,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.anara.barber.ApiRS.BarberSlotsRS;
+import com.anara.barber.ApiRS.BookingListRS;
+import com.anara.barber.ApiRS.BookingServices;
 import com.anara.barber.R;
 
 import java.util.ArrayList;
 
 public class BarberSlotAdapter extends RecyclerView.Adapter<BarberSlotAdapter.MyViewHolder> {
-    ArrayList<BarberSlotsRS> barberSlots;
+
+    ArrayList<BookingListRS> barberSlots;
     String s;
 
-    public BarberSlotAdapter(ArrayList<BarberSlotsRS> barberSlots, String s) {
+    public BarberSlotAdapter(ArrayList<BookingListRS> barberSlots, String s) {
         this.barberSlots = barberSlots;
         this.s = s;
     }
@@ -30,15 +34,29 @@ public class BarberSlotAdapter extends RecyclerView.Adapter<BarberSlotAdapter.My
         return new MyViewHolder(itemView);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        BarberSlotsRS barberSlotModel = barberSlots.get(holder.getAdapterPosition());
+        BookingListRS barberSlotModel = barberSlots.get(holder.getAdapterPosition());
 
-        holder.CustomerName.setText(barberSlotModel.getBarber_name());
-        holder.ServiceName.setText(barberSlotModel.getServices().get(0).getService_name());
-        holder.Amount.setText(barberSlotModel.getTotal_price());
+        holder.CustomerName.setText(barberSlotModel.getCustomer_name());
+        StringBuilder serviceName = new StringBuilder();
+        ArrayList<BookingServices> services = barberSlotModel.getServices();
+        for (int i = 0; i < services.size(); i++) {
+            BookingServices bookingServices = services.get(i);
+//            if (i == services.size()-1) {
+//                serviceName.append(" | ").append(bookingServices.getService_name());
+//            } else {
+                serviceName.append(bookingServices.getService_name()).append(" | ");
+//            }
+        }
+
+        holder.ServiceName.setText(serviceName.toString());
+
+        holder.Amount.setText("₹ "+barberSlotModel.getTotal_price());
         holder.From.setText(barberSlotModel.getFrom_time());
         holder.To.setText(barberSlotModel.getTo_time());
+        holder.date.setText(barberSlotModel.getBook_date());
 
         if (s.equals("edit")) {
             holder.Amount.setVisibility(View.VISIBLE);
@@ -56,7 +74,7 @@ public class BarberSlotAdapter extends RecyclerView.Adapter<BarberSlotAdapter.My
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView From, To, CustomerName, ServiceName, Amount;
+        TextView From, To, CustomerName, ServiceName, Amount, date;
         ImageView Delete;
 
         public MyViewHolder(@NonNull View itemView) {
@@ -67,6 +85,7 @@ public class BarberSlotAdapter extends RecyclerView.Adapter<BarberSlotAdapter.My
             ServiceName = itemView.findViewById(R.id.service_name);
             Amount = itemView.findViewById(R.id.amount);
             Delete = itemView.findViewById(R.id.delete);
+            date = itemView.findViewById(R.id.date);
         }
     }
 }

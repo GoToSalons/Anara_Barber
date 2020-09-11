@@ -145,6 +145,147 @@ public class RequestResponseManager {
         });
     }
 
+    public static void deleteBarber(JSONObject parameters, int requestCode, OnResponseListener onResponseListener) {
+        ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+        Call<String> call = apiInterface.deleteBarber(parameters.toString());
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
+
+                try {
+                    Log.e("tag", " = =  = call n = = = " + response.body());
+                    Object object = invokeParser(response.body(), requestCode);
+                    onResponseListener.onResponse(object);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
+
+                Log.e("tag", " = =  = call error = = = " + t.getMessage());
+                onResponseListener.onResponse(null);
+
+            }
+        });
+    }
+
+    public static void getBarberBooking(JSONObject parameters, int requestCode, OnResponseListener onResponseListener) {
+        ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+        Call<String> call = apiInterface.getBarberBookings(parameters.toString());
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
+
+                try {
+                    Log.e("tag", " = =  = call n = = = " + response.body());
+                    Object object = invokeParser(response.body(), requestCode);
+                    onResponseListener.onResponse(object);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
+
+                Log.e("tag", " = =  = call error = = = " + t.getMessage());
+                onResponseListener.onResponse(null);
+
+            }
+        });
+    }
+
+
+    public static void addBarber(JSONObject parameters, int requestCode, OnResponseListener onResponseListener) {
+        ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+        Call<String> call = apiInterface.addBarber(parameters.toString());
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
+
+                try {
+                    Log.e("tag", " = =  = call n = = = " + response.body());
+                    Object object = invokeParser(response.body(), requestCode);
+                    onResponseListener.onResponse(object);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
+
+                Log.e("tag", " = =  = call error = = = " + t.getMessage());
+                onResponseListener.onResponse(null);
+
+            }
+        });
+    }
+
+    public static void addBarberSchedule(JSONObject parameters, int requestCode, OnResponseListener onResponseListener) {
+        ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+        Call<String> call = apiInterface.addBarberSchedule(parameters.toString());
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
+
+                try {
+                    Log.e("tag", " = =  = call schedule n = = = " + response.body());
+                    Object object = invokeParser(response.body(), requestCode);
+                    onResponseListener.onResponse(object);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
+
+                Log.e("tag", " = =  = call error = = = " + t.getMessage());
+                onResponseListener.onResponse(null);
+
+            }
+        });
+    }
+
+    public static void addBarberScheduleBreak(JSONObject parameters, int requestCode, OnResponseListener onResponseListener) {
+        ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+        Call<String> call = apiInterface.addBarberScheduleBreak(parameters.toString());
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
+
+                try {
+                    Log.e("tag", " = =  = call break n = = = " + response.body());
+                    Object object = invokeParser(response.body(), requestCode);
+                    onResponseListener.onResponse(object);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
+
+                Log.e("tag", " = =  = call error = = = " + t.getMessage());
+                onResponseListener.onResponse(null);
+
+            }
+        });
+    }
+
     public static Object invokeParser(String response, int requestType) {
         if (requestType == Const.Saloon_Register_Request) {
             return Parser.getHomePageResponse(response);
@@ -157,6 +298,10 @@ public class RequestResponseManager {
         } else if (requestType == Const.Barber_Income_Request) {
             return Parser.getHomePageResponse(response);
         } else if (requestType == Const.Login_Barber_Request) {
+            return Parser.getHomePageResponse(response);
+        } else if (requestType == Const.Delete_Barber_Request) {
+            return Parser.getHomePageResponse(response);
+        } else if (requestType == Const.Add_Barber_Request) {
             return Parser.getHomePageResponse(response);
         }
         return null;

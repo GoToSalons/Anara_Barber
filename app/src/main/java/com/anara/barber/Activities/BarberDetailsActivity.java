@@ -53,14 +53,23 @@ public class BarberDetailsActivity extends AppCompatActivity implements AddBarbe
     // progress dialog
     ProgressDialog progressDialog;
 
+
+    String barberAction;
+
+    PrefManager prefManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_barber_details);
 
-        salonModel = getIntent().getParcelableExtra(Const.SALOON_DATA_KEY);
-        ownerModel = getIntent().getParcelableExtra(Const.OWNER_DATA_KEY);
+        prefManager = new PrefManager(this);
 
+        barberAction = getIntent().getStringExtra("barber_action");
+        if (barberAction != null && barberAction.equals("new")) {
+            salonModel = getIntent().getParcelableExtra(Const.SALOON_DATA_KEY);
+            ownerModel = getIntent().getParcelableExtra(Const.OWNER_DATA_KEY);
+        }
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please wait......");
         progressDialog.setCancelable(false);
@@ -69,17 +78,20 @@ public class BarberDetailsActivity extends AppCompatActivity implements AddBarbe
         addBarberItems.add(new AddBarberItem());
 
         recyclerView = findViewById(R.id.recycler_view_barbers);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        addBarberAdapter = new AddBarberAdapter(addBarberItems, this);
+        addBarberAdapter = new AddBarberAdapter(addBarberItems, this, barberAction);
         recyclerView.setAdapter(addBarberAdapter);
 
         addBarberAdapter.setOnImageClick(this);
 
         findViewById(R.id.continue_button).setOnClickListener(view -> {
-//            Intent intent = new Intent(BarberDetailsActivity.this, MainActivityOwner.class);
-//            startActivity(intent);
             progressDialog.show();
-            registerBarberWithFullData();
+            if (barberAction != null && barberAction.equals("new")) {
+                registerBarberWithFullData();
+            } else {
+                addBarber();
+            }
         });
 
     }
@@ -162,6 +174,8 @@ public class BarberDetailsActivity extends AppCompatActivity implements AddBarbe
                         Toast.makeText(this, "" + baseRs.getMessage(), Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(this, ChooseActivity.class));
                         finish();
+                    } else {
+                        Toast.makeText(this, ""+baseRs.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                     Log.e("tag", " = =  = call = = = " + baseRs.getStatus());
                 }
@@ -176,6 +190,49 @@ public class BarberDetailsActivity extends AppCompatActivity implements AddBarbe
                 progressDialog.dismiss();
             }
         }
+    }
+
+    private void addBarber() {
+
+        try {
+
+            ArrayList<AddBarberItem> barberItems = addBarberAdapter.getAddBarberItems();
+
+            JSONObject barberJsonObject = new JSONObject();
+
+            barberJsonObject.put("saloon_id", "21");
+//            barberJsonObject.put("saloon_id", prefManager.getString(Const.SALON_ID,""));
+            AddBarberItem addBarberItem = barberItems.get(0);
+            barberJsonObject.put("name", ((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(0)).itemView.findViewById(R.id.barber_name)).getText().toString());
+            barberJsonObject.put("email", ((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(0)).itemView.findViewById(R.id.e_mail)).getText().toString());
+            barberJsonObject.put("mobile", ((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(0)).itemView.findViewById(R.id.phone_number)).getText().toString());
+            barberJsonObject.put("exp_year", ((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(0)).itemView.findViewById(R.id.exp_yrs)).getText().toString());
+            barberJsonObject.put("exp_month", ((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(0)).itemView.findViewById(R.id.exp_mon)).getText().toString());
+            barberJsonObject.put("barber_profile", Const.getBase64ImageFromBitmap(addBarberItem.getBarber_profile()));
+
+            Log.e("tag"," = = =  = mm m  ===  " + barberJsonObject.toString());
+            RequestResponseManager.addBarber(barberJsonObject, Const.Saloon_Register_Request, response -> {
+                if (response != null) {
+                    BaseRs baseRs = (BaseRs) response;
+                    if (baseRs.getStatus().equals("success")) {
+                        Toast.makeText(this, ""+baseRs.getMessage(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, ""+baseRs.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                    Log.e("tag", " = =  = call = = = " + baseRs.getStatus());
+                }
+                if (progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+            });
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            if (progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
+        }
+
     }
 
     @Override
@@ -234,5 +291,6 @@ public class BarberDetailsActivity extends AppCompatActivity implements AddBarbe
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(i, 21);
     }
+
 
 }

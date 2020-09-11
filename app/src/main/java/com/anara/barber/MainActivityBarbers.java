@@ -56,20 +56,17 @@ public class MainActivityBarbers extends AppCompatActivity {
 
 
         TextView textView = findViewById(R.id.manage_bookings);
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivityBarbers.this);
-                datePickerDialog.show(getSupportFragmentManager(), "date");
-            }
+        textView.setOnClickListener(view -> {
+            DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivityBarbers.this);
+            datePickerDialog.show(getSupportFragmentManager(), "date");
         });
 
 
         try {
             JSONObject jsonObject = new JSONObject();
 
-            jsonObject.put("barber_id","30");
-            jsonObject.put("date","06-09-2020");
+            jsonObject.put("barber_id", "30");
+            jsonObject.put("date", "06-09-2020");
 
             RequestResponseManager.getBarberIncome(jsonObject, Const.Barber_Income_Request, response -> {
                 if (response != null) {
@@ -87,12 +84,9 @@ public class MainActivityBarbers extends AppCompatActivity {
                         monthlyEarning.setText(salonEarningsRS.getMonth_earning());
                         yearlyEarning.setText(salonEarningsRS.getYear_earning());
 
-                        BarberSlotAdapter barberSlotAdapter = new BarberSlotAdapter(baseRs.getBarberSlotsRS(), "edit");
-                        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivityBarbers.this));
-                        recyclerView.setAdapter(barberSlotAdapter);
 
                     } else {
-                        Toast.makeText(this, "Try Again", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "" + baseRs.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
                 if (progressDialog.isShowing()) {
@@ -102,6 +96,37 @@ public class MainActivityBarbers extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
+        getBarberBookings();
+
+    }
+
+    private void getBarberBookings() {
+        try {
+            JSONObject jsonObject = new JSONObject();
+
+            jsonObject.put("barber_id", "30");
+
+            RequestResponseManager.getBarberBooking(jsonObject, Const.Barber_Income_Request, response -> {
+                if (response != null) {
+                    BaseRs baseRs = (BaseRs) response;
+                    if (baseRs.getStatus().equals("success")) {
+                        BarberSlotAdapter barberSlotAdapter = new BarberSlotAdapter(baseRs.getBookingListRS(), "edit");
+                        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivityBarbers.this));
+                        recyclerView.setAdapter(barberSlotAdapter);
+                    } else {
+                        Toast.makeText(this, ""+baseRs.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+                if (progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

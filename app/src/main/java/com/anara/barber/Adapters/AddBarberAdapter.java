@@ -1,5 +1,6 @@
 package com.anara.barber.Adapters;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,11 +25,13 @@ public class AddBarberAdapter extends RecyclerView.Adapter<AddBarberAdapter.MyVi
 
     private ArrayList<AddBarberItem> addBarberItems;
     private BarberDetailsActivity barberDetailsActivity;
+    private String barberAction;
     private OnImageClick onImageClick;
 
-    public AddBarberAdapter(ArrayList<AddBarberItem> addBarberItems, BarberDetailsActivity barberDetailsActivity) {
+    public AddBarberAdapter(ArrayList<AddBarberItem> addBarberItems, BarberDetailsActivity barberDetailsActivity, String barberAction) {
         this.addBarberItems = addBarberItems;
         this.barberDetailsActivity = barberDetailsActivity;
+        this.barberAction = barberAction;
     }
 
     public void setOnImageClick(OnImageClick onImageClick) {
@@ -80,7 +83,19 @@ public class AddBarberAdapter extends RecyclerView.Adapter<AddBarberAdapter.MyVi
 
         }
 
+        @SuppressLint("SetTextI18n")
         public void bindData(AddBarberItem addBarberItem) {
+
+            switch (barberAction) {
+                case "new":
+                    add_barber.setVisibility(View.VISIBLE);
+                    add_barber.setText("Add Barber");
+                    break;
+                case "add":
+                    add_barber.setVisibility(View.GONE);
+                    add_barber.setText("Add Barber");
+                    break;
+            }
 
             barber_name.setText(addBarberItem.getName());
             e_mail.setText(addBarberItem.getEmail());
@@ -90,7 +105,7 @@ public class AddBarberAdapter extends RecyclerView.Adapter<AddBarberAdapter.MyVi
 
 //            barber_name.addTextChangedListener(th);
 
-            Log.e("tag"," = =  = = = kkk   = = = " + addBarberItem.getBarber_profile() );
+            Log.e("tag", " = =  = = = kkk   = = = " + addBarberItem.getBarber_profile());
             if (addBarberItem.getBarber_profile() != null) {
                 Glide.with(barberDetailsActivity)
                         .load(addBarberItem.getBarber_profile())
@@ -99,13 +114,16 @@ public class AddBarberAdapter extends RecyclerView.Adapter<AddBarberAdapter.MyVi
                 a1.setVisibility(View.GONE);
             }
 
-            im_layout.setOnClickListener(view -> onImageClick.onSelectImage(getAdapterPosition()));
-
+            im_layout.setOnClickListener(view -> {
+                onImageClick.onSelectImage(getAdapterPosition());
+            });
 
             add_barber.setOnClickListener(view -> {
-                AddBarberItem addBarberItem2 = new AddBarberItem();
-                addBarberItems.add(addBarberItem2);
-                notifyItemInserted(addBarberItems.size()-1);
+                if (barberAction.equals("new")) {
+                    AddBarberItem addBarberItem2 = new AddBarberItem();
+                    addBarberItems.add(addBarberItem2);
+                    notifyItemInserted(addBarberItems.size() - 1);
+                }
             });
 
         }

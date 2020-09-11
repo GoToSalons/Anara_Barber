@@ -14,11 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.anara.barber.Activities.ShowIncomeActivity;
 import com.anara.barber.ApiRS.BarbersRS;
 import com.anara.barber.MainActivityOwner;
-import com.anara.barber.Model.BarberModel;
 import com.anara.barber.R;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 
 import java.util.ArrayList;
 
@@ -29,10 +26,25 @@ public class BarbersAdapter extends RecyclerView.Adapter<BarbersAdapter.MyViewHo
 
     MainActivityOwner mainActivityOwner;
 
+    OnClick onClick;
+
+    boolean isDelete = false;
+
     public BarbersAdapter(MainActivityOwner mainActivityOwner, ArrayList<BarbersRS> barberModels) {
         this.barberModels = barberModels;
         this.mainActivityOwner = mainActivityOwner;
     }
+
+    public void setOnClick(OnClick onClick) {
+        this.onClick = onClick;
+    }
+
+    public void setDelete(boolean delete) {
+        isDelete = delete;
+        notifyDataSetChanged();
+    }
+
+
 
     @NonNull
     @Override
@@ -45,6 +57,12 @@ public class BarbersAdapter extends RecyclerView.Adapter<BarbersAdapter.MyViewHo
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         BarbersRS barberModel = barberModels.get(holder.getAdapterPosition());
 
+        if (isDelete) {
+            holder.delete_barber.setVisibility(View.VISIBLE);
+        } else {
+            holder.delete_barber.setVisibility(View.INVISIBLE);
+        }
+
         holder.barberName.setText(barberModel.getName());
         holder.monthEarning.setText(barberModel.getMonth_earning());
         holder.todayEarning.setText(barberModel.getToday_earning());
@@ -53,7 +71,16 @@ public class BarbersAdapter extends RecyclerView.Adapter<BarbersAdapter.MyViewHo
 
         holder.itemView.setOnClickListener(view -> {
             Intent intent = new Intent(mainActivityOwner, ShowIncomeActivity.class);
+            intent.putExtra("select_position", holder.getAdapterPosition());
+            intent.putExtra("barber_list", barberModels);
             mainActivityOwner.startActivity(intent);
+        });
+
+        holder.delete_barber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClick.onDelete(barberModel.getId(), holder.getAdapterPosition());
+            }
         });
 
     }
@@ -65,17 +92,23 @@ public class BarbersAdapter extends RecyclerView.Adapter<BarbersAdapter.MyViewHo
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView barberImage;
+        ImageView barberImage, delete_barber;
         TextView barberName, monthEarning, todayEarning;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             barberImage = itemView.findViewById(R.id.barber_image);
+            delete_barber = itemView.findViewById(R.id.delete_barber);
             barberName = itemView.findViewById(R.id.barber_name);
             monthEarning = itemView.findViewById(R.id.month_earning);
             todayEarning = itemView.findViewById(R.id.today_earning);
 
         }
     }
+
+    public interface OnClick {
+        void onDelete(int barberId, int adapterPosition);
+    }
+
 }

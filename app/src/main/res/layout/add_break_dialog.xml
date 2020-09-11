@@ -80,13 +80,13 @@
             android:background="@drawable/grey_mobile_number">
 
             <EditText
-                android:id="@+id/exp_yrs"
+                android:id="@+id/time_from"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_centerInParent="true"
                 android:layout_margin="3dp"
                 android:background="@null"
-                android:inputType="phone"
+                android:inputType="time"
                 android:paddingStart="10dp"
                 android:textColor="@color/colorBlack" />
 
@@ -101,13 +101,13 @@
             android:background="@drawable/grey_mobile_number">
 
             <EditText
-                android:id="@+id/exp_mon"
+                android:id="@+id/time_to"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_centerInParent="true"
                 android:layout_margin="3dp"
                 android:background="@null"
-                android:inputType="phone"
+                android:inputType="time"
                 android:paddingStart="10dp"
                 android:textColor="@color/colorBlack" />
 

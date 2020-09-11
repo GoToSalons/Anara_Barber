@@ -27,5 +27,26 @@ public interface ApiInterface {
     @POST("/admin/api/barbers/barber-income")
     Call<String> getBarberIncome(@Body String mobile);
 
+    @Headers({"Content-type: application/json"})
+    @POST("/admin/api/saloons/barber/save")
+    Call<String> addBarber(@Body String mobile);
+
+    @Headers({"Content-type: application/json"})
+    @POST("/admin/api/saloons/barber/delete")
+    Call<String> deleteBarber(@Body String mobile);
+
+
+    @Headers({"Content-type: application/json"})
+    @POST("/admin/api/barbers/booking-list")
+    Call<String> getBarberBookings(@Body String mobile);
+
+    @Headers({"Content-type: application/json"})
+    @POST("/admin/api/barbers/add-schedule")
+    Call<String> addBarberSchedule(@Body String mobile);
+
+
+    @Headers({"Content-type: application/json"})
+    @POST("/admin/api/barbers/add-break")
+    Call<String> addBarberScheduleBreak(@Body String mobile);
 
 }

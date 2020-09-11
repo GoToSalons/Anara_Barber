@@ -117,6 +117,14 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         }
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+    }
+
     private void sendVerificationCode(String mobileNumber) {
 
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
@@ -142,13 +150,16 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
     }
 
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
-
+        progressDialog.show();
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(OTPActivity.this, task -> {
                     if (task.isSuccessful()) {
                         if (loginType.equals(Const.LOGIN_TYPE_OWNER)) {
                             checkRegister();
                         } else {
+                            if (progressDialog.isShowing()) {
+                                progressDialog.dismiss();
+                            }
                             PrefManager prefManager = new PrefManager(this);
                             prefManager.setString(Const.isLoginBarber,"true");
                             Intent intent = new Intent(OTPActivity.this, MainActivityBarbers.class);
@@ -200,6 +211,9 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
             });
         } catch (JSONException e) {
             e.printStackTrace();
+            if (progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
         }
 
     }

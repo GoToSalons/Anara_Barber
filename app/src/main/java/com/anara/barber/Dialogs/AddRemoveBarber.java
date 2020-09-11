@@ -24,6 +24,7 @@ import java.util.Objects;
 public class AddRemoveBarber extends DialogFragment implements View.OnClickListener {
 
     MainActivityOwner mainActivity;
+
     public AddRemoveBarber(MainActivityOwner mainActivity) {
         this.mainActivity = mainActivity;
     }
@@ -64,11 +65,15 @@ public class AddRemoveBarber extends DialogFragment implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if (v.getId()==R.id.add_barber){
+            dismiss();
             Intent intent = new Intent(mainActivity, BarberDetailsActivity.class);
+            intent.putExtra("barber_action","add");
             startActivity(intent);
         }else if (v.getId()==R.id.remove_barber){
-            Intent intent = new Intent(mainActivity, BarberDetailsActivity.class);
-            startActivity(intent);
+            mainActivity.onBarberDelete();
+            dismiss();
         }
     }
+
+
 }

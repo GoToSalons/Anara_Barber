@@ -17,8 +17,6 @@
         android:layout_centerVertical="true">
 
 
-
-
         <TextView
             android:id="@+id/time_from"
             android:layout_width="wrap_content"
@@ -58,6 +56,7 @@
 
     <RelativeLayout
         android:id="@+id/rl2"
+        android:layout_toStartOf="@id/date_l"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -65,15 +64,17 @@
 
         <TextView
             android:id="@+id/Name"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Akim Kasmani"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:textColor="@color/colorBlack"
             android:textSize="20sp"/>
 
         <TextView
             android:id="@+id/service_name"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Hair Cut | Beard"
             android:textColor="@color/colorBlack"
@@ -81,16 +82,37 @@
 
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/amount"
+    <RelativeLayout
+        android:id="@+id/date_l"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="40dp"
+        android:layout_centerVertical="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="₹ 100"
-        android:layout_alignParentEnd="true"
-        android:textColor="@color/colorBlack"
-        android:layout_centerInParent="true"
-        android:layout_marginEnd="18dp"
-        />
+        android:layout_centerInParent="true">
+
+        <TextView
+            android:id="@+id/date"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="22-09-2020"
+            android:textColor="@color/colorBlack"/>
+
+        <TextView
+            android:id="@+id/amount"
+            android:layout_below="@id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="₹ 100"
+            android:textColor="@color/colorBlack"
+            android:layout_centerInParent="true"
+            />
+
+    </RelativeLayout>
+
+
 
     <ImageView
         android:id="@+id/delete"
@@ -98,8 +120,8 @@
         android:layout_height="24dp"
         android:layout_alignParentEnd="true"
         android:layout_centerInParent="true"
-        android:layout_marginEnd="18dp"
+        android:layout_marginEnd="12dp"
         android:src="@drawable/ic_baseline_delete_24"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
 
 </RelativeLayout>

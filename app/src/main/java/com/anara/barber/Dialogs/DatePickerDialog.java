@@ -3,11 +3,13 @@ package com.anara.barber.Dialogs;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,11 +23,20 @@ import com.github.jhonnyx2012.horizontalpicker.HorizontalPicker;
 
 import org.joda.time.DateTime;
 
+import java.util.Calendar;
 import java.util.Objects;
 
 public class DatePickerDialog extends DialogFragment implements DatePickerListener {
 
     MainActivityBarbers mainActivityBarbers;
+    HorizontalPicker picker;
+
+    private int myear;
+    private int mmonth;
+    private int mday;
+
+    private DateTime dateSelected;
+
     public DatePickerDialog(MainActivityBarbers mainActivityBarbers) {
         this.mainActivityBarbers = mainActivityBarbers;
     }
@@ -45,28 +56,44 @@ public class DatePickerDialog extends DialogFragment implements DatePickerListen
             int height = ViewGroup.LayoutParams.WRAP_CONTENT;
             Objects.requireNonNull(dialog.getWindow()).setLayout(width, height);
             Objects.requireNonNull(getDialog().getWindow()).setBackgroundDrawableResource(R.drawable.dialog_bg);
-            dialog.getWindow().setGravity(Gravity.CENTER_HORIZONTAL );
+            dialog.getWindow().setGravity(Gravity.CENTER_HORIZONTAL);
         }
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View contentView = inflater.inflate(R.layout.date_picker_dialog, container, false);
-        HorizontalPicker picker = (HorizontalPicker) contentView.findViewById(R.id.datePicker);
+
+        Calendar c = Calendar.getInstance();
+        myear = c.get(Calendar.YEAR);
+        mmonth = c.get(Calendar.MONTH);
+        mday = c.get(Calendar.DAY_OF_MONTH);
+        mmonth = mmonth + 1;
+
+        picker = (HorizontalPicker) contentView.findViewById(R.id.datePicker);
         picker.setListener(this).init();
-        RelativeLayout relativeLayout = contentView.findViewById(R.id.next);
-        relativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        picker.setDate(new DateTime().plusDays(1));
+
+        contentView.findViewById(R.id.next).setOnClickListener(view -> {
+            if (dateSelected.getDayOfMonth() < mday && dateSelected.getYear() == myear && dateSelected.getMonthOfYear() == mmonth) {
+                Toast.makeText(mainActivityBarbers, "Please select feature date", Toast.LENGTH_SHORT).show();
+            } else {
                 Intent intent = new Intent(mainActivityBarbers, FutureBookingActivity.class);
+                intent.putExtra("day", dateSelected.getDayOfMonth());
+                intent.putExtra("year", dateSelected.getYear());
+                intent.putExtra("month", dateSelected.getMonthOfYear());
                 mainActivityBarbers.startActivity(intent);
             }
         });
+
         return contentView;
     }
 
     @Override
     public void onDateSelected(DateTime dateSelected) {
+        this.dateSelected = dateSelected;
+        if (dateSelected.getDayOfMonth() < mday && dateSelected.getYear() == myear && dateSelected.getMonthOfYear() == mmonth)
+            picker.setDate(new DateTime().plusDays(0));
 
     }
 }

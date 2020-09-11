@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivityBarbers"
-    android:background="@color/colorWhite">
+    android:background="@color/colorWhite"
+    tools:context=".MainActivityBarbers">
 
     <RelativeLayout
         android:id="@+id/rl1"
@@ -16,147 +16,145 @@
             android:id="@+id/menu"
             android:layout_width="35dp"
             android:layout_height="35dp"
+            android:layout_alignParentEnd="true"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
             android:layout_marginEnd="12dp"
-            android:layout_alignParentEnd="true"/>
+            android:layout_marginBottom="10dp" />
 
 
     </RelativeLayout>
 
     <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/rl1">
+
+        <RelativeLayout
+            android:id="@+id/im_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/rl1">
+            android:layout_height="240dp">
 
-            <RelativeLayout
-                android:id="@+id/im_layout"
-                android:layout_width="match_parent"
-                android:layout_height="240dp">
-
-                <ImageView
-                    android:id="@+id/salon_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/main_page_image"/>
-
-                <TextView
-                    android:id="@+id/hey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Hey,"
-                    android:layout_marginTop="24dp"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="20sp"
-                    android:layout_marginStart="24dp"/>
-
-                <TextView
-                    android:id="@+id/name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/hey"
-                    android:text="Welcome to Anara "
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="24sp"
-                    android:layout_marginStart="24dp"
-                    android:textStyle="bold"
-                    />
-
-            </RelativeLayout>
-
-            <RelativeLayout
+            <ImageView
+                android:id="@+id/salon_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/im_layout"
-                android:layout_marginTop="-30dp"
-                android:background="@drawable/bg_main_screen">
+                android:src="@drawable/main_page_image" />
 
-                <TextView
-                    android:id="@+id/tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Please Choose Your Position"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="22sp"
-                    android:layout_marginTop="25dp"
-                    android:layout_marginStart="25dp"
-                    android:layout_marginBottom="25dp"/>
+            <TextView
+                android:id="@+id/hey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:text="Hey,"
+                android:textColor="@color/colorBlack"
+                android:textSize="20sp" />
 
-                <RelativeLayout
-                    android:id="@+id/main"
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/hey"
+                android:layout_marginStart="24dp"
+                android:text="Welcome to Anara "
+                android:textColor="@color/colorPrimary"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/im_layout"
+            android:layout_marginTop="-30dp"
+            android:background="@drawable/bg_main_screen">
+
+            <TextView
+                android:id="@+id/tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="25dp"
+                android:text="Please Choose Your Position"
+                android:textColor="@color/colorBlack"
+                android:textSize="22sp" />
+
+            <RelativeLayout
+                android:id="@+id/main"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/tv">
+
+                <LinearLayout
+                    android:id="@+id/ll1"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@+id/tv"
-                    >
-
-                    <LinearLayout
-                        android:id="@+id/ll1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:weightSum="2"
-                        android:layout_marginBottom="10dp">
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:weightSum="2">
 
 
-                        <RelativeLayout
-                            android:id="@+id/owner"
-                            android:layout_width="0dp"
-                            android:layout_height="150dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/main_screen_options"
-                            android:layout_marginStart="20dp"
-                            android:layout_marginEnd="10dp">
+                    <RelativeLayout
+                        android:id="@+id/owner"
+                        android:layout_width="0dp"
+                        android:layout_height="150dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/main_screen_options">
 
 
-                            <ImageView
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:src="@drawable/user"
-                                android:layout_margin="20dp"/>
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_margin="20dp"
+                            android:src="@drawable/user" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentBottom="true"
-                                android:text="Owner"
-                                android:layout_margin="20dp"
-                                android:textSize="18sp"
-                                android:textColor="@color/colorBlack"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_margin="20dp"
+                            android:text="Owner"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="18sp" />
 
-                        </RelativeLayout>
+                    </RelativeLayout>
 
-                        <RelativeLayout
-                            android:id="@+id/barbers"
-                            android:layout_width="0dp"
-                            android:layout_height="150dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/main_screen_options"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginEnd="20dp">
+                    <RelativeLayout
+                        android:id="@+id/barbers"
+                        android:layout_width="0dp"
+                        android:layout_height="150dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/main_screen_options">
 
-                            <ImageView
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:src="@drawable/teamwork"
-                                android:layout_margin="20dp"/>
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_margin="20dp"
+                            android:src="@drawable/teamwork" />
 
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentBottom="true"
-                                android:text="Barbers"
-                                android:layout_margin="20dp"
-                                android:textSize="18sp"
-                                android:textColor="@color/colorBlack"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_margin="20dp"
+                            android:text="Barbers"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="18sp" />
 
-                        </RelativeLayout>
+                    </RelativeLayout>
 
-                    </LinearLayout>
-
-                </RelativeLayout>
+                </LinearLayout>
 
             </RelativeLayout>
 
         </RelativeLayout>
+
+    </RelativeLayout>
 
 </RelativeLayout>

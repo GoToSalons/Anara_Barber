@@ -30,6 +30,17 @@ public class BaseRs {
     @SerializedName("today_slots")
     private ArrayList<BarberSlotsRS> barberSlotsRS;
 
+    @SerializedName("booking_list")
+    private ArrayList<BookingListRS> bookingListRS;
+
+    public ArrayList<BookingListRS> getBookingListRS() {
+        return bookingListRS;
+    }
+
+    public void setBookingListRS(ArrayList<BookingListRS> bookingListRS) {
+        this.bookingListRS = bookingListRS;
+    }
+
     public OwnerRS getOwnerRS() {
         return ownerRS;
     }
