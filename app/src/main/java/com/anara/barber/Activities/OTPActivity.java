@@ -169,6 +169,9 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
                             startActivity(intent);
                         }
                     } else {
+                        if (progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
                         Toast.makeText(OTPActivity.this, "Invalid Code", Toast.LENGTH_SHORT).show();
                     }
                 });
