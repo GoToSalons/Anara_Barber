@@ -106,6 +106,9 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         EditText[] edList = {ed1, ed2, ed3, ed4, ed5, ed6};
         CustomTextWatcher textWatcher = new CustomTextWatcher(edList, continueButton);
         for (EditText editText : edList) editText.addTextChangedListener(textWatcher);
+
+
+        findViewById(R.id.back_button).setOnClickListener(view -> finish());
     }
 
     @Override

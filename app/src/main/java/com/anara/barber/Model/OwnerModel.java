@@ -14,6 +14,7 @@ public class OwnerModel implements Serializable, Parcelable {
     String bank_name;
     String account_number;
     String ifsc_code;
+    String upi_id;
 
     public OwnerModel() {
     }
@@ -27,6 +28,7 @@ public class OwnerModel implements Serializable, Parcelable {
         bank_name = in.readString();
         account_number = in.readString();
         ifsc_code = in.readString();
+        upi_id = in.readString();
     }
 
     @Override
@@ -38,6 +40,7 @@ public class OwnerModel implements Serializable, Parcelable {
         dest.writeString(bank_name);
         dest.writeString(account_number);
         dest.writeString(ifsc_code);
+        dest.writeString(upi_id);
     }
 
     @Override
@@ -113,4 +116,15 @@ public class OwnerModel implements Serializable, Parcelable {
         this.ifsc_code = ifsc_code;
     }
 
+    public String getUpi_id() {
+        return upi_id;
+    }
+
+    public void setUpi_id(String upi_id) {
+        this.upi_id = upi_id;
+    }
+
+    public static Creator<OwnerModel> getCREATOR() {
+        return CREATOR;
+    }
 }

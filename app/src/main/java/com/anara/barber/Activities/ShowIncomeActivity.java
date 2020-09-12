@@ -75,6 +75,8 @@ public class ShowIncomeActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.back_button).setOnClickListener(view -> finish());
+
     }
 
     private void getBarbersIncome() {

@@ -124,6 +124,9 @@ public class SalonDetailsActivity extends AppCompatActivity implements View.OnCl
         next.setOnClickListener(this);
 
         add_service.setOnClickListener(this);
+
+        findViewById(R.id.back_button).setOnClickListener(view -> finish());
+
     }
 
 
@@ -241,6 +244,8 @@ public class SalonDetailsActivity extends AppCompatActivity implements View.OnCl
             Toast.makeText(this, "2 Photos Minimum", Toast.LENGTH_SHORT).show();
         } else if (salonType.equals("")) {
             Toast.makeText(this, "Select Salon Type", Toast.LENGTH_SHORT).show();
+        } else if (salonServices.size() < 1) {
+            Toast.makeText(this, "Add Service", Toast.LENGTH_SHORT).show();
         } else {
             salonModel.setSaloonName(name.getText().toString());
             salonModel.setSaloonAddress(address.getText().toString());

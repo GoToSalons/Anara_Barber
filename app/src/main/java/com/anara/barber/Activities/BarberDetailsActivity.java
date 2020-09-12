@@ -94,6 +94,8 @@ public class BarberDetailsActivity extends AppCompatActivity implements AddBarbe
             }
         });
 
+        findViewById(R.id.back_button).setOnClickListener(view -> finish());
+
     }
 
     private void registerBarberWithFullData() {
@@ -123,6 +125,7 @@ public class BarberDetailsActivity extends AppCompatActivity implements AddBarbe
             jsonObject.put("bank_name", ownerModel.getBank_name());
             jsonObject.put("account_number", ownerModel.getAccount_number());
             jsonObject.put("ifsc_code", ownerModel.getIfsc_code());
+            jsonObject.put("upi_id", ownerModel.getUpi_id());
             jsonObject.put("mobile", ownerModel.getOwnerNumber());
 //            jsonObject.put("mobile", "9973553344");
             jsonObject.put("owner_image", Const.getBase64ImageFromBitmap(ownerModel.getOwnerImages()));

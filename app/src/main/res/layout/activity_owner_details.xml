@@ -244,11 +244,47 @@
 
             </RelativeLayout>
 
+            <TextView
+                android:id="@+id/tv6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="UPI id"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginBottom="10dp"
+                android:layout_below="@+id/l5"/>
+
+            <RelativeLayout
+                android:id="@+id/l6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/grey_mobile_number"
+                android:layout_below="@id/tv6"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp">
+
+                <EditText
+                    android:id="@+id/upi_id"
+                    android:inputType="text"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:paddingStart="10dp"
+                    android:textColor="@color/colorBlack"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="3dp"
+                    />
+
+            </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/continue_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/l5"
+                android:layout_below="@+id/l6"
                 android:layout_marginTop="40dp"
                 android:background="@drawable/button_bg"
                 android:layout_marginStart="24dp"

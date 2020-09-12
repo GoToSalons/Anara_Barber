@@ -41,7 +41,7 @@ public class OwnerDetailsActivity extends AppCompatActivity implements View.OnCl
     // for owner data
     OwnerModel ownerModel;
 
-    EditText owner_name, e_mail, bank_name, account_number, ifsc_code;
+    EditText owner_name, e_mail, bank_name, account_number, ifsc_code, upi_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +56,7 @@ public class OwnerDetailsActivity extends AppCompatActivity implements View.OnCl
         bank_name = findViewById(R.id.bank_name);
         account_number = findViewById(R.id.account_number);
         ifsc_code = findViewById(R.id.ifsc_code);
+        upi_id = findViewById(R.id.upi_id);
 
         circleImageView = findViewById(R.id.profile_image);
         RelativeLayout continueButton = findViewById(R.id.continue_button);
@@ -63,6 +64,8 @@ public class OwnerDetailsActivity extends AppCompatActivity implements View.OnCl
 
         continueButton.setOnClickListener(this);
         circleImageView.setOnClickListener(this);
+
+        findViewById(R.id.back_button).setOnClickListener(view -> finish());
     }
 
     @Override
@@ -87,12 +90,21 @@ public class OwnerDetailsActivity extends AppCompatActivity implements View.OnCl
             Toast.makeText(this, "Enter valid email", Toast.LENGTH_SHORT).show();
         } else if (ownerImagePath.equals("")) {
             Toast.makeText(this, "select image", Toast.LENGTH_SHORT).show();
+        } else if (bank_name.getText().toString().equals("")) {
+            Toast.makeText(this, "Enter Bank Name", Toast.LENGTH_SHORT).show();
+        } else if (ifsc_code.getText().toString().equals("")) {
+            Toast.makeText(this, "Enter IFSC code", Toast.LENGTH_SHORT).show();
+        } else if (account_number.getText().toString().equals("")) {
+            Toast.makeText(this, "Enter your account number", Toast.LENGTH_SHORT).show();
+        } else if (upi_id.getText().toString().equals("")) {
+            Toast.makeText(this, "Enter your upi id", Toast.LENGTH_SHORT).show();
         } else {
             ownerModel.setOwnerName(owner_name.getText().toString());
             ownerModel.setOwnerEmailAddress(e_mail.getText().toString());
             ownerModel.setBank_name(bank_name.getText().toString());
             ownerModel.setAccount_number(account_number.getText().toString());
             ownerModel.setIfsc_code(ifsc_code.getText().toString());
+            ownerModel.setUpi_id(upi_id.getText().toString());
             ownerModel.setOwnerNumber(getIntent().getStringExtra("number"));
             ownerModel.setOwnerImages(ownerImagePath);
             Intent intent = new Intent(OwnerDetailsActivity.this, BarberDetailsActivity.class);

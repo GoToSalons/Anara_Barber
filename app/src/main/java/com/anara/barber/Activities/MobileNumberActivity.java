@@ -46,6 +46,8 @@ public class MobileNumberActivity extends AppCompatActivity {
         EditText phoneNumber = findViewById(R.id.phone_number);
         countryCodePicker.registerCarrierNumberEditText(phoneNumber);
 
+        findViewById(R.id.back_button).setOnClickListener(view -> finish());
+
         RelativeLayout next = findViewById(R.id.next);
         next.setOnClickListener(view -> {
             try {
@@ -74,6 +76,7 @@ public class MobileNumberActivity extends AppCompatActivity {
             jsonObject.put("mobile", countryCodePicker.getFullNumberWithPlus());
             Log.e("tag", " = =  = call = = = " + jsonObject.toString());
 
+            //7224909891
             RequestResponseManager.loginBarber(jsonObject, Const.Login_Barber_Request, response -> {
                 if (response != null) {
                     BaseRs baseRs = (BaseRs) response;

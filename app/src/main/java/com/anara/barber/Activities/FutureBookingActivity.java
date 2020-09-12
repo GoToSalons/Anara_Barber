@@ -84,6 +84,8 @@ public class FutureBookingActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.back_button).setOnClickListener(view -> finish());
+
     }
 
     private void addFeatureSlot() {
