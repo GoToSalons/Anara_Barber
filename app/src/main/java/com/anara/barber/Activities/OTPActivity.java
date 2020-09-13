@@ -165,8 +165,9 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
                             }
                             PrefManager prefManager = new PrefManager(this);
                             prefManager.setString(Const.isLoginBarber,"true");
-                            Intent intent = new Intent(OTPActivity.this, MainActivityBarbers.class);
+                            Intent intent = new Intent(OTPActivity.this, ChooseActivity.class);
                             startActivity(intent);
+                            finish();
                         }
                     } else {
                         if (progressDialog.isShowing()) {
@@ -191,9 +192,12 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
                         Intent intent = new Intent(OTPActivity.this, SalonDetailsActivity.class);
                         intent.putExtra("number", mobileNumber);
                         startActivity(intent);
+                        finish();
                     } else {
                         OwnerRS ownerRS = baseRs.getOwnerRS();
                         PrefManager prefManager = new PrefManager(this);
+                        prefManager.setString(Const.isLoginOwner,"true");
+                        prefManager.setString(Const.isOwnerRegister,"true");
                         prefManager.setString(Const.SALON_ID, ownerRS.getSaloon_id());
                         prefManager.setString(Const.SALON_NAME, ownerRS.getSaloon_name());
                         prefManager.setString(Const.OPEN_TIME, ownerRS.getOpen_time());
@@ -207,7 +211,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
                         prefManager.setString(Const.TWITTER, ownerRS.getTwitter());
                         prefManager.setString(Const.LATITUDE, ownerRS.getLatitude());
                         prefManager.setString(Const.LONGITUDE, ownerRS.getLogitude());
-                        Intent intent = new Intent(OTPActivity.this, MainActivityOwner.class);
+                        Intent intent = new Intent(OTPActivity.this, ChooseActivity.class);
                         startActivity(intent);
                     }
                 }

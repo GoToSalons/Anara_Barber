@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -18,6 +19,7 @@ import com.anara.barber.Apis.RequestResponseManager;
 import com.anara.barber.Dialogs.AddBreakDialog;
 import com.anara.barber.Model.AddBarberItem;
 import com.anara.barber.R;
+import com.anara.barber.utils.PrefManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -56,6 +58,20 @@ public class FutureBookingActivity extends AppCompatActivity {
 
         time_from = findViewById(R.id.time_from);
         time_to = findViewById(R.id.time_to);
+
+        time_from.setClickable(true);
+        time_from.setLongClickable(false);
+        time_from.setInputType(InputType.TYPE_NULL);
+
+        time_from.setOnClickListener(view -> Const.showTimePicker(this, time_from));
+
+        time_to.setClickable(true);
+        time_to.setLongClickable(false);
+        time_to.setInputType(InputType.TYPE_NULL);
+
+        time_to.setOnClickListener(view -> Const.showTimePicker(this, time_to));
+
+
 
         continue_button = findViewById(R.id.continue_button);
 
@@ -98,8 +114,9 @@ public class FutureBookingActivity extends AppCompatActivity {
                     + getIntent().getIntExtra("day",0);
 
             JSONObject barberJsonObject = new JSONObject();
+            PrefManager prefManager = new PrefManager(this);
 
-            barberJsonObject.put("barber_id", "21");
+            barberJsonObject.put("barber_id", prefManager.getString(Const.BARBER_ID,""));
             barberJsonObject.put("schedule_date", date);
             barberJsonObject.put("from_time", time_from.getText().toString());
             barberJsonObject.put("to_time", time_to.getText().toString());
@@ -139,8 +156,9 @@ public class FutureBookingActivity extends AppCompatActivity {
                     + getIntent().getIntExtra("day",0);
 
             JSONObject barberJsonObject = new JSONObject();
+            PrefManager prefManager = new PrefManager(this);
 
-            barberJsonObject.put("barber_id", "21");
+            barberJsonObject.put("barber_id", prefManager.getString(Const.BARBER_ID,""));
             barberJsonObject.put("break_date", date);
             barberJsonObject.put("from_time", fromTime);
             barberJsonObject.put("to_time", toTime);

@@ -24,6 +24,9 @@ public class BaseRs {
     @SerializedName("user")
     private OwnerRS ownerRS;
 
+    @SerializedName("saloon")
+    private OwnerRS saloon;
+
     @SerializedName("barbers")
     private ArrayList<BarbersRS> barbersRSArrayList;
 
@@ -43,6 +46,14 @@ public class BaseRs {
 
     public OwnerRS getOwnerRS() {
         return ownerRS;
+    }
+
+    public OwnerRS getSaloon() {
+        return saloon;
+    }
+
+    public void setSaloon(OwnerRS saloon) {
+        this.saloon = saloon;
     }
 
     public void setOwnerRS(OwnerRS ownerRS) {

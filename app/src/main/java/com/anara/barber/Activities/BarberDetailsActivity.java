@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.anara.barber.Adapters.AddBarberAdapter;
+import com.anara.barber.ApiRS.OwnerRS;
 import com.anara.barber.Apis.Const;
 import com.anara.barber.Apis.RequestResponseManager;
 import com.anara.barber.Model.AddBarberItem;
@@ -24,6 +25,7 @@ import com.anara.barber.Model.OwnerModel;
 import com.anara.barber.Model.SalonModel;
 import com.anara.barber.R;
 import com.anara.barber.utils.PrefManager;
+import com.hbb20.CountryCodePicker;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -106,7 +108,7 @@ public class BarberDetailsActivity extends AppCompatActivity implements AddBarbe
             jsonObject.put("saloon_name", salonModel.getSaloonName());
             jsonObject.put("street_address", salonModel.getSaloonAddress());
             jsonObject.put("open_time", salonModel.getOpen_time());
-            jsonObject.put("close_time", salonModel.getOpen_time());
+            jsonObject.put("close_time", salonModel.getClose_time());
             jsonObject.put("latitude", salonModel.getLatitude());
             jsonObject.put("logitude", salonModel.getLogitude());
             jsonObject.put("instagram", salonModel.getInstagram());
@@ -157,7 +159,7 @@ public class BarberDetailsActivity extends AppCompatActivity implements AddBarbe
                 JSONObject barberJsonObject = new JSONObject();
                 barberJsonObject.put("name", ((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(i)).itemView.findViewById(R.id.barber_name)).getText().toString());
                 barberJsonObject.put("email", ((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(i)).itemView.findViewById(R.id.e_mail)).getText().toString());
-                barberJsonObject.put("mobile", ((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(i)).itemView.findViewById(R.id.phone_number)).getText().toString());
+                barberJsonObject.put("mobile", ((CountryCodePicker) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(0)).itemView.findViewById(R.id.cpp)).getFullNumberWithPlus());
                 barberJsonObject.put("exp_year", ((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(i)).itemView.findViewById(R.id.exp_yrs)).getText().toString());
                 barberJsonObject.put("exp_month", ((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(i)).itemView.findViewById(R.id.exp_mon)).getText().toString());
                 barberJsonObject.put("barber_profile", Const.getBase64ImageFromBitmap(addBarberItem.getBarber_profile()));
@@ -174,13 +176,32 @@ public class BarberDetailsActivity extends AppCompatActivity implements AddBarbe
                         PrefManager prefManager = new PrefManager(this);
                         prefManager.setString(Const.isLoginOwner,"true");
                         prefManager.setString(Const.isOwnerRegister,"true");
+
+                        OwnerRS ownerRS = baseRs.getSaloon();
+                        prefManager.setString(Const.SALON_ID, ownerRS.getSaloon_id());
+                        prefManager.setString(Const.SALON_NAME, ownerRS.getSaloon_name());
+                        prefManager.setString(Const.OPEN_TIME, ownerRS.getOpen_time());
+                        prefManager.setString(Const.CLOSE_TIME, ownerRS.getClose_time());
+                        prefManager.setString(Const.SALON_TYPE, ownerRS.getSaloon_type());
+                        prefManager.setString(Const.CONTACT_NO, ownerRS.getContact_no());
+                        prefManager.setString(Const.STREET_ADDRESS, ownerRS.getStreet_address());
+                        prefManager.setString(Const.OWNER_IMAGE, ownerRS.getOwner_image());
+                        prefManager.setString(Const.INSTAGRAM, ownerRS.getInstagram());
+                        prefManager.setString(Const.FACEBOOK, ownerRS.getFacebook());
+                        prefManager.setString(Const.TWITTER, ownerRS.getTwitter());
+                        prefManager.setString(Const.LATITUDE, ownerRS.getLatitude());
+                        prefManager.setString(Const.LONGITUDE, ownerRS.getLogitude());
+
                         Toast.makeText(this, "" + baseRs.getMessage(), Toast.LENGTH_SHORT).show();
+
                         startActivity(new Intent(this, ChooseActivity.class));
                         finish();
                     } else {
                         Toast.makeText(this, ""+baseRs.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                     Log.e("tag", " = =  = call = = = " + baseRs.getStatus());
+                } else {
+                    Toast.makeText(this, "Server error Try again", Toast.LENGTH_SHORT).show();
                 }
                 if (progressDialog.isShowing()) {
                     progressDialog.dismiss();
@@ -203,15 +224,15 @@ public class BarberDetailsActivity extends AppCompatActivity implements AddBarbe
 
             JSONObject barberJsonObject = new JSONObject();
 
-            barberJsonObject.put("saloon_id", "21");
+            barberJsonObject.put("saloon_id", prefManager.getString(Const.SALON_ID,""));
 //            barberJsonObject.put("saloon_id", prefManager.getString(Const.SALON_ID,""));
             AddBarberItem addBarberItem = barberItems.get(0);
             barberJsonObject.put("name", ((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(0)).itemView.findViewById(R.id.barber_name)).getText().toString());
             barberJsonObject.put("email", ((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(0)).itemView.findViewById(R.id.e_mail)).getText().toString());
-            barberJsonObject.put("mobile", ((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(0)).itemView.findViewById(R.id.phone_number)).getText().toString());
+            barberJsonObject.put("mobile", ((CountryCodePicker) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(0)).itemView.findViewById(R.id.cpp)).getFullNumberWithPlus());
             barberJsonObject.put("exp_year", ((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(0)).itemView.findViewById(R.id.exp_yrs)).getText().toString());
             barberJsonObject.put("exp_month", ((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(0)).itemView.findViewById(R.id.exp_mon)).getText().toString());
-            barberJsonObject.put("barber_profile", Const.getBase64ImageFromBitmap(addBarberItem.getBarber_profile()));
+            barberJsonObject.put("profile_image", Const.getBase64ImageFromBitmap(addBarberItem.getBarber_profile()));
 
             Log.e("tag"," = = =  = mm m  ===  " + barberJsonObject.toString());
             RequestResponseManager.addBarber(barberJsonObject, Const.Saloon_Register_Request, response -> {
@@ -219,10 +240,13 @@ public class BarberDetailsActivity extends AppCompatActivity implements AddBarbe
                     BaseRs baseRs = (BaseRs) response;
                     if (baseRs.getStatus().equals("success")) {
                         Toast.makeText(this, ""+baseRs.getMessage(), Toast.LENGTH_SHORT).show();
+                        finish();
                     } else {
                         Toast.makeText(this, ""+baseRs.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                     Log.e("tag", " = =  = call = = = " + baseRs.getStatus());
+                } else {
+                    Toast.makeText(this, "server error try again", Toast.LENGTH_SHORT).show();
                 }
                 if (progressDialog.isShowing()) {
                     progressDialog.dismiss();
@@ -278,6 +302,11 @@ public class BarberDetailsActivity extends AppCompatActivity implements AddBarbe
             cursor.close();
 
             AddBarberItem addBarberItem = addBarberItems.get(barberPosition);
+            addBarberItem.setName(((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(0)).itemView.findViewById(R.id.barber_name)).getText().toString());
+            addBarberItem.setEmail(((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(0)).itemView.findViewById(R.id.e_mail)).getText().toString());
+            addBarberItem.setMobile(((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(0)).itemView.findViewById(R.id.phone_number)).getText().toString());
+            addBarberItem.setExp_year(((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(0)).itemView.findViewById(R.id.exp_yrs)).getText().toString());
+            addBarberItem.setExp_month(((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(0)).itemView.findViewById(R.id.exp_mon)).getText().toString());
             addBarberItem.setBarber_profile(picturePath);
             addBarberItems.remove(addBarberItems.get(barberPosition));
             addBarberItems.add(barberPosition, addBarberItem);

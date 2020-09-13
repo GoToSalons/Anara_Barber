@@ -183,7 +183,8 @@
 
         <TextView
             android:id="@+id/tv"
-            android:layout_width="wrap_content"
+            android:layout_toStartOf="@id/tv8"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Slots"
             android:textColor="@color/colorBlack"
@@ -196,9 +197,9 @@
             android:id="@+id/tv8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Working Hours:10:00 A to 1:00 PM"
+            android:text="Working Hours:10:00 AM to 1:00 PM"
             android:textColor="@color/colorBlack"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:layout_marginTop="25dp"
             android:layout_marginEnd="15dp"
             android:layout_marginBottom="15dp"

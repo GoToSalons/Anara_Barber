@@ -16,6 +16,7 @@ import com.anara.barber.Activities.BarberDetailsActivity;
 import com.anara.barber.Model.AddBarberItem;
 import com.anara.barber.R;
 import com.bumptech.glide.Glide;
+import com.hbb20.CountryCodePicker;
 
 import java.util.ArrayList;
 
@@ -67,6 +68,7 @@ public class AddBarberAdapter extends RecyclerView.Adapter<AddBarberAdapter.MyVi
         CircleImageView profile_image;
         View im_layout;
         ImageView a1;
+        CountryCodePicker countryCodePicker;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -80,6 +82,8 @@ public class AddBarberAdapter extends RecyclerView.Adapter<AddBarberAdapter.MyVi
             profile_image = itemView.findViewById(R.id.profile_image);
             im_layout = itemView.findViewById(R.id.im_layout);
             a1 = itemView.findViewById(R.id.a1);
+            countryCodePicker = itemView.findViewById(R.id.cpp);
+            countryCodePicker.registerCarrierNumberEditText(phone_number);
 
         }
 

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -22,7 +23,9 @@ import com.bumptech.glide.Glide;
 
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MainActivityOwner extends AppCompatActivity implements BarbersAdapter.OnClick {
 
@@ -30,7 +33,7 @@ public class MainActivityOwner extends AppCompatActivity implements BarbersAdapt
     // progress dialog
     ProgressDialog progressDialog;
 
-    TextView todayEarning, weeklyEarning, monthlyEarning, yearlyEarning, owner_name;
+    TextView todayEarning, weeklyEarning, monthlyEarning, yearlyEarning, owner_name, todayDate;
 
     // barber list
     RecyclerView recyclerView;
@@ -52,7 +55,14 @@ public class MainActivityOwner extends AppCompatActivity implements BarbersAdapt
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please wait......");
         progressDialog.setCancelable(false);
-        progressDialog.show();
+
+        todayDate = findViewById(R.id.tv2);
+
+        Calendar c = Calendar.getInstance();
+
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        String formattedDate = df.format(c.getTime());
+        todayDate.setText(formattedDate);
 
         owner_name = findViewById(R.id.owner_name);
         todayEarning = findViewById(R.id.today_earning);
@@ -69,7 +79,6 @@ public class MainActivityOwner extends AppCompatActivity implements BarbersAdapt
 
         Glide.with(MainActivityOwner.this).load(prefManager.getString(Const.OWNER_IMAGE, "")).into(imageView);
 
-
         ImageView menu = findViewById(R.id.menu);
         menu.setOnClickListener(view -> {
             AddRemoveBarber addRemoveBarber = new AddRemoveBarber(MainActivityOwner.this);
@@ -77,10 +86,22 @@ public class MainActivityOwner extends AppCompatActivity implements BarbersAdapt
         });
 
 
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        getSalonDetails();
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void getSalonDetails() {
+        progressDialog.show();
         try {
             JSONObject jsonObject = new JSONObject();
 
-            jsonObject.put("saloon_id", "21");
+            jsonObject.put("saloon_id", prefManager.getString(Const.SALON_ID,""));
 
             RequestResponseManager.getSalonIncome(jsonObject, Const.Saloon_Register_Request, response -> {
                 if (response != null) {
@@ -88,10 +109,10 @@ public class MainActivityOwner extends AppCompatActivity implements BarbersAdapt
                     if (baseRs.getStatus().equals("success")) {
                         barbersRS = baseRs.getBarbersRSArrayList();
                         SalonEarningsRS salonEarningsRS = baseRs.getSalonEarningsRS();
-                        todayEarning.setText(salonEarningsRS.getToday_earning());
-                        weeklyEarning.setText(salonEarningsRS.getWeek_earning());
-                        monthlyEarning.setText(salonEarningsRS.getMonth_earning());
-                        yearlyEarning.setText(salonEarningsRS.getYear_earning());
+                        todayEarning.setText("₹ "+salonEarningsRS.getToday_earning());
+                        weeklyEarning.setText("₹ "+salonEarningsRS.getWeek_earning());
+                        monthlyEarning.setText("₹ "+salonEarningsRS.getMonth_earning());
+                        yearlyEarning.setText("₹ "+salonEarningsRS.getYear_earning());
 
                         chooseBarbersAdapter = new BarbersAdapter(MainActivityOwner.this, barbersRS);
                         chooseBarbersAdapter.setOnClick(this);
@@ -125,8 +146,8 @@ public class MainActivityOwner extends AppCompatActivity implements BarbersAdapt
             JSONObject jsonObject = new JSONObject();
 
 //            jsonObject.put("barber_id", prefManager.getString(Const.SALON_ID, ""));
-            jsonObject.put("barber_id", "21");
-            jsonObject.put("saloon_id", barberId);
+            jsonObject.put("barber_id", barberId);
+            jsonObject.put("saloon_id", prefManager.getString(Const.SALON_ID, ""));
 
             RequestResponseManager.deleteBarber(jsonObject, Const.Delete_Barber_Request, response -> {
                 if (response != null) {

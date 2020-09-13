@@ -18,9 +18,13 @@ import com.anara.barber.ApiRS.SalonEarningsRS;
 import com.anara.barber.Apis.Const;
 import com.anara.barber.Apis.RequestResponseManager;
 import com.anara.barber.Dialogs.DatePickerDialog;
+import com.anara.barber.utils.PrefManager;
 import com.bumptech.glide.Glide;
 
 import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 
 public class MainActivityBarbers extends AppCompatActivity {
@@ -33,7 +37,7 @@ public class MainActivityBarbers extends AppCompatActivity {
 
     ImageView barberProfile;
 
-    TextView barber_name, todayEarning, weeklyEarning, monthlyEarning, yearlyEarning;
+    TextView barber_name, todayEarning, weeklyEarning, monthlyEarning, yearlyEarning, todayDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +57,14 @@ public class MainActivityBarbers extends AppCompatActivity {
         weeklyEarning = findViewById(R.id.weekly_earning);
         monthlyEarning = findViewById(R.id.monthly_earning);
         yearlyEarning = findViewById(R.id.yearly_earning);
+
+        todayDate = findViewById(R.id.tv2);
+
+        Calendar c = Calendar.getInstance();
+
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        String formattedDate = df.format(c.getTime());
+        todayDate.setText(formattedDate);
 
 
         TextView textView = findViewById(R.id.manage_bookings);
@@ -79,10 +91,10 @@ public class MainActivityBarbers extends AppCompatActivity {
                         Glide.with(MainActivityBarbers.this).load(barbersRS.getProfile_image()).into(barberProfile);
 
                         SalonEarningsRS salonEarningsRS = baseRs.getSalonEarningsRS();
-                        todayEarning.setText(salonEarningsRS.getToday_earning());
-                        weeklyEarning.setText(salonEarningsRS.getWeek_earning());
-                        monthlyEarning.setText(salonEarningsRS.getMonth_earning());
-                        yearlyEarning.setText(salonEarningsRS.getYear_earning());
+                        todayEarning.setText("₹ "+salonEarningsRS.getToday_earning());
+                        weeklyEarning.setText("₹ "+salonEarningsRS.getWeek_earning());
+                        monthlyEarning.setText("₹ "+salonEarningsRS.getMonth_earning());
+                        yearlyEarning.setText("₹ "+salonEarningsRS.getYear_earning());
 
 
                     } else {
@@ -105,8 +117,8 @@ public class MainActivityBarbers extends AppCompatActivity {
     private void getBarberBookings() {
         try {
             JSONObject jsonObject = new JSONObject();
-
-            jsonObject.put("barber_id", "30");
+            PrefManager prefManager = new PrefManager(this);
+            jsonObject.put("barber_id", prefManager.getString(Const.BARBER_ID,""));
 
             RequestResponseManager.getBarberBooking(jsonObject, Const.Barber_Income_Request, response -> {
                 if (response != null) {

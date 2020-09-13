@@ -108,7 +108,7 @@
                     android:id="@+id/today_earning"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="₹100"
+                    android:text="₹00"
                     android:textColor="@color/colorBlack"
                     android:layout_marginTop="5dp"
                     android:textStyle="bold"/>
@@ -135,7 +135,7 @@
                     android:id="@+id/weekly_earning"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="₹100"
+                    android:text="₹00"
                     android:textColor="@color/colorBlack"
                     android:layout_marginTop="5dp"
                     android:textStyle="bold"/>
@@ -162,7 +162,7 @@
                     android:id="@+id/monthly_earning"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="₹100"
+                    android:text="₹00"
                     android:textColor="@color/colorBlack"
                     android:layout_marginTop="5dp"
                     android:textStyle="bold"/>
@@ -187,7 +187,7 @@
                     android:id="@+id/yearly_earning"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="₹100"
+                    android:text="₹00"
                     android:textColor="@color/colorBlack"
                     android:layout_marginTop="5dp"
                     android:textStyle="bold"/>
@@ -205,7 +205,8 @@
 
             <TextView
                 android:id="@+id/tv"
-                android:layout_width="wrap_content"
+                android:layout_toStartOf="@id/manage_bookings"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Upcoming Bookings"
                 android:textColor="@color/colorBlack"

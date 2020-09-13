@@ -57,6 +57,7 @@ public class MobileNumberActivity extends AppCompatActivity {
                     intent.putExtra("mobile", countryCodePicker.getFullNumberWithPlus());
                     intent.putExtra(Const.LOGIN_TYPE_KEY, getIntent().getStringExtra(Const.LOGIN_TYPE_KEY));
                     startActivity(intent);
+                    finish();
                 } else {
                     checkBarberLogin();
                 }
@@ -95,6 +96,8 @@ public class MobileNumberActivity extends AppCompatActivity {
                     } else {
                         Toast.makeText(this, "Owner han't added to you a barber", Toast.LENGTH_SHORT).show();
                     }
+                } else {
+                    Toast.makeText(this, "Server error try again", Toast.LENGTH_SHORT).show();
                 }
                 if (progressDialog.isShowing()) {
                     progressDialog.dismiss();
