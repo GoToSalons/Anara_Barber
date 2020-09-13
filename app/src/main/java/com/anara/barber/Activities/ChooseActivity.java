@@ -2,11 +2,13 @@ package com.anara.barber.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.anara.barber.Apis.Const;
+import com.anara.barber.Dialogs.MainScreenDialog;
 import com.anara.barber.MainActivityBarbers;
 import com.anara.barber.MainActivityOwner;
 import com.anara.barber.R;
@@ -24,6 +26,14 @@ public class ChooseActivity extends AppCompatActivity {
         prefManager = new PrefManager(this);
         setContentView(R.layout.activity_choose);
         ImageView imageView = findViewById(R.id.salon_image);
+        ImageView menu = findViewById(R.id.menu);
+        menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainScreenDialog mainScreenDialog = new MainScreenDialog(ChooseActivity.this);
+                mainScreenDialog.show(getSupportFragmentManager(), "Main");
+            }
+        });
         Glide.with(imageView).load(R.drawable.main_page_image).centerCrop().into(imageView);
 
         findViewById(R.id.owner).setOnClickListener(view -> {
