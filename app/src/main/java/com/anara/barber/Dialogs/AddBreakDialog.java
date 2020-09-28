@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -60,6 +61,7 @@ public class AddBreakDialog extends DialogFragment {
 
         contentView.findViewById(R.id.continue_button).setOnClickListener(view -> {
             futureBookingActivity.addBreaks(time_from.getText().toString(), time_to.getText().toString());
+            Toast.makeText(futureBookingActivity, "Break Added", Toast.LENGTH_SHORT).show();
             dismiss();
         });
 

@@ -70,7 +70,7 @@ public class DatePickerDialog extends DialogFragment implements DatePickerListen
         mday = c.get(Calendar.DAY_OF_MONTH);
         mmonth = mmonth + 1;
 
-        picker = (HorizontalPicker) contentView.findViewById(R.id.datePicker);
+        picker = contentView.findViewById(R.id.datePicker);
         picker.setListener(this).init();
         picker.setDate(new DateTime().plusDays(1));
 

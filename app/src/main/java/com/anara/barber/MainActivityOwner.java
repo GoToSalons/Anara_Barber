@@ -40,7 +40,7 @@ public class MainActivityOwner extends AppCompatActivity implements BarbersAdapt
 
     ImageView imageView;
 
-    PrefManager prefManager;
+    public PrefManager prefManager;
 
     BarbersAdapter chooseBarbersAdapter;
 
@@ -84,8 +84,7 @@ public class MainActivityOwner extends AppCompatActivity implements BarbersAdapt
             AddRemoveBarber addRemoveBarber = new AddRemoveBarber(MainActivityOwner.this);
             addRemoveBarber.show(getSupportFragmentManager(), "Add");
         });
-
-
+        
 
     }
 
@@ -141,6 +140,7 @@ public class MainActivityOwner extends AppCompatActivity implements BarbersAdapt
     public void onDelete(int barberId, int adapterPosition) {
 
         progressDialog.show();
+
         try {
 
             JSONObject jsonObject = new JSONObject();

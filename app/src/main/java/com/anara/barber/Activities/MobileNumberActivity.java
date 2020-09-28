@@ -93,6 +93,7 @@ public class MobileNumberActivity extends AppCompatActivity {
                         intent.putExtra("mobile", countryCodePicker.getFullNumberWithPlus());
                         intent.putExtra(Const.LOGIN_TYPE_KEY, getIntent().getStringExtra(Const.LOGIN_TYPE_KEY));
                         startActivity(intent);
+                        finish();
                     } else {
                         Toast.makeText(this, "Owner han't added to you a barber", Toast.LENGTH_SHORT).show();
                     }

@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.anara.barber.Activities.BarberDetailsActivity;
+import com.anara.barber.Apis.Const;
 import com.anara.barber.MainActivityOwner;
 import com.anara.barber.R;
 
@@ -24,6 +25,7 @@ import java.util.Objects;
 public class AddRemoveBarber extends DialogFragment implements View.OnClickListener {
 
     MainActivityOwner mainActivity;
+
 
     public AddRemoveBarber(MainActivityOwner mainActivity) {
         this.mainActivity = mainActivity;
@@ -58,6 +60,22 @@ public class AddRemoveBarber extends DialogFragment implements View.OnClickListe
         RelativeLayout removeBarber = contentView.findViewById(R.id.remove_barber);
         addBarber.setOnClickListener(this);
         removeBarber.setOnClickListener(this);
+
+        contentView.findViewById(R.id.back_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
+
+        contentView.findViewById(R.id.log_out).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mainActivity.prefManager.setString(Const.isLoginOwner,"false");
+                mainActivity.finish();
+                dismiss();
+            }
+        });
 
         return contentView;
     }

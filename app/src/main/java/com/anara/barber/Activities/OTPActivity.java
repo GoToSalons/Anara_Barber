@@ -192,7 +192,6 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
                         Intent intent = new Intent(OTPActivity.this, SalonDetailsActivity.class);
                         intent.putExtra("number", mobileNumber);
                         startActivity(intent);
-                        finish();
                     } else {
                         OwnerRS ownerRS = baseRs.getOwnerRS();
                         PrefManager prefManager = new PrefManager(this);
@@ -214,6 +213,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
                         Intent intent = new Intent(OTPActivity.this, ChooseActivity.class);
                         startActivity(intent);
                     }
+                    finish();
                 }
                 if (progressDialog.isShowing()) {
                     progressDialog.dismiss();

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
@@ -39,11 +40,15 @@ public class MainActivityBarbers extends AppCompatActivity {
 
     TextView barber_name, todayEarning, weeklyEarning, monthlyEarning, yearlyEarning, todayDate;
 
+    PrefManager prefManager;
+
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        prefManager = new PrefManager(this);
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please wait......");
         progressDialog.setCancelable(false);
@@ -60,6 +65,10 @@ public class MainActivityBarbers extends AppCompatActivity {
 
         todayDate = findViewById(R.id.tv2);
 
+        barber_name.setText(prefManager.getString(Const.BARBER_NAME, ""));
+
+        Glide.with(this).load(prefManager.getString(Const.BARBER_IMAGE, "")).into(barberProfile);
+
         Calendar c = Calendar.getInstance();
 
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
@@ -73,12 +82,16 @@ public class MainActivityBarbers extends AppCompatActivity {
             datePickerDialog.show(getSupportFragmentManager(), "date");
         });
 
+        findViewById(R.id.log_out).setOnClickListener(view -> {
+            prefManager.setString(Const.isLoginBarber,"false");
+            finish();
+        });
 
         try {
             JSONObject jsonObject = new JSONObject();
 
-            jsonObject.put("barber_id", "30");
-            jsonObject.put("date", "06-09-2020");
+            jsonObject.put("barber_id", prefManager.getString(Const.BARBER_ID,""));
+            jsonObject.put("date", formattedDate);
 
             RequestResponseManager.getBarberIncome(jsonObject, Const.Barber_Income_Request, response -> {
                 if (response != null) {
