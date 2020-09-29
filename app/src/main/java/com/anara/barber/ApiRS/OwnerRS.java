@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class OwnerRS implements Serializable {
 
-    private String saloon_id;
+    private long saloon_id;
     private String saloon_name;
     private String open_time;
     private String close_time;
@@ -24,11 +24,11 @@ public class OwnerRS implements Serializable {
     private String mobile;
     private String profile_image;
 
-    public String getSaloon_id() {
+    public long getSaloon_id() {
         return saloon_id;
     }
 
-    public void setSaloon_id(String saloon_id) {
+    public void setSaloon_id(long saloon_id) {
         this.saloon_id = saloon_id;
     }
 

@@ -28,7 +28,8 @@ public class AddServiceDialog extends DialogFragment implements View.OnClickList
 
     private EditText service_name, description, hours, mins, price;
     private RadioButton hair, beard_skin, beauty, others;
-    private String serviceId = "";
+    private String serviceId = "1";
+    private String serviceCategory = "Hair";
 
     private AddService addService;
 
@@ -105,28 +106,33 @@ public class AddServiceDialog extends DialogFragment implements View.OnClickList
             salonService.setHours(hours.getText().toString());
             salonService.setMinutes(mins.getText().toString());
             salonService.setService_id(serviceId);
+            salonService.setService_category(serviceCategory);
             addService.onAddServiceClick(salonService);
             dismiss();
         } else if (v.getId() == R.id.hair) {
             serviceId = "1";
+            serviceCategory = "Hair";
             hair.setChecked(true);
             beard_skin.setChecked(false);
             beauty.setChecked(false);
             others.setChecked(false);
         } else if (v.getId() == R.id.beard_skin) {
             serviceId = "2";
+            serviceCategory = "Beard and Skin";
             hair.setChecked(false);
             beard_skin.setChecked(true);
             beauty.setChecked(false);
             others.setChecked(false);
         } else if (v.getId() == R.id.beauty) {
             serviceId = "3";
+            serviceCategory = "Beauty";
             hair.setChecked(false);
             beard_skin.setChecked(false);
             beauty.setChecked(true);
             others.setChecked(false);
         } else if (v.getId() == R.id.others) {
             serviceId = "4";
+            serviceCategory = "Others";
             hair.setChecked(false);
             beard_skin.setChecked(false);
             beauty.setChecked(false);

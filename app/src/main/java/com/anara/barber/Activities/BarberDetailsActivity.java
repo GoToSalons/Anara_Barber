@@ -39,7 +39,7 @@ public class BarberDetailsActivity extends AppCompatActivity implements AddBarbe
     // select image position
     int barberPosition = 0;
     // add barber model class
-    ArrayList<AddBarberItem> addBarberItems;
+    public ArrayList<AddBarberItem> addBarberItems;
     // add barber details adapter
     AddBarberAdapter addBarberAdapter;
     // add barber Recyclerview
@@ -178,7 +178,8 @@ public class BarberDetailsActivity extends AppCompatActivity implements AddBarbe
                         prefManager.setString(Const.isOwnerRegister,"true");
 
                         OwnerRS ownerRS = baseRs.getSaloon();
-                        prefManager.setString(Const.SALON_ID, ownerRS.getSaloon_id());
+
+                        prefManager.setString(Const.SALON_ID, String.valueOf(ownerRS.getSaloon_id()));
                         prefManager.setString(Const.SALON_NAME, ownerRS.getSaloon_name());
                         prefManager.setString(Const.OPEN_TIME, ownerRS.getOpen_time());
                         prefManager.setString(Const.CLOSE_TIME, ownerRS.getClose_time());
@@ -302,11 +303,11 @@ public class BarberDetailsActivity extends AppCompatActivity implements AddBarbe
             cursor.close();
 
             AddBarberItem addBarberItem = addBarberItems.get(barberPosition);
-            addBarberItem.setName(((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(0)).itemView.findViewById(R.id.barber_name)).getText().toString());
-            addBarberItem.setEmail(((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(0)).itemView.findViewById(R.id.e_mail)).getText().toString());
-            addBarberItem.setMobile(((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(0)).itemView.findViewById(R.id.phone_number)).getText().toString());
-            addBarberItem.setExp_year(((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(0)).itemView.findViewById(R.id.exp_yrs)).getText().toString());
-            addBarberItem.setExp_month(((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(0)).itemView.findViewById(R.id.exp_mon)).getText().toString());
+            addBarberItem.setName(((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(barberPosition)).itemView.findViewById(R.id.barber_name)).getText().toString());
+            addBarberItem.setEmail(((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(barberPosition)).itemView.findViewById(R.id.e_mail)).getText().toString());
+            addBarberItem.setMobile(((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(barberPosition)).itemView.findViewById(R.id.phone_number)).getText().toString());
+            addBarberItem.setExp_year(((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(barberPosition)).itemView.findViewById(R.id.exp_yrs)).getText().toString());
+            addBarberItem.setExp_month(((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(barberPosition)).itemView.findViewById(R.id.exp_mon)).getText().toString());
             addBarberItem.setBarber_profile(picturePath);
             addBarberItems.remove(addBarberItems.get(barberPosition));
             addBarberItems.add(barberPosition, addBarberItem);

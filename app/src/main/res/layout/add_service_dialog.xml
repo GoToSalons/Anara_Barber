@@ -258,6 +258,8 @@
             <RadioButton
                 android:id="@+id/hair"
                 android:layout_width="0dp"
+                android:checked="true"
+                android:textSize="12sp"
                 android:layout_height="wrap_content"
                 android:text="Hair"
                 android:layout_weight="1"/>
@@ -265,6 +267,7 @@
             <RadioButton
                 android:id="@+id/beard_skin"
                 android:layout_width="0dp"
+                android:textSize="12sp"
                 android:layout_height="wrap_content"
                 android:text="Beard and Skin"
                 android:layout_weight="1"
@@ -282,6 +285,7 @@
         <RadioButton
             android:id="@+id/beauty"
             android:layout_width="0dp"
+            android:textSize="12sp"
             android:layout_height="wrap_content"
             android:text="Beauty"
             android:layout_weight="1"/>
@@ -289,6 +293,7 @@
         <RadioButton
             android:id="@+id/others"
             android:layout_width="0dp"
+            android:textSize="12sp"
             android:layout_height="wrap_content"
             android:text="Others"
             android:layout_weight="1"/>

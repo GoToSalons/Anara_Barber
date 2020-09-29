@@ -26,7 +26,10 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.anara.barber.Adapters.ServiceAdapter;
 import com.anara.barber.Apis.Const;
 import com.anara.barber.Dialogs.AddServiceDialog;
 import com.anara.barber.Model.SalonModel;
@@ -61,6 +64,8 @@ public class SalonDetailsActivity extends AppCompatActivity implements View.OnCl
 
     ArrayList<SalonModel.SalonService> salonServices = new ArrayList<>();
 
+    ServiceAdapter serviceAdapter;
+    RecyclerView recyclerViewService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +73,12 @@ public class SalonDetailsActivity extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.activity_salon_details);
 
         salonNumber = getIntent().getStringExtra("number");
+
+        recyclerViewService = findViewById(R.id.service_recycler_view);
+
+        serviceAdapter = new ServiceAdapter(salonServices);
+        recyclerViewService.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewService.setAdapter(serviceAdapter);
 
         RelativeLayout iml1, iml2, iml3, iml4, next;
 
@@ -128,7 +139,6 @@ public class SalonDetailsActivity extends AppCompatActivity implements View.OnCl
         findViewById(R.id.back_button).setOnClickListener(view -> finish());
 
     }
-
 
 
     @Override
@@ -299,5 +309,6 @@ public class SalonDetailsActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onAddServiceClick(SalonModel.SalonService salonService) {
         salonServices.add(salonService);
+        serviceAdapter.notifyItemInserted(salonServices.size() - 1);
     }
 }

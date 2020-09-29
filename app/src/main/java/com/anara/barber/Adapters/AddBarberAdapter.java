@@ -64,7 +64,7 @@ public class AddBarberAdapter extends RecyclerView.Adapter<AddBarberAdapter.MyVi
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         EditText barber_name, e_mail, phone_number, exp_yrs, exp_mon;
-        TextView add_barber;
+        TextView add_barber, remove_barber;
         CircleImageView profile_image;
         View im_layout;
         ImageView a1;
@@ -79,6 +79,7 @@ public class AddBarberAdapter extends RecyclerView.Adapter<AddBarberAdapter.MyVi
             exp_yrs = itemView.findViewById(R.id.exp_yrs);
             exp_mon = itemView.findViewById(R.id.exp_mon);
             add_barber = itemView.findViewById(R.id.add_barber);
+            remove_barber = itemView.findViewById(R.id.remove_barber);
             profile_image = itemView.findViewById(R.id.profile_image);
             im_layout = itemView.findViewById(R.id.im_layout);
             a1 = itemView.findViewById(R.id.a1);
@@ -90,6 +91,11 @@ public class AddBarberAdapter extends RecyclerView.Adapter<AddBarberAdapter.MyVi
         @SuppressLint("SetTextI18n")
         public void bindData(AddBarberItem addBarberItem) {
 
+            if (addBarberItems.size() == 1) {
+                remove_barber.setVisibility(View.GONE);
+            } else {
+                remove_barber.setVisibility(View.VISIBLE);
+            }
             switch (barberAction) {
                 case "new":
                     add_barber.setVisibility(View.VISIBLE);
@@ -128,6 +134,11 @@ public class AddBarberAdapter extends RecyclerView.Adapter<AddBarberAdapter.MyVi
                     addBarberItems.add(addBarberItem2);
                     notifyItemInserted(addBarberItems.size() - 1);
                 }
+            });
+
+            remove_barber.setOnClickListener(view -> {
+                addBarberItems.remove(getAdapterPosition() + 1);
+                notifyItemRemoved(getAdapterPosition());
             });
 
         }

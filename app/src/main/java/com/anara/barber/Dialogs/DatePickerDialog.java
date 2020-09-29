@@ -83,6 +83,7 @@ public class DatePickerDialog extends DialogFragment implements DatePickerListen
                 intent.putExtra("year", dateSelected.getYear());
                 intent.putExtra("month", dateSelected.getMonthOfYear());
                 mainActivityBarbers.startActivity(intent);
+                dismiss();
             }
         });
 

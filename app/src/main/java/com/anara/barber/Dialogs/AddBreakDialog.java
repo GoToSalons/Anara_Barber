@@ -61,7 +61,6 @@ public class AddBreakDialog extends DialogFragment {
 
         contentView.findViewById(R.id.continue_button).setOnClickListener(view -> {
             futureBookingActivity.addBreaks(time_from.getText().toString(), time_to.getText().toString());
-            Toast.makeText(futureBookingActivity, "Break Added", Toast.LENGTH_SHORT).show();
             dismiss();
         });
 

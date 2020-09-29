@@ -142,7 +142,11 @@ public class FutureBookingActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     public void addBreaks(String fromTime, String toTime) {
+        Toast.makeText(this, "Break Added", Toast.LENGTH_SHORT).show();
+        findViewById(R.id.break_l).setVisibility(View.VISIBLE);
+        ((TextView) findViewById(R.id.break_text)).setText("breaks between " + fromTime + " to " + toTime);
         fromTimeBreak = fromTime;
         toTimeBreak = toTime;
     }
@@ -168,6 +172,7 @@ public class FutureBookingActivity extends AppCompatActivity {
                     BaseRs baseRs = (BaseRs) response;
                     if (baseRs.getStatus().equals("success")) {
                         Toast.makeText(this, ""+baseRs.getMessage(), Toast.LENGTH_SHORT).show();
+                        finish();
                     } else {
                         Toast.makeText(this, ""+baseRs.getMessage(), Toast.LENGTH_SHORT).show();
                     }

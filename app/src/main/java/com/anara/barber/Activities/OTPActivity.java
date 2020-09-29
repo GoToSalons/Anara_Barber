@@ -90,7 +90,9 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         loginType = intent.getStringExtra(Const.LOGIN_TYPE_KEY);
         mAuth = FirebaseAuth.getInstance();
         sendVerificationCode(mobileNumber);
-
+//        Intent intent2 = new Intent(OTPActivity.this, SalonDetailsActivity.class);
+//        intent2.putExtra("number", mobileNumber);
+//        startActivity(intent2);
         ed1 = findViewById(R.id.ed1);
         ed2 = findViewById(R.id.ed2);
         ed3 = findViewById(R.id.ed3);
@@ -197,7 +199,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
                         PrefManager prefManager = new PrefManager(this);
                         prefManager.setString(Const.isLoginOwner,"true");
                         prefManager.setString(Const.isOwnerRegister,"true");
-                        prefManager.setString(Const.SALON_ID, ownerRS.getSaloon_id());
+                        prefManager.setString(Const.SALON_ID, String.valueOf(ownerRS.getSaloon_id()));
                         prefManager.setString(Const.SALON_NAME, ownerRS.getSaloon_name());
                         prefManager.setString(Const.OPEN_TIME, ownerRS.getOpen_time());
                         prefManager.setString(Const.CLOSE_TIME, ownerRS.getClose_time());

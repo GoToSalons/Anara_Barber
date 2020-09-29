@@ -60,12 +60,16 @@ public class Const {
     public static final String BARBER_IMAGE = "barber_image";
 
     public static String getBase64ImageFromBitmap(String filePath) {
-        Log.e("tag"," = = = file path = = =  " + filePath);
-        Bitmap selectedImageBitmap = BitmapFactory.decodeFile(filePath);
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        selectedImageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-        byte[] byteArrayImage = byteArrayOutputStream.toByteArray();
-        return Base64.encodeToString(byteArrayImage, Base64.DEFAULT);
+        try {
+            Bitmap selectedImageBitmap = BitmapFactory.decodeFile(filePath);
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            selectedImageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+            byte[] byteArrayImage = byteArrayOutputStream.toByteArray();
+            return Base64.encodeToString(byteArrayImage, Base64.DEFAULT);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     public static void showTimePicker(Context context, EditText editText){

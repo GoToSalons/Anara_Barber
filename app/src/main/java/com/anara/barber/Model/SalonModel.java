@@ -173,6 +173,7 @@ public class SalonModel implements Serializable, Parcelable {
         private String service_name;
         private String service_description;
         private String service_id;
+        private String service_category;
         private String hours;
         private String minutes;
         private String price;
@@ -190,6 +191,14 @@ public class SalonModel implements Serializable, Parcelable {
 
         public String getService_description() {
             return service_description;
+        }
+
+        public String getService_category() {
+            return service_category;
+        }
+
+        public void setService_category(String service_category) {
+            this.service_category = service_category;
         }
 
         public void setService_description(String service_description) {
