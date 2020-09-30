@@ -4,11 +4,11 @@ import java.io.Serializable;
 
 public class OwnerRS implements Serializable {
 
-    private long saloon_id;
-    private String saloon_name;
+    private long salon_id;
+    private String salon_name;
     private String open_time;
     private String close_time;
-    private String saloon_type;
+    private String salon_type;
     private String contact_no;
     private String street_address;
     private String owner_image;
@@ -24,20 +24,20 @@ public class OwnerRS implements Serializable {
     private String mobile;
     private String profile_image;
 
-    public long getSaloon_id() {
-        return saloon_id;
+    public long getsalon_id() {
+        return salon_id;
     }
 
-    public void setSaloon_id(long saloon_id) {
-        this.saloon_id = saloon_id;
+    public void setsalon_id(long salon_id) {
+        this.salon_id = salon_id;
     }
 
-    public String getSaloon_name() {
-        return saloon_name;
+    public String getsalon_name() {
+        return salon_name;
     }
 
-    public void setSaloon_name(String saloon_name) {
-        this.saloon_name = saloon_name;
+    public void setsalon_name(String salon_name) {
+        this.salon_name = salon_name;
     }
 
     public String getOpen_time() {
@@ -56,12 +56,12 @@ public class OwnerRS implements Serializable {
         this.close_time = close_time;
     }
 
-    public String getSaloon_type() {
-        return saloon_type;
+    public String getsalon_type() {
+        return salon_type;
     }
 
-    public void setSaloon_type(String saloon_type) {
-        this.saloon_type = saloon_type;
+    public void setsalon_type(String salon_type) {
+        this.salon_type = salon_type;
     }
 
     public String getContact_no() {

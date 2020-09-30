@@ -8,8 +8,8 @@ import java.util.ArrayList;
 
 public class SalonModel implements Serializable, Parcelable {
 
-    String saloonName;
-    String saloonAddress;
+    String salonName;
+    String salonAddress;
     String type;
     String open_time;
     String close_time;
@@ -18,15 +18,15 @@ public class SalonModel implements Serializable, Parcelable {
     String instagram;
     String facebook;
     String twitter;
-    ArrayList<String> saloonImages;
+    ArrayList<String> salonImages;
     private ArrayList<SalonService> services;
 
     public SalonModel() {
     }
 
     protected SalonModel(Parcel in) {
-        saloonName = in.readString();
-        saloonAddress = in.readString();
+        salonName = in.readString();
+        salonAddress = in.readString();
         type = in.readString();
         open_time = in.readString();
         close_time = in.readString();
@@ -35,14 +35,14 @@ public class SalonModel implements Serializable, Parcelable {
         instagram = in.readString();
         facebook = in.readString();
         twitter = in.readString();
-        saloonImages = in.createStringArrayList();
+        salonImages = in.createStringArrayList();
         services = in.createTypedArrayList(SalonService.CREATOR);
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(saloonName);
-        dest.writeString(saloonAddress);
+        dest.writeString(salonName);
+        dest.writeString(salonAddress);
         dest.writeString(type);
         dest.writeString(open_time);
         dest.writeString(close_time);
@@ -51,7 +51,7 @@ public class SalonModel implements Serializable, Parcelable {
         dest.writeString(instagram);
         dest.writeString(facebook);
         dest.writeString(twitter);
-        dest.writeStringList(saloonImages);
+        dest.writeStringList(salonImages);
         dest.writeTypedList(services);
     }
 
@@ -72,20 +72,20 @@ public class SalonModel implements Serializable, Parcelable {
         }
     };
 
-    public String getSaloonName() {
-        return saloonName;
+    public String getsalonName() {
+        return salonName;
     }
 
-    public void setSaloonName(String saloonName) {
-        this.saloonName = saloonName;
+    public void setsalonName(String salonName) {
+        this.salonName = salonName;
     }
 
-    public String getSaloonAddress() {
-        return saloonAddress;
+    public String getsalonAddress() {
+        return salonAddress;
     }
 
-    public void setSaloonAddress(String saloonAddress) {
-        this.saloonAddress = saloonAddress;
+    public void setsalonAddress(String salonAddress) {
+        this.salonAddress = salonAddress;
     }
 
     public String getType() {
@@ -152,12 +152,12 @@ public class SalonModel implements Serializable, Parcelable {
         this.twitter = twitter;
     }
 
-    public ArrayList<String> getSaloonImages() {
-        return saloonImages;
+    public ArrayList<String> getsalonImages() {
+        return salonImages;
     }
 
-    public void setSaloonImages(ArrayList<String> saloonImages) {
-        this.saloonImages = saloonImages;
+    public void setsalonImages(ArrayList<String> salonImages) {
+        this.salonImages = salonImages;
     }
 
     public ArrayList<SalonService> getServices() {

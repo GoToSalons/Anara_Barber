@@ -13,14 +13,14 @@ public interface ApiInterface {
 
     @Headers({"Content-type: application/json"})
     @POST("/admin/api/saloons/register")
-    Call<String> registerSaloon(@Body String serviceId);
+    Call<String> registersalon(@Body String serviceId);
 
     @Headers({"Content-type: application/json"})
     @POST("/admin/api/saloons/login")
     Call<String> sendMobile(@Body String mobile);
 
     @Headers({"Content-type: application/json"})
-    @POST("/admin/api/saloons/saloon-income")
+    @POST("/admin/api/saloons/salon-income")
     Call<String> getSalonIncome(@Body String mobile);
 
     @Headers({"Content-type: application/json"})

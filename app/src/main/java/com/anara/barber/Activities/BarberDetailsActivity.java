@@ -51,7 +51,7 @@ public class BarberDetailsActivity extends AppCompatActivity implements AddBarbe
     // add barber Recyclerview
     RecyclerView recyclerView;
 
-    // for saloon data
+    // for salon data
     SalonModel salonModel;
 
     // for owner data
@@ -75,7 +75,7 @@ public class BarberDetailsActivity extends AppCompatActivity implements AddBarbe
 
         barberAction = getIntent().getStringExtra("barber_action");
         if (barberAction != null && barberAction.equals("new")) {
-            salonModel = getIntent().getParcelableExtra(Const.SALOON_DATA_KEY);
+            salonModel = getIntent().getParcelableExtra(Const.salon_DATA_KEY);
             ownerModel = getIntent().getParcelableExtra(Const.OWNER_DATA_KEY);
         }
         progressDialog = new ProgressDialog(this);
@@ -143,9 +143,9 @@ public class BarberDetailsActivity extends AppCompatActivity implements AddBarbe
         try {
             JSONObject jsonObject = new JSONObject();
 
-            // saloon data add to json
-            jsonObject.put("saloon_name", salonModel.getSaloonName());
-            jsonObject.put("street_address", salonModel.getSaloonAddress());
+            // salon data add to json
+            jsonObject.put("salon_name", salonModel.getsalonName());
+            jsonObject.put("street_address", salonModel.getsalonAddress());
             jsonObject.put("open_time", salonModel.getOpen_time());
             jsonObject.put("close_time", salonModel.getClose_time());
             jsonObject.put("latitude", salonModel.getLatitude());
@@ -153,12 +153,12 @@ public class BarberDetailsActivity extends AppCompatActivity implements AddBarbe
             jsonObject.put("instagram", salonModel.getInstagram());
             jsonObject.put("facebook", salonModel.getFacebook());
             jsonObject.put("twitter", salonModel.getTwitter());
-            JSONArray saloonImageJsonArray = new JSONArray();
-            for (String s : salonModel.getSaloonImages()) {
-                saloonImageJsonArray.put(Const.getBase64ImageFromBitmap(s));
+            JSONArray salonImageJsonArray = new JSONArray();
+            for (String s : salonModel.getsalonImages()) {
+                salonImageJsonArray.put(Const.getBase64ImageFromBitmap(s));
             }
-            jsonObject.put("saloon_gallery", saloonImageJsonArray);
-            jsonObject.put("saloon_type", salonModel.getType());
+            jsonObject.put("salon_gallery", salonImageJsonArray);
+            jsonObject.put("salon_type", salonModel.getType());
 
             // owner data add to json
             jsonObject.put("contact_person", ownerModel.getOwnerName());
@@ -170,7 +170,7 @@ public class BarberDetailsActivity extends AppCompatActivity implements AddBarbe
             jsonObject.put("mobile", ownerModel.getOwnerNumber());
 //            jsonObject.put("mobile", "9973553344");
             jsonObject.put("owner_image", Const.getBase64ImageFromBitmap(ownerModel.getOwnerImages()));
-            Log.e("tag", " = =  = d = = = " + ownerModel.getBank_name());
+            Log.e("tag", " = =  = d = = = " + salonModel.getType());
 
             JSONArray serviceJsonArray = new JSONArray();
 
@@ -208,7 +208,7 @@ public class BarberDetailsActivity extends AppCompatActivity implements AddBarbe
 
             jsonObject.put("barbers", barberJsonArray);
 
-            RequestResponseManager.getApiCall(jsonObject, Const.Saloon_Register_Request, response -> {
+            RequestResponseManager.getApiCall(jsonObject, Const.salon_Register_Request, response -> {
                 if (response != null) {
                     BaseRs baseRs = (BaseRs) response;
                     if (baseRs.getStatus().equals("success")) {
@@ -216,13 +216,13 @@ public class BarberDetailsActivity extends AppCompatActivity implements AddBarbe
                         prefManager.setString(Const.isLoginOwner,"true");
                         prefManager.setString(Const.isOwnerRegister,"true");
 
-                        OwnerRS ownerRS = baseRs.getSaloon();
+                        OwnerRS ownerRS = baseRs.getsalon();
 
-                        prefManager.setString(Const.SALON_ID, String.valueOf(ownerRS.getSaloon_id()));
-                        prefManager.setString(Const.SALON_NAME, ownerRS.getSaloon_name());
+                        prefManager.setString(Const.SALON_ID, String.valueOf(ownerRS.getsalon_id()));
+                        prefManager.setString(Const.SALON_NAME, ownerRS.getsalon_name());
                         prefManager.setString(Const.OPEN_TIME, ownerRS.getOpen_time());
                         prefManager.setString(Const.CLOSE_TIME, ownerRS.getClose_time());
-                        prefManager.setString(Const.SALON_TYPE, ownerRS.getSaloon_type());
+                        prefManager.setString(Const.SALON_TYPE, ownerRS.getsalon_type());
                         prefManager.setString(Const.CONTACT_NO, ownerRS.getContact_no());
                         prefManager.setString(Const.STREET_ADDRESS, ownerRS.getStreet_address());
                         prefManager.setString(Const.OWNER_IMAGE, ownerRS.getOwner_image());
@@ -264,8 +264,7 @@ public class BarberDetailsActivity extends AppCompatActivity implements AddBarbe
 
             JSONObject barberJsonObject = new JSONObject();
 
-            barberJsonObject.put("saloon_id", prefManager.getString(Const.SALON_ID,""));
-//            barberJsonObject.put("saloon_id", prefManager.getString(Const.SALON_ID,""));
+            barberJsonObject.put("salon_id", prefManager.getString(Const.SALON_ID,""));
             AddBarberItem addBarberItem = barberItems.get(0);
             barberJsonObject.put("name", ((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(0)).itemView.findViewById(R.id.barber_name)).getText().toString());
             barberJsonObject.put("email", ((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(0)).itemView.findViewById(R.id.e_mail)).getText().toString());
@@ -275,7 +274,7 @@ public class BarberDetailsActivity extends AppCompatActivity implements AddBarbe
             barberJsonObject.put("profile_image", Const.getBase64ImageFromBitmap(addBarberItem.getBarber_profile()));
 
             Log.e("tag"," = = =  = mm m  ===  " + barberJsonObject.toString());
-            RequestResponseManager.addBarber(barberJsonObject, Const.Saloon_Register_Request, response -> {
+            RequestResponseManager.addBarber(barberJsonObject, Const.salon_Register_Request, response -> {
                 if (response != null) {
                     BaseRs baseRs = (BaseRs) response;
                     if (baseRs.getStatus().equals("success")) {
@@ -342,11 +341,15 @@ public class BarberDetailsActivity extends AppCompatActivity implements AddBarbe
             cursor.close();
 
             AddBarberItem addBarberItem = addBarberItems.get(barberPosition);
-            addBarberItem.setName(((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(barberPosition)).itemView.findViewById(R.id.barber_name)).getText().toString());
-            addBarberItem.setEmail(((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(barberPosition)).itemView.findViewById(R.id.e_mail)).getText().toString());
-            addBarberItem.setMobile(((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(barberPosition)).itemView.findViewById(R.id.phone_number)).getText().toString());
-            addBarberItem.setExp_year(((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(barberPosition)).itemView.findViewById(R.id.exp_yrs)).getText().toString());
-            addBarberItem.setExp_month(((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(barberPosition)).itemView.findViewById(R.id.exp_mon)).getText().toString());
+            try {
+                addBarberItem.setName(((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(barberPosition)).itemView.findViewById(R.id.barber_name)).getText().toString());
+                addBarberItem.setEmail(((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(barberPosition)).itemView.findViewById(R.id.e_mail)).getText().toString());
+                addBarberItem.setMobile(((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(barberPosition)).itemView.findViewById(R.id.phone_number)).getText().toString());
+                addBarberItem.setExp_year(((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(barberPosition)).itemView.findViewById(R.id.exp_yrs)).getText().toString());
+                addBarberItem.setExp_month(((TextView) Objects.requireNonNull(recyclerView.findViewHolderForAdapterPosition(barberPosition)).itemView.findViewById(R.id.exp_mon)).getText().toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             addBarberItem.setBarber_profile(picturePath);
             addBarberItems.remove(addBarberItems.get(barberPosition));
             addBarberItems.add(barberPosition, addBarberItem);

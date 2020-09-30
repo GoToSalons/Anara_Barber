@@ -8,8 +8,8 @@ public class BookingServices implements Serializable {
     private String book_date;
     private String customer_name;
     private String customer_id;
-    private String saloon_name;
-    private String saloon_id;
+    private String salon_name;
+    private String salon_id;
     private String barber_name;
     private String barber_id;
     private String book_number;
@@ -56,20 +56,20 @@ public class BookingServices implements Serializable {
         this.customer_id = customer_id;
     }
 
-    public String getSaloon_name() {
-        return saloon_name;
+    public String getsalon_name() {
+        return salon_name;
     }
 
-    public void setSaloon_name(String saloon_name) {
-        this.saloon_name = saloon_name;
+    public void setsalon_name(String salon_name) {
+        this.salon_name = salon_name;
     }
 
-    public String getSaloon_id() {
-        return saloon_id;
+    public String getsalon_id() {
+        return salon_id;
     }
 
-    public void setSaloon_id(String saloon_id) {
-        this.saloon_id = saloon_id;
+    public void setsalon_id(String salon_id) {
+        this.salon_id = salon_id;
     }
 
     public String getBarber_name() {

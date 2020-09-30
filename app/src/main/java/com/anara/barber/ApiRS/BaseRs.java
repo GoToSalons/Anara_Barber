@@ -24,8 +24,8 @@ public class BaseRs {
     @SerializedName("user")
     private OwnerRS ownerRS;
 
-    @SerializedName("saloon")
-    private OwnerRS saloon;
+    @SerializedName("salon")
+    private OwnerRS salon;
 
     @SerializedName("schedule")
     private ArrayList<BarberScheduleRS> barberScheduleRS;
@@ -51,8 +51,8 @@ public class BaseRs {
         return ownerRS;
     }
 
-    public OwnerRS getSaloon() {
-        return saloon;
+    public OwnerRS getsalon() {
+        return salon;
     }
 
     public ArrayList<BarberScheduleRS> getBarberScheduleRS() {
@@ -63,8 +63,8 @@ public class BaseRs {
         this.barberScheduleRS = barberScheduleRS;
     }
 
-    public void setSaloon(OwnerRS saloon) {
-        this.saloon = saloon;
+    public void setsalon(OwnerRS salon) {
+        this.salon = salon;
     }
 
     public void setOwnerRS(OwnerRS ownerRS) {

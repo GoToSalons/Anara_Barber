@@ -35,7 +35,7 @@ public class OwnerDetailsActivity extends AppCompatActivity implements View.OnCl
     File file;
     String ownerImagePath = "";
 
-    // for saloon data
+    // for salon data
     SalonModel salonModel;
 
     // for owner data
@@ -49,7 +49,7 @@ public class OwnerDetailsActivity extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.activity_owner_details);
 
         ownerModel = new OwnerModel();
-        salonModel = getIntent().getParcelableExtra(Const.SALOON_DATA_KEY);
+        salonModel = getIntent().getParcelableExtra(Const.salon_DATA_KEY);
 
         owner_name = findViewById(R.id.owner_name);
         e_mail = findViewById(R.id.e_mail);
@@ -109,7 +109,7 @@ public class OwnerDetailsActivity extends AppCompatActivity implements View.OnCl
             ownerModel.setOwnerImages(ownerImagePath);
             Intent intent = new Intent(OwnerDetailsActivity.this, BarberDetailsActivity.class);
             intent.putExtra("barber_action","new");
-            intent.putExtra(Const.SALOON_DATA_KEY, (Parcelable) salonModel);
+            intent.putExtra(Const.salon_DATA_KEY, (Parcelable) salonModel);
             intent.putExtra(Const.OWNER_DATA_KEY, (Parcelable) ownerModel);
             startActivity(intent);
         }

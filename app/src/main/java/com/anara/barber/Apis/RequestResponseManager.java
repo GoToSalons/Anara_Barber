@@ -40,7 +40,7 @@ public class RequestResponseManager {
 
     public static void getApiCall(JSONObject parameters, int requestCode, OnResponseListener onResponseListener) {
         ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
-        Call<String> call = apiInterface.registerSaloon(parameters.toString());
+        Call<String> call = apiInterface.registersalon(parameters.toString());
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
@@ -315,7 +315,7 @@ public class RequestResponseManager {
     }
 
     public static Object invokeParser(String response, int requestType) {
-        if (requestType == Const.Saloon_Register_Request) {
+        if (requestType == Const.salon_Register_Request) {
             return Parser.getHomePageResponse(response);
         } else if (requestType == Const.Check_Register_Request) {
             return Parser.getHomePageResponse(response);

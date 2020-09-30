@@ -126,7 +126,7 @@ public class FutureBookingActivity extends AppCompatActivity {
             barberJsonObject.put("from_time", time_from.getText().toString());
             barberJsonObject.put("to_time", time_to.getText().toString());
 
-            RequestResponseManager.addBarberSchedule(barberJsonObject, Const.Saloon_Register_Request, response -> {
+            RequestResponseManager.addBarberSchedule(barberJsonObject, Const.salon_Register_Request, response -> {
                 if (response != null) {
                     BaseRs baseRs = (BaseRs) response;
                     if (baseRs.getStatus().equals("success")) {
@@ -172,7 +172,7 @@ public class FutureBookingActivity extends AppCompatActivity {
             barberJsonObject.put("from_time", fromTime);
             barberJsonObject.put("to_time", toTime);
 
-            RequestResponseManager.addBarberScheduleBreak(barberJsonObject, Const.Saloon_Register_Request, response -> {
+            RequestResponseManager.addBarberScheduleBreak(barberJsonObject, Const.salon_Register_Request, response -> {
                 if (response != null) {
                     BaseRs baseRs = (BaseRs) response;
                     if (baseRs.getStatus().equals("success")) {
@@ -206,7 +206,7 @@ public class FutureBookingActivity extends AppCompatActivity {
 
             barberJsonObject.put("barber_id", prefManager.getString(Const.BARBER_ID, ""));
 
-            RequestResponseManager.getBarberSchedule(barberJsonObject, Const.Saloon_Register_Request, response -> {
+            RequestResponseManager.getBarberSchedule(barberJsonObject, Const.salon_Register_Request, response -> {
                 if (response != null) {
                     BaseRs baseRs = (BaseRs) response;
                     if (baseRs.getStatus().equals("success")) {

@@ -17,7 +17,7 @@ public class Const {
 
     public static String BASE_URL = "http://anarasalons.com/";
 
-    public static int Saloon_Register_Request = 1;
+    public static int salon_Register_Request = 1;
     public static int Check_Register_Request = 2;
     public static int Check_Barber_Register_Request = 3;
     public static int Salon_Income_Request = 4;
@@ -26,7 +26,7 @@ public class Const {
     public static int Add_Barber_Request = 7;
     public static int Delete_Barber_Request = 8;
 
-    public static final String SALOON_DATA_KEY = "saloon_data";
+    public static final String salon_DATA_KEY = "salon_data";
     public static final String OWNER_DATA_KEY = "owner_data";
 
 

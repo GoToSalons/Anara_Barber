@@ -100,9 +100,9 @@ public class MainActivityOwner extends AppCompatActivity implements BarbersAdapt
         try {
             JSONObject jsonObject = new JSONObject();
 
-            jsonObject.put("saloon_id", prefManager.getString(Const.SALON_ID,""));
+            jsonObject.put("salon_id", prefManager.getString(Const.SALON_ID,""));
 
-            RequestResponseManager.getSalonIncome(jsonObject, Const.Saloon_Register_Request, response -> {
+            RequestResponseManager.getSalonIncome(jsonObject, Const.salon_Register_Request, response -> {
                 if (response != null) {
                     BaseRs baseRs = (BaseRs) response;
                     if (baseRs.getStatus().equals("success")) {
@@ -147,7 +147,7 @@ public class MainActivityOwner extends AppCompatActivity implements BarbersAdapt
 
 //            jsonObject.put("barber_id", prefManager.getString(Const.SALON_ID, ""));
             jsonObject.put("barber_id", barberId);
-            jsonObject.put("saloon_id", prefManager.getString(Const.SALON_ID, ""));
+            jsonObject.put("salon_id", prefManager.getString(Const.SALON_ID, ""));
 
             RequestResponseManager.deleteBarber(jsonObject, Const.Delete_Barber_Request, response -> {
                 if (response != null) {

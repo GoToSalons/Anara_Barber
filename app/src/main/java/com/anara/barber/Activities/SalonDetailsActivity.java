@@ -234,7 +234,7 @@ public class SalonDetailsActivity extends AppCompatActivity implements View.OnCl
                     salonModel.setLatitude(String.valueOf(currentLatitude));
                     salonModel.setLogitude(String.valueOf(currentLongitude));
                     Intent intent = new Intent(SalonDetailsActivity.this, OwnerDetailsActivity.class);
-                    intent.putExtra(Const.SALOON_DATA_KEY, (Parcelable) salonModel);
+                    intent.putExtra(Const.salon_DATA_KEY, (Parcelable) salonModel);
                     intent.putExtra("number", salonNumber);
                     startActivity(intent);
                 }
@@ -257,9 +257,9 @@ public class SalonDetailsActivity extends AppCompatActivity implements View.OnCl
         } else if (salonServices.size() < 1) {
             Toast.makeText(this, "Add Service", Toast.LENGTH_SHORT).show();
         } else {
-            salonModel.setSaloonName(name.getText().toString());
-            salonModel.setSaloonAddress(address.getText().toString());
-            salonModel.setSaloonImages(files);
+            salonModel.setsalonName(name.getText().toString());
+            salonModel.setsalonAddress(address.getText().toString());
+            salonModel.setsalonImages(files);
             salonModel.setType(salonType);
             salonModel.setOpen_time(start_time.getText().toString());
             salonModel.setClose_time(end_time.getText().toString());
