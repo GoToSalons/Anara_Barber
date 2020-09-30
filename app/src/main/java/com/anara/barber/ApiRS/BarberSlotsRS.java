@@ -3,7 +3,7 @@ package com.anara.barber.ApiRS;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class BarberSlotsRS implements Serializable{
+public class BarberSlotsRS implements Serializable {
 
     private int id;
     private String book_date;
@@ -71,8 +71,8 @@ public class BarberSlotsRS implements Serializable{
 
     public static class Services implements Serializable {
 
-        private String  service_name;
-        private String  service_price;
+        private String service_name;
+        private String service_price;
 
         public String getService_name() {
             return service_name;

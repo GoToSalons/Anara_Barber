@@ -49,4 +49,9 @@ public interface ApiInterface {
     @POST("/admin/api/barbers/add-break")
     Call<String> addBarberScheduleBreak(@Body String mobile);
 
+    @Headers({"Content-type: application/json"})
+    @POST("/admin/api/barbers/list-schedule")
+    Call<String> getBarberSchedule(@Body String mobile);
+
+
 }

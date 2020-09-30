@@ -137,7 +137,7 @@ public class AddBarberAdapter extends RecyclerView.Adapter<AddBarberAdapter.MyVi
             });
 
             remove_barber.setOnClickListener(view -> {
-                addBarberItems.remove(getAdapterPosition() + 1);
+                addBarberItems.remove(getAdapterPosition());
                 notifyItemRemoved(getAdapterPosition());
             });
 

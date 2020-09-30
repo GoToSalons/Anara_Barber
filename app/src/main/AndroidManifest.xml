@@ -18,23 +18,30 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Activities.FutureBookingActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity android:name=".Activities.PrivacyActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
 
         <activity android:name=".Activities.ContactActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
             android:name=".Activities.ShowIncomeActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
             android:name=".MainActivityOwner"
+            android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
             android:name=".Activities.MobileNumberActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/NoActionBar"/>
         <activity
             android:name=".Activities.ChooseActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,18 +51,23 @@
         </activity>
         <activity
             android:name=".Activities.OwnerDetailsActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
             android:name=".Activities.BarberDetailsActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
             android:name=".Activities.SalonDetailsActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
             android:name=".Activities.OTPActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
             android:name=".MainActivityBarbers"
+            android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
 
         <meta-data

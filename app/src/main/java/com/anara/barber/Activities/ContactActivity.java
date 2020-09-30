@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,15 +25,17 @@ public class ContactActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         @SuppressLint("ResourceType")
         View aboutPage = new AboutPage(this)
-                .setDescription("Contact Us For Any Business Inquires or for a Technical Support")
-                .addItem(getMobileElement1())
+                .setDescription("Contact Us For Any Business Inquires")
                 .addItem(getMobileElement2())
                 .addItem(getMobileElement3())
+                .addItem(getMobileElement4())
+                .addItem(getMobileElement1())
                 .create();
 
         setContentView(aboutPage);
 
     }
+
     Element getMobileElement1() {
         Element copyRightsElement = new Element();
         copyRightsElement.setTitle("+916263620227");
@@ -46,6 +49,13 @@ public class ContactActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        return copyRightsElement;
+    }
+    Element getMobileElement4() {
+        Element copyRightsElement = new Element();
+        copyRightsElement.setTitle("\n\nFor Technical Support\n");
+        copyRightsElement.setGravity(Gravity.CENTER);
+
         return copyRightsElement;
     }
     Element getMobileElement2() {

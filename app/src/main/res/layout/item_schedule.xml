@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:layout_marginTop="1dp"
+    android:layout_marginBottom="1dp"
+    android:background="@color/colorMediumGrey">
+
+    <RelativeLayout
+        android:id="@+id/rl1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginStart="10dp"
+        android:layout_centerVertical="true">
+
+
+        <TextView
+            android:id="@+id/time_from"
+            android:layout_marginStart="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="11:00 AM"
+            android:textColor="@color/colorBlack"/>
+        <TextView
+            android:id="@+id/to"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/time_from"
+            android:text="to"
+            android:textColor="@color/colorBlack"
+            android:layout_centerHorizontal="true"/>
+
+
+        <TextView
+            android:id="@+id/time_to"
+            android:layout_marginStart="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/to"
+            android:text="11:00 AM"
+            android:textColor="@color/colorBlack"/>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/date_l"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="40dp"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <TextView
+            android:id="@+id/date"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="22-09-2020"
+            android:textColor="@color/colorBlack"/>
+
+        <TextView
+            android:id="@+id/amount"
+            android:visibility="gone"
+            android:layout_below="@id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="₹ 100"
+            android:textColor="@color/colorBlack"
+            android:layout_centerInParent="true"
+            />
+
+    </RelativeLayout>
+
+
+
+    <ImageView
+        android:id="@+id/delete"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerInParent="true"
+        android:layout_marginEnd="12dp"
+        android:src="@drawable/ic_baseline_delete_24"
+        android:visibility="gone"/>
+
+</RelativeLayout>

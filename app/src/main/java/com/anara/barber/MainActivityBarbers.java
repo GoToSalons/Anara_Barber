@@ -40,7 +40,7 @@ public class MainActivityBarbers extends AppCompatActivity {
 
     TextView barber_name, todayEarning, weeklyEarning, monthlyEarning, yearlyEarning, todayDate;
 
-    PrefManager prefManager;
+    public PrefManager prefManager;
 
     @SuppressLint("SetTextI18n")
     @Override
