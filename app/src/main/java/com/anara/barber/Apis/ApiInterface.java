@@ -16,11 +16,15 @@ public interface ApiInterface {
     Call<String> registersalon(@Body String serviceId);
 
     @Headers({"Content-type: application/json"})
+    @POST("/admin/api/saloons/edit-profile")
+    Call<String> updateSalonProfile(@Body String serviceId);
+
+    @Headers({"Content-type: application/json"})
     @POST("/admin/api/saloons/login")
     Call<String> sendMobile(@Body String mobile);
 
     @Headers({"Content-type: application/json"})
-    @POST("/admin/api/saloons/salon-income")
+    @POST("/admin/api/saloons/saloon-income")
     Call<String> getSalonIncome(@Body String mobile);
 
     @Headers({"Content-type: application/json"})

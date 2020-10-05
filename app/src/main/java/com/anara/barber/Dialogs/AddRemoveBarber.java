@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.anara.barber.Activities.BarberDetailsActivity;
+import com.anara.barber.Activities.OwnerDetailsActivity;
+import com.anara.barber.Activities.SalonDetailsActivity;
 import com.anara.barber.Apis.Const;
 import com.anara.barber.MainActivityOwner;
 import com.anara.barber.R;
@@ -61,20 +64,18 @@ public class AddRemoveBarber extends DialogFragment implements View.OnClickListe
         addBarber.setOnClickListener(this);
         removeBarber.setOnClickListener(this);
 
-        contentView.findViewById(R.id.back_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dismiss();
-            }
+        contentView.findViewById(R.id.back_button).setOnClickListener(view -> dismiss());
+
+        contentView.findViewById(R.id.log_out).setOnClickListener(view -> {
+            mainActivity.prefManager.setString(Const.isLoginOwner,"false");
+            mainActivity.finish();
+            dismiss();
         });
 
-        contentView.findViewById(R.id.log_out).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mainActivity.prefManager.setString(Const.isLoginOwner,"false");
-                mainActivity.finish();
-                dismiss();
-            }
+        contentView.findViewById(R.id.edit_profie).setOnClickListener(view -> {
+            Intent intent = new Intent(mainActivity, SalonDetailsActivity.class);
+            intent.putExtra("edit", "true");
+            startActivity(intent);
         });
 
         return contentView;

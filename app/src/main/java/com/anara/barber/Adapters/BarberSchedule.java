@@ -1,5 +1,6 @@
 package com.anara.barber.Adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +34,7 @@ public class BarberSchedule extends RecyclerView.Adapter<BarberSchedule.MyViewHo
         return new MyViewHolder(itemView);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull BarberSchedule.MyViewHolder holder, int position) {
 
@@ -42,6 +44,8 @@ public class BarberSchedule extends RecyclerView.Adapter<BarberSchedule.MyViewHo
         holder.date.setText(barberSchedule.getSchedule_date());
         holder.From.setText(barberSchedule.getFrom_time());
         holder.To.setText(barberSchedule.getTo_time());
+        holder.BreakFrom.setText("Breaks between  "+barberSchedule.getBreak_from_time());
+        holder.BreakTo.setText(barberSchedule.getBreak_to_time());
 
     }
 
@@ -50,16 +54,21 @@ public class BarberSchedule extends RecyclerView.Adapter<BarberSchedule.MyViewHo
         return barberScheduleRS.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView From, To, CustomerName, date;
+        TextView From;
+        TextView BreakFrom;
+        TextView BreakTo;
+        TextView To;
+        TextView date;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             From = itemView.findViewById(R.id.time_from);
             To = itemView.findViewById(R.id.time_to);
-//            CustomerName = itemView.findViewById(R.id.Name);
+            BreakFrom = itemView.findViewById(R.id.break_time_from);
+            BreakTo = itemView.findViewById(R.id.break_time_to);
             date = itemView.findViewById(R.id.date);
 
         }

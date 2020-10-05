@@ -34,6 +34,7 @@ import com.anara.barber.Apis.Const;
 import com.anara.barber.Dialogs.AddServiceDialog;
 import com.anara.barber.Model.SalonModel;
 import com.anara.barber.R;
+import com.anara.barber.utils.PrefManager;
 import com.bumptech.glide.Glide;
 import com.shivtechs.maplocationpicker.LocationPickerActivity;
 import com.shivtechs.maplocationpicker.MapUtility;
@@ -67,12 +68,22 @@ public class SalonDetailsActivity extends AppCompatActivity implements View.OnCl
     ServiceAdapter serviceAdapter;
     RecyclerView recyclerViewService;
 
+    String edit = "";
+
+    PrefManager prefManager;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_salon_details);
 
+        prefManager = new PrefManager(this);
+
+
         salonNumber = getIntent().getStringExtra("number");
+        edit = getIntent().getStringExtra("edit");
 
         recyclerViewService = findViewById(R.id.service_recycler_view);
 
@@ -137,6 +148,27 @@ public class SalonDetailsActivity extends AppCompatActivity implements View.OnCl
         add_service.setOnClickListener(this);
 
         findViewById(R.id.back_button).setOnClickListener(view -> finish());
+
+        if (edit.equals("true")) {
+            name.setText(prefManager.getString(Const.SALON_NAME,""));
+            address.setText(prefManager.getString(Const.STREET_ADDRESS,""));
+            start_time.setText(prefManager.getString(Const.OPEN_TIME,""));
+            end_time.setText(prefManager.getString(Const.CLOSE_TIME,""));
+            facebook_url.setText(prefManager.getString(Const.FACEBOOK,""));
+            instagram_url.setText(prefManager.getString(Const.INSTAGRAM,""));
+            twitter_url.setText(prefManager.getString(Const.TWITTER,""));
+            String salonType2 = prefManager.getString(Const.SALON_TYPE,"");
+            if (salonType2.equals("Male")) {
+                salonType = "Male";
+                male.setChecked(true);
+            } else if (salonType2.equals("Female")) {
+                salonType = "Female";
+                female.setChecked(true);
+            } else {
+                salonType = "Unisex";
+                unisex.setChecked(true);
+            }
+        }
 
     }
 
@@ -236,6 +268,11 @@ public class SalonDetailsActivity extends AppCompatActivity implements View.OnCl
                     Intent intent = new Intent(SalonDetailsActivity.this, OwnerDetailsActivity.class);
                     intent.putExtra(Const.salon_DATA_KEY, (Parcelable) salonModel);
                     intent.putExtra("number", salonNumber);
+                    if (edit.equals("true")) {
+                        intent.putExtra("edit", "true");
+                    } else {
+                        intent.putExtra("edit", "false");
+                    }
                     startActivity(intent);
                 }
             } else if (data != null) {

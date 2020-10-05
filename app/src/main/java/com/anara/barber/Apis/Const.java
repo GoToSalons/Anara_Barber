@@ -47,6 +47,7 @@ public class Const {
     public static final String CONTACT_NO = "contacts_no";
     public static final String STREET_ADDRESS = "street_address";
     public static final String OWNER_IMAGE = "owner_image";
+    public static final String OWNER_NAME = "owner_name";
     public static final String INSTAGRAM = "instagram";
     public static final String FACEBOOK = "facebook";
     public static final String TWITTER = "twitter";

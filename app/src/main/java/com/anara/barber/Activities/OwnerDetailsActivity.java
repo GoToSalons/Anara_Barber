@@ -1,5 +1,7 @@
 package com.anara.barber.Activities;
 
+import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -7,24 +9,37 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.anara.barber.ApiRS.BaseRs;
+import com.anara.barber.ApiRS.OwnerRS;
 import com.anara.barber.Apis.Const;
+import com.anara.barber.Apis.RequestResponseManager;
 import com.anara.barber.Model.AddBarberItem;
 import com.anara.barber.Model.OwnerModel;
 import com.anara.barber.Model.SalonModel;
 import com.anara.barber.R;
+import com.anara.barber.utils.PrefManager;
 import com.bumptech.glide.Glide;
+import com.hbb20.CountryCodePicker;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -43,14 +58,34 @@ public class OwnerDetailsActivity extends AppCompatActivity implements View.OnCl
 
     EditText owner_name, e_mail, bank_name, account_number, ifsc_code, upi_id;
 
+    String edit = "";
+
+    // progress dialog
+    ProgressDialog progressDialog;
+
+    PrefManager prefManager;
+
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_owner_details);
 
-        ownerModel = new OwnerModel();
-        salonModel = getIntent().getParcelableExtra(Const.salon_DATA_KEY);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Please wait......");
+        progressDialog.setCancelable(false);
 
+        prefManager = new PrefManager(this);
+
+        ownerModel = new OwnerModel();
+        edit = getIntent().getStringExtra("edit");
+        if (edit != null) {
+            if (!edit.equals("true")) {
+                salonModel = getIntent().getParcelableExtra(Const.salon_DATA_KEY);
+            }
+        } else {
+            salonModel = getIntent().getParcelableExtra(Const.salon_DATA_KEY);
+        }
         owner_name = findViewById(R.id.owner_name);
         e_mail = findViewById(R.id.e_mail);
         bank_name = findViewById(R.id.bank_name);
@@ -62,10 +97,18 @@ public class OwnerDetailsActivity extends AppCompatActivity implements View.OnCl
         RelativeLayout continueButton = findViewById(R.id.continue_button);
         a1 = findViewById(R.id.a1);
 
+        if (edit != null && edit.equals("true")) {
+            ((TextView) findViewById(R.id.edit_text)).setText("Save");
+        }
+
         continueButton.setOnClickListener(this);
         circleImageView.setOnClickListener(this);
 
         findViewById(R.id.back_button).setOnClickListener(view -> finish());
+
+        if (edit.equals("true")) {
+            owner_name.setText(prefManager.getString(Const.SALON_NAME,""));
+        }
     }
 
     @Override
@@ -107,11 +150,96 @@ public class OwnerDetailsActivity extends AppCompatActivity implements View.OnCl
             ownerModel.setUpi_id(upi_id.getText().toString());
             ownerModel.setOwnerNumber(getIntent().getStringExtra("number"));
             ownerModel.setOwnerImages(ownerImagePath);
-            Intent intent = new Intent(OwnerDetailsActivity.this, BarberDetailsActivity.class);
-            intent.putExtra("barber_action","new");
-            intent.putExtra(Const.salon_DATA_KEY, (Parcelable) salonModel);
-            intent.putExtra(Const.OWNER_DATA_KEY, (Parcelable) ownerModel);
-            startActivity(intent);
+            if (edit.equals("true")) {
+               updateProfile();
+            } else {
+                Intent intent = new Intent(OwnerDetailsActivity.this, BarberDetailsActivity.class);
+                intent.putExtra("barber_action", "new");
+                intent.putExtra(Const.salon_DATA_KEY, (Parcelable) salonModel);
+                intent.putExtra(Const.OWNER_DATA_KEY, (Parcelable) ownerModel);
+                startActivity(intent);
+            }
+        }
+    }
+
+    private void updateProfile() {
+        try {
+            JSONObject jsonObject = new JSONObject();
+
+            // salon data add to json
+            jsonObject.put("salon_id", prefManager.getString(Const.SALON_ID,""));
+            jsonObject.put("salon_name", salonModel.getsalonName());
+            jsonObject.put("street_address", salonModel.getsalonAddress());
+            jsonObject.put("open_time", salonModel.getOpen_time());
+            jsonObject.put("close_time", salonModel.getClose_time());
+            jsonObject.put("latitude", salonModel.getLatitude());
+            jsonObject.put("logitude", salonModel.getLogitude());
+            jsonObject.put("instagram", salonModel.getInstagram());
+            jsonObject.put("facebook", salonModel.getFacebook());
+            jsonObject.put("twitter", salonModel.getTwitter());
+            JSONArray salonImageJsonArray = new JSONArray();
+            for (String s : salonModel.getsalonImages()) {
+                salonImageJsonArray.put(Const.getBase64ImageFromBitmap(s));
+            }
+            jsonObject.put("salon_gallery", salonImageJsonArray);
+            jsonObject.put("salon_type", salonModel.getType());
+
+            // owner data add to json
+            jsonObject.put("contact_person", ownerModel.getOwnerName());
+            jsonObject.put("email", ownerModel.getOwnerEmailAddress());
+            jsonObject.put("bank_name", ownerModel.getBank_name());
+            jsonObject.put("account_number", ownerModel.getAccount_number());
+            jsonObject.put("ifsc_code", ownerModel.getIfsc_code());
+            jsonObject.put("upi_id", ownerModel.getUpi_id());
+            jsonObject.put("mobile", ownerModel.getOwnerNumber());
+            jsonObject.put("owner_image", Const.getBase64ImageFromBitmap(ownerModel.getOwnerImages()));
+
+
+            RequestResponseManager.updateSalonProfile(jsonObject, Const.salon_Register_Request, response -> {
+                if (response != null) {
+                    BaseRs baseRs = (BaseRs) response;
+                    if (baseRs.getStatus().equals("success")) {
+                        PrefManager prefManager = new PrefManager(this);
+                        prefManager.setString(Const.isLoginOwner,"true");
+                        prefManager.setString(Const.isOwnerRegister,"true");
+
+                        OwnerRS ownerRS = baseRs.getsalon();
+
+                        prefManager.setString(Const.SALON_ID, String.valueOf(ownerRS.getsalon_id()));
+                        prefManager.setString(Const.SALON_NAME, ownerRS.getsalon_name());
+                        prefManager.setString(Const.OPEN_TIME, ownerRS.getOpen_time());
+                        prefManager.setString(Const.CLOSE_TIME, ownerRS.getClose_time());
+                        prefManager.setString(Const.SALON_TYPE, ownerRS.getsalon_type());
+                        prefManager.setString(Const.CONTACT_NO, ownerRS.getContact_no());
+                        prefManager.setString(Const.STREET_ADDRESS, ownerRS.getStreet_address());
+                        prefManager.setString(Const.OWNER_IMAGE, ownerRS.getOwner_image());
+                        prefManager.setString(Const.INSTAGRAM, ownerRS.getInstagram());
+                        prefManager.setString(Const.FACEBOOK, ownerRS.getFacebook());
+                        prefManager.setString(Const.TWITTER, ownerRS.getTwitter());
+                        prefManager.setString(Const.LATITUDE, ownerRS.getLatitude());
+                        prefManager.setString(Const.LONGITUDE, ownerRS.getLogitude());
+
+                        Toast.makeText(this, "" + baseRs.getMessage(), Toast.LENGTH_SHORT).show();
+
+                        startActivity(new Intent(this, ChooseActivity.class));
+                        finish();
+                    } else {
+                        Toast.makeText(this, ""+baseRs.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                    Log.e("tag", " = =  = call = = = " + baseRs.getStatus());
+                } else {
+                    Toast.makeText(this, "Server error Try again", Toast.LENGTH_SHORT).show();
+                }
+                if (progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+            });
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            if (progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
         }
     }
 
