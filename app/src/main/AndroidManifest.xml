@@ -9,22 +9,25 @@
 
     <application
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
-        android:usesCleartextTraffic="true"
         android:requestLegacyExternalStorage="true"
-        android:hardwareAccelerated="true"
         android:roundIcon="@drawable/icon"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".Activities.FutureBookingActivity"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".Activities.EditBarberActivity"></activity>
+        <activity
+            android:name=".Activities.FutureBookingActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
-        <activity android:name=".Activities.PrivacyActivity"
+        <activity
+            android:name=".Activities.PrivacyActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
-
-        <activity android:name=".Activities.ContactActivity"
+        <activity
+            android:name=".Activities.ContactActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
@@ -38,7 +41,7 @@
         <activity
             android:name=".Activities.MobileNumberActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar"/>
+            android:theme="@style/NoActionBar" />
         <activity
             android:name=".Activities.ChooseActivity"
             android:screenOrientation="portrait"
@@ -73,8 +76,6 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-
-
     </application>
 
 </manifest>

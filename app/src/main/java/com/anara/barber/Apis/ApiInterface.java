@@ -20,6 +20,10 @@ public interface ApiInterface {
     Call<String> updateSalonProfile(@Body String serviceId);
 
     @Headers({"Content-type: application/json"})
+    @POST("/admin/api/barbers/edit-profile")
+    Call<String> updateBarberProfile(@Body String serviceId);
+
+    @Headers({"Content-type: application/json"})
     @POST("/admin/api/saloons/login")
     Call<String> sendMobile(@Body String mobile);
 
