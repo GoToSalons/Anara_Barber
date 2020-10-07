@@ -157,6 +157,7 @@ public class SalonDetailsActivity extends AppCompatActivity implements View.OnCl
             facebook_url.setText(prefManager.getString(Const.FACEBOOK,""));
             instagram_url.setText(prefManager.getString(Const.INSTAGRAM,""));
             twitter_url.setText(prefManager.getString(Const.TWITTER,""));
+
             String salonType2 = prefManager.getString(Const.SALON_TYPE,"");
             if (salonType2.equals("Male")) {
                 salonType = "Male";
@@ -283,17 +284,7 @@ public class SalonDetailsActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void validateAndPass() {
-        if (name.getText().toString().equals("") || name.getText().toString().length() < 5) {
-            Toast.makeText(this, "Salon Name Must be Longer " + name.getText().toString().length(), Toast.LENGTH_SHORT).show();
-        } else if (address.getText().toString().equals("") || address.getText().toString().length() < 15) {
-            Toast.makeText(this, "Salon Address Must be Longer", Toast.LENGTH_SHORT).show();
-        } else if (files.size() < 2) {
-            Toast.makeText(this, "2 Photos Minimum", Toast.LENGTH_SHORT).show();
-        } else if (salonType.equals("")) {
-            Toast.makeText(this, "Select Salon Type", Toast.LENGTH_SHORT).show();
-        } else if (salonServices.size() < 1) {
-            Toast.makeText(this, "Add Service", Toast.LENGTH_SHORT).show();
-        } else {
+        if (edit.equals("true")) {
             salonModel.setsalonName(name.getText().toString());
             salonModel.setsalonAddress(address.getText().toString());
             salonModel.setsalonImages(files);
@@ -306,6 +297,31 @@ public class SalonDetailsActivity extends AppCompatActivity implements View.OnCl
             salonModel.setServices(salonServices);
             Intent intent = new Intent(SalonDetailsActivity.this, LocationPickerActivity.class);
             startActivityForResult(intent, ADDRESS_PICKER_REQUEST);
+        } else {
+            if (name.getText().toString().equals("") || name.getText().toString().length() < 5) {
+                Toast.makeText(this, "Salon Name Must be Longer " + name.getText().toString().length(), Toast.LENGTH_SHORT).show();
+            } else if (address.getText().toString().equals("") || address.getText().toString().length() < 15) {
+                Toast.makeText(this, "Salon Address Must be Longer", Toast.LENGTH_SHORT).show();
+            } else if (files.size() < 2) {
+                Toast.makeText(this, "2 Photos Minimum", Toast.LENGTH_SHORT).show();
+            } else if (salonType.equals("")) {
+                Toast.makeText(this, "Select Salon Type", Toast.LENGTH_SHORT).show();
+            } else if (salonServices.size() < 1) {
+                Toast.makeText(this, "Add Service", Toast.LENGTH_SHORT).show();
+            } else {
+                salonModel.setsalonName(name.getText().toString());
+                salonModel.setsalonAddress(address.getText().toString());
+                salonModel.setsalonImages(files);
+                salonModel.setType(salonType);
+                salonModel.setOpen_time(start_time.getText().toString());
+                salonModel.setClose_time(end_time.getText().toString());
+                salonModel.setFacebook(facebook_url.getText().toString());
+                salonModel.setInstagram(instagram_url.getText().toString());
+                salonModel.setTwitter(twitter_url.getText().toString());
+                salonModel.setServices(salonServices);
+                Intent intent = new Intent(SalonDetailsActivity.this, LocationPickerActivity.class);
+                startActivityForResult(intent, ADDRESS_PICKER_REQUEST);
+            }
         }
     }
 

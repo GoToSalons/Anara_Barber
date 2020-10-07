@@ -63,6 +63,7 @@ public class RequestResponseManager {
             }
         });
     }
+
     public static void updateSalonProfile(JSONObject parameters, int requestCode, OnResponseListener onResponseListener) {
         ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
         Call<String> call = apiInterface.updateSalonProfile(parameters.toString());
@@ -88,6 +89,7 @@ public class RequestResponseManager {
             }
         });
     }
+
     public static void updateBarberProfile(JSONObject parameters, int requestCode, OnResponseListener onResponseListener) {
         ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
         Call<String> call = apiInterface.updateBarberProfile(parameters.toString());

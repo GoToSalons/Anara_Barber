@@ -7,6 +7,7 @@ public class OwnerRS implements Serializable {
     private long salon_id;
     private String salon_name;
     private String open_time;
+    private String contact_person;
     private String close_time;
     private String salon_type;
     private String contact_no;
@@ -17,12 +18,98 @@ public class OwnerRS implements Serializable {
     private String twitter;
     private String latitude;
     private String logitude;
+    private String bank_name;
+    private String account_number;
+    private String ifsc_code;
+    private String upi_id;
 
     private String id;
     private String name;
     private String email;
     private String mobile;
     private String profile_image;
+    private String exp_month;
+    private String exp_year;
+
+    public String getExp_year() {
+        return exp_year;
+    }
+
+    public void setExp_year(String exp_year) {
+        this.exp_year = exp_year;
+    }
+
+    public String getExp_month() {
+        return exp_month;
+    }
+
+    public void setExp_month(String exp_month) {
+        this.exp_month = exp_month;
+    }
+
+    public long getSalon_id() {
+        return salon_id;
+    }
+
+    public void setSalon_id(long salon_id) {
+        this.salon_id = salon_id;
+    }
+
+    public String getSalon_name() {
+        return salon_name;
+    }
+
+    public void setSalon_name(String salon_name) {
+        this.salon_name = salon_name;
+    }
+
+    public String getContact_person() {
+        return contact_person;
+    }
+
+    public void setContact_person(String contact_person) {
+        this.contact_person = contact_person;
+    }
+
+    public String getSalon_type() {
+        return salon_type;
+    }
+
+    public void setSalon_type(String salon_type) {
+        this.salon_type = salon_type;
+    }
+
+    public String getBank_name() {
+        return bank_name;
+    }
+
+    public void setBank_name(String bank_name) {
+        this.bank_name = bank_name;
+    }
+
+    public String getAccount_number() {
+        return account_number;
+    }
+
+    public void setAccount_number(String account_number) {
+        this.account_number = account_number;
+    }
+
+    public String getIfsc_code() {
+        return ifsc_code;
+    }
+
+    public void setIfsc_code(String ifsc_code) {
+        this.ifsc_code = ifsc_code;
+    }
+
+    public String getUpi_id() {
+        return upi_id;
+    }
+
+    public void setUpi_id(String upi_id) {
+        this.upi_id = upi_id;
+    }
 
     public long getsalon_id() {
         return salon_id;

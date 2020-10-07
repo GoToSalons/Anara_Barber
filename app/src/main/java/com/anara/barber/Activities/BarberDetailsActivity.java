@@ -231,6 +231,11 @@ public class BarberDetailsActivity extends AppCompatActivity implements AddBarbe
                         prefManager.setString(Const.TWITTER, ownerRS.getTwitter());
                         prefManager.setString(Const.LATITUDE, ownerRS.getLatitude());
                         prefManager.setString(Const.LONGITUDE, ownerRS.getLogitude());
+                        prefManager.setString(Const.OWNER_NAME, ownerRS.getContact_person());
+                        prefManager.setString(Const.Bank_Name, ownerRS.getBank_name());
+                        prefManager.setString(Const.OWNER_EMAIL, ownerRS.getEmail());
+                        prefManager.setString(Const.Account_number, ownerRS.getAccount_number());
+                        prefManager.setString(Const.IFSC_CODE, ownerRS.getIfsc_code());
 
                         Toast.makeText(this, "" + baseRs.getMessage(), Toast.LENGTH_SHORT).show();
 

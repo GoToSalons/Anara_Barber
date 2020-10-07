@@ -79,13 +79,8 @@ public class OwnerDetailsActivity extends AppCompatActivity implements View.OnCl
 
         ownerModel = new OwnerModel();
         edit = getIntent().getStringExtra("edit");
-        if (edit != null) {
-            if (!edit.equals("true")) {
-                salonModel = getIntent().getParcelableExtra(Const.salon_DATA_KEY);
-            }
-        } else {
-            salonModel = getIntent().getParcelableExtra(Const.salon_DATA_KEY);
-        }
+        salonModel = getIntent().getParcelableExtra(Const.salon_DATA_KEY);
+
         owner_name = findViewById(R.id.owner_name);
         e_mail = findViewById(R.id.e_mail);
         bank_name = findViewById(R.id.bank_name);
@@ -107,7 +102,15 @@ public class OwnerDetailsActivity extends AppCompatActivity implements View.OnCl
         findViewById(R.id.back_button).setOnClickListener(view -> finish());
 
         if (edit.equals("true")) {
-            owner_name.setText(prefManager.getString(Const.SALON_NAME,""));
+            owner_name.setText(prefManager.getString(Const.OWNER_NAME, ""));
+            e_mail.setText(prefManager.getString(Const.OWNER_EMAIL, ""));
+            bank_name.setText(prefManager.getString(Const.Bank_Name, ""));
+            ifsc_code.setText(prefManager.getString(Const.IFSC_CODE, ""));
+            account_number.setText(prefManager.getString(Const.Account_number, ""));
+            upi_id.setText(prefManager.getString(Const.UPI_ID, ""));
+            ownerImagePath = prefManager.getString(Const.OWNER_IMAGE, "");
+
+            Glide.with(this).load(ownerImagePath).centerCrop().into(circleImageView);
         }
     }
 
@@ -127,6 +130,17 @@ public class OwnerDetailsActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void next() {
+        if (edit.equals("true")) {
+            ownerModel.setOwnerName(owner_name.getText().toString());
+            ownerModel.setOwnerEmailAddress(e_mail.getText().toString());
+            ownerModel.setBank_name(bank_name.getText().toString());
+            ownerModel.setAccount_number(account_number.getText().toString());
+            ownerModel.setIfsc_code(ifsc_code.getText().toString());
+            ownerModel.setUpi_id(upi_id.getText().toString());
+            ownerModel.setOwnerNumber(getIntent().getStringExtra("number"));
+            ownerModel.setOwnerImages(ownerImagePath);
+            updateProfile();
+        }
         if (owner_name.getText().toString().equals("") || owner_name.getText().toString().length() < 3) {
             Toast.makeText(this, "Owner Name Must be Longer " + owner_name.getText().toString().length(), Toast.LENGTH_SHORT).show();
         } else if (e_mail.getText().toString().equals("")) {
@@ -150,15 +164,13 @@ public class OwnerDetailsActivity extends AppCompatActivity implements View.OnCl
             ownerModel.setUpi_id(upi_id.getText().toString());
             ownerModel.setOwnerNumber(getIntent().getStringExtra("number"));
             ownerModel.setOwnerImages(ownerImagePath);
-            if (edit.equals("true")) {
-               updateProfile();
-            } else {
-                Intent intent = new Intent(OwnerDetailsActivity.this, BarberDetailsActivity.class);
-                intent.putExtra("barber_action", "new");
-                intent.putExtra(Const.salon_DATA_KEY, (Parcelable) salonModel);
-                intent.putExtra(Const.OWNER_DATA_KEY, (Parcelable) ownerModel);
-                startActivity(intent);
-            }
+
+            Intent intent = new Intent(OwnerDetailsActivity.this, BarberDetailsActivity.class);
+            intent.putExtra("barber_action", "new");
+            intent.putExtra(Const.salon_DATA_KEY, (Parcelable) salonModel);
+            intent.putExtra(Const.OWNER_DATA_KEY, (Parcelable) ownerModel);
+            startActivity(intent);
+
         }
     }
 
@@ -167,7 +179,7 @@ public class OwnerDetailsActivity extends AppCompatActivity implements View.OnCl
             JSONObject jsonObject = new JSONObject();
 
             // salon data add to json
-            jsonObject.put("salon_id", prefManager.getString(Const.SALON_ID,""));
+            jsonObject.put("salon_id", prefManager.getString(Const.SALON_ID, ""));
             jsonObject.put("salon_name", salonModel.getsalonName());
             jsonObject.put("street_address", salonModel.getsalonAddress());
             jsonObject.put("open_time", salonModel.getOpen_time());
@@ -192,16 +204,17 @@ public class OwnerDetailsActivity extends AppCompatActivity implements View.OnCl
             jsonObject.put("ifsc_code", ownerModel.getIfsc_code());
             jsonObject.put("upi_id", ownerModel.getUpi_id());
             jsonObject.put("mobile", ownerModel.getOwnerNumber());
-            jsonObject.put("owner_image", Const.getBase64ImageFromBitmap(ownerModel.getOwnerImages()));
-
+            if (!ownerModel.getOwnerImages().contains("http")) {
+                jsonObject.put("owner_image", Const.getBase64ImageFromBitmap(ownerModel.getOwnerImages()));
+            }
 
             RequestResponseManager.updateSalonProfile(jsonObject, Const.salon_Register_Request, response -> {
                 if (response != null) {
                     BaseRs baseRs = (BaseRs) response;
                     if (baseRs.getStatus().equals("success")) {
                         PrefManager prefManager = new PrefManager(this);
-                        prefManager.setString(Const.isLoginOwner,"true");
-                        prefManager.setString(Const.isOwnerRegister,"true");
+                        prefManager.setString(Const.isLoginOwner, "true");
+                        prefManager.setString(Const.isOwnerRegister, "true");
 
                         OwnerRS ownerRS = baseRs.getsalon();
 
@@ -218,13 +231,18 @@ public class OwnerDetailsActivity extends AppCompatActivity implements View.OnCl
                         prefManager.setString(Const.TWITTER, ownerRS.getTwitter());
                         prefManager.setString(Const.LATITUDE, ownerRS.getLatitude());
                         prefManager.setString(Const.LONGITUDE, ownerRS.getLogitude());
+                        prefManager.setString(Const.OWNER_NAME, ownerRS.getContact_person());
+                        prefManager.setString(Const.Bank_Name, ownerRS.getBank_name());
+                        prefManager.setString(Const.OWNER_EMAIL, ownerRS.getEmail());
+                        prefManager.setString(Const.Account_number, ownerRS.getAccount_number());
+                        prefManager.setString(Const.IFSC_CODE, ownerRS.getIfsc_code());
 
                         Toast.makeText(this, "" + baseRs.getMessage(), Toast.LENGTH_SHORT).show();
 
                         startActivity(new Intent(this, ChooseActivity.class));
                         finish();
                     } else {
-                        Toast.makeText(this, ""+baseRs.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "" + baseRs.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                     Log.e("tag", " = =  = call = = = " + baseRs.getStatus());
                 } else {

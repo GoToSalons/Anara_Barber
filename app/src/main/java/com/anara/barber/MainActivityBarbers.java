@@ -6,12 +6,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.anara.barber.Activities.EditBarberActivity;
 import com.anara.barber.Adapters.BarberSlotAdapter;
 import com.anara.barber.ApiRS.BarbersRS;
 import com.anara.barber.ApiRS.BaseRs;
@@ -86,6 +88,8 @@ public class MainActivityBarbers extends AppCompatActivity {
             prefManager.setString(Const.isLoginBarber,"false");
             finish();
         });
+
+        findViewById(R.id.edit_profile).setOnClickListener(view -> startActivity(new Intent(MainActivityBarbers.this, EditBarberActivity.class)));
 
         try {
             JSONObject jsonObject = new JSONObject();

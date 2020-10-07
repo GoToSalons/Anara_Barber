@@ -1,10 +1,14 @@
 package com.anara.barber.Activities;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -16,6 +20,7 @@ import com.anara.barber.ApiRS.BaseRs;
 import com.anara.barber.ApiRS.OwnerRS;
 import com.anara.barber.Apis.Const;
 import com.anara.barber.Apis.RequestResponseManager;
+import com.anara.barber.Model.AddBarberItem;
 import com.anara.barber.R;
 import com.anara.barber.utils.PrefManager;
 import com.bumptech.glide.Glide;
@@ -44,6 +49,7 @@ public class EditBarberActivity extends AppCompatActivity {
 
     String barberProfileImage = "";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,40 +76,48 @@ public class EditBarberActivity extends AppCompatActivity {
 
         barber_name.setText(prefManager.getString(Const.BARBER_NAME,""));
         e_mail.setText(prefManager.getString(Const.BARBER_EMAIL,""));
-        String number = prefManager.getString(Const.BARBER_MOBILE,"");
+        e_mail.setText(prefManager.getString(Const.BARBER_EMAIL,""));
+        exp_mon.setText(prefManager.getString(Const.BARBER_EXP_MONTH,""));
+        exp_yrs.setText(prefManager.getString(Const.BARBER_EXP_YEAR,""));
+        String number = prefManager.getString(Const.BARBER_MOBILE,"").replace("+91","");
         phone_number.setText(number);
 
-        Glide.with(this).load(prefManager.getString(Const.BARBER_IMAGE,"")).centerCrop().into(a1);
+        Glide.with(this).load(prefManager.getString(Const.BARBER_IMAGE,"")).centerCrop().into(profile_image);
 
         barberProfileImage = prefManager.getString(Const.BARBER_IMAGE,"");
 
-        findViewById(R.id.continue_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                updateBarberProfile();
-            }
-        });
+        findViewById(R.id.continue_button).setOnClickListener(view -> updateBarberProfile());
     }
 
     private void updateBarberProfile() {
+        progressDialog.show();
         try {
-            JSONObject jsonObject = new JSONObject();
 
             JSONObject barberJsonObject = new JSONObject();
+            barberJsonObject.put("barber_id", prefManager.getString(Const.BARBER_ID,""));
             barberJsonObject.put("name", barber_name.getText().toString());
             barberJsonObject.put("email", e_mail.getText().toString());
             barberJsonObject.put("mobile", countryCodePicker.getFullNumberWithPlus());
             barberJsonObject.put("exp_year", exp_yrs.getText().toString());
             barberJsonObject.put("exp_month", exp_mon.getText().toString());
-            if (!barberProfileImage.contains("http")) {
+            if (!barberProfileImage.contains("http") && !barberProfileImage.isEmpty()) {
                 barberJsonObject.put("barber_profile", Const.getBase64ImageFromBitmap(barberProfileImage));
             }
-            RequestResponseManager.updateBarberProfile(jsonObject, Const.salon_Register_Request, response -> {
+
+            Log.e("tag"," = = = = == " +barberJsonObject.toString());
+            RequestResponseManager.updateBarberProfile(barberJsonObject, Const.salon_Register_Request, response -> {
                 if (response != null) {
                     BaseRs baseRs = (BaseRs) response;
                     if (baseRs.getStatus().equals("success")) {
+                        OwnerRS ownerRS = baseRs.getOwnerRS();
                         PrefManager prefManager = new PrefManager(this);
-
+                        prefManager.setString(Const.BARBER_ID, ownerRS.getId());
+                        prefManager.setString(Const.BARBER_NAME, ownerRS.getName());
+                        prefManager.setString(Const.BARBER_EMAIL, ownerRS.getEmail());
+                        prefManager.setString(Const.BARBER_MOBILE, ownerRS.getMobile());
+                        prefManager.setString(Const.BARBER_IMAGE, ownerRS.getProfile_image());
+                        prefManager.setString(Const.BARBER_EXP_YEAR, ownerRS.getExp_year());
+                        prefManager.setString(Const.BARBER_EXP_MONTH, ownerRS.getExp_month());
                         Toast.makeText(this, "" + baseRs.getMessage(), Toast.LENGTH_SHORT).show();
 
                         startActivity(new Intent(this, ChooseActivity.class));
@@ -125,6 +139,44 @@ public class EditBarberActivity extends AppCompatActivity {
             if (progressDialog.isShowing()) {
                 progressDialog.dismiss();
             }
+        }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 21) {
+                if (data != null) {
+                    Uri filePath = data.getData();
+                    if (filePath != null && filePath.getPath() != null) {
+                        convertUriToPath(filePath);
+                    }
+                }
+            }
+        }
+    }
+
+    void convertUriToPath(Uri selectedImage) {
+        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+        Cursor cursor = null;
+        if (selectedImage != null) {
+            cursor = getContentResolver().query(selectedImage,
+                    filePathColumn, null, null, null);
+        }
+        if (cursor != null) {
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePath = cursor.getString(columnIndex);
+
+            barberProfileImage = picturePath;
+            cursor.close();
+
+            Glide.with(this).load(picturePath).centerCrop().into(profile_image);
+
         }
     }
 

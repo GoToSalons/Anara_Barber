@@ -89,6 +89,8 @@ public class MobileNumberActivity extends AppCompatActivity {
                         prefManager.setString(Const.BARBER_EMAIL, ownerRS.getEmail());
                         prefManager.setString(Const.BARBER_MOBILE, ownerRS.getMobile());
                         prefManager.setString(Const.BARBER_IMAGE, ownerRS.getProfile_image());
+                        prefManager.setString(Const.BARBER_EXP_YEAR, ownerRS.getExp_year());
+                        prefManager.setString(Const.BARBER_EXP_MONTH, ownerRS.getExp_month());
                         Intent intent = new Intent(MobileNumberActivity.this, OTPActivity.class);
                         intent.putExtra("mobile", countryCodePicker.getFullNumberWithPlus());
                         intent.putExtra(Const.LOGIN_TYPE_KEY, getIntent().getStringExtra(Const.LOGIN_TYPE_KEY));

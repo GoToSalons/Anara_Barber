@@ -48,6 +48,11 @@ public class Const {
     public static final String STREET_ADDRESS = "street_address";
     public static final String OWNER_IMAGE = "owner_image";
     public static final String OWNER_NAME = "owner_name";
+    public static final String OWNER_EMAIL = "owner_email";
+    public static final String Bank_Name = "bank_name";
+    public static final String Account_number = "account-number";
+    public static final String IFSC_CODE = "ifsc_code";
+    public static final String UPI_ID = "upi_id";
     public static final String INSTAGRAM = "instagram";
     public static final String FACEBOOK = "facebook";
     public static final String TWITTER = "twitter";
@@ -59,6 +64,8 @@ public class Const {
     public static final String BARBER_EMAIL = "barber_email";
     public static final String BARBER_MOBILE = "barber_mobile";
     public static final String BARBER_IMAGE = "barber_image";
+    public static final String BARBER_EXP_MONTH = "exp_month";
+    public static final String BARBER_EXP_YEAR = "exp_year";
 
     public static String getBase64ImageFromBitmap(String filePath) {
         try {

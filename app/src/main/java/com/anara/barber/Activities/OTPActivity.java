@@ -89,7 +89,12 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         mobileNumber = intent.getStringExtra("mobile");
         loginType = intent.getStringExtra(Const.LOGIN_TYPE_KEY);
         mAuth = FirebaseAuth.getInstance();
-        sendVerificationCode(mobileNumber);
+//        sendVerificationCode(mobileNumber);
+        PrefManager prefManager = new PrefManager(this);
+        prefManager.setString(Const.isLoginBarber,"true");
+        Intent intent2 = new Intent(OTPActivity.this, ChooseActivity.class);
+        startActivity(intent2);
+        finish();
 //        Intent intent2 = new Intent(OTPActivity.this, SalonDetailsActivity.class);
 //        intent2.putExtra("number", mobileNumber);
 //        startActivity(intent2);
@@ -193,6 +198,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
                     if (baseRs.getLogin().equals("false")) {
                         Intent intent = new Intent(OTPActivity.this, SalonDetailsActivity.class);
                         intent.putExtra("number", mobileNumber);
+                        intent.putExtra("edit", "false");
                         startActivity(intent);
                     } else {
                         OwnerRS ownerRS = baseRs.getOwnerRS();
@@ -202,6 +208,12 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
                         prefManager.setString(Const.SALON_ID, String.valueOf(ownerRS.getsalon_id()));
                         prefManager.setString(Const.SALON_NAME, ownerRS.getsalon_name());
                         prefManager.setString(Const.OPEN_TIME, ownerRS.getOpen_time());
+                        prefManager.setString(Const.OWNER_NAME, ownerRS.getContact_person());
+                        prefManager.setString(Const.Bank_Name, ownerRS.getBank_name());
+                        prefManager.setString(Const.OWNER_EMAIL, ownerRS.getEmail());
+                        prefManager.setString(Const.Account_number, ownerRS.getAccount_number());
+                        prefManager.setString(Const.IFSC_CODE, ownerRS.getIfsc_code());
+                        prefManager.setString(Const.UPI_ID, ownerRS.getUpi_id());
                         prefManager.setString(Const.CLOSE_TIME, ownerRS.getClose_time());
                         prefManager.setString(Const.SALON_TYPE, ownerRS.getsalon_type());
                         prefManager.setString(Const.CONTACT_NO, ownerRS.getContact_no());
