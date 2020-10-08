@@ -29,6 +29,7 @@ public class BarbersAdapter extends RecyclerView.Adapter<BarbersAdapter.MyViewHo
     OnClick onClick;
 
     boolean isDelete = false;
+    boolean isEdit = false;
 
     public BarbersAdapter(MainActivityOwner mainActivityOwner, ArrayList<BarbersRS> barberModels) {
         this.barberModels = barberModels;
@@ -44,7 +45,10 @@ public class BarbersAdapter extends RecyclerView.Adapter<BarbersAdapter.MyViewHo
         notifyDataSetChanged();
     }
 
-
+    public void setEdit(boolean edit) {
+        isEdit = edit;
+        notifyDataSetChanged();
+    }
 
     @NonNull
     @Override
@@ -61,6 +65,11 @@ public class BarbersAdapter extends RecyclerView.Adapter<BarbersAdapter.MyViewHo
             holder.delete_barber.setVisibility(View.VISIBLE);
         } else {
             holder.delete_barber.setVisibility(View.INVISIBLE);
+        }
+        if (isEdit) {
+            holder.edit_barber.setVisibility(View.VISIBLE);
+        } else {
+            holder.edit_barber.setVisibility(View.INVISIBLE);
         }
 
         holder.barberName.setText(barberModel.getName());
@@ -83,6 +92,13 @@ public class BarbersAdapter extends RecyclerView.Adapter<BarbersAdapter.MyViewHo
             }
         });
 
+        holder.edit_barber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClick.onUpdate(barberModel.getId(), holder.getAdapterPosition());
+            }
+        });
+
     }
 
     @Override
@@ -90,9 +106,15 @@ public class BarbersAdapter extends RecyclerView.Adapter<BarbersAdapter.MyViewHo
         return barberModels.size();
     }
 
+    public interface OnClick {
+        void onDelete(int barberId, int adapterPosition);
+
+        void onUpdate(int barberId, int adapterPosition);
+    }
+
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView barberImage, delete_barber;
+        ImageView barberImage, delete_barber, edit_barber;
         TextView barberName, monthEarning, todayEarning;
 
         public MyViewHolder(@NonNull View itemView) {
@@ -100,15 +122,12 @@ public class BarbersAdapter extends RecyclerView.Adapter<BarbersAdapter.MyViewHo
 
             barberImage = itemView.findViewById(R.id.barber_image);
             delete_barber = itemView.findViewById(R.id.delete_barber);
+            edit_barber = itemView.findViewById(R.id.edit_barber);
             barberName = itemView.findViewById(R.id.barber_name);
             monthEarning = itemView.findViewById(R.id.month_earning);
             todayEarning = itemView.findViewById(R.id.today_earning);
 
         }
-    }
-
-    public interface OnClick {
-        void onDelete(int barberId, int adapterPosition);
     }
 
 }

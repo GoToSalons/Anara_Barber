@@ -67,7 +67,7 @@ public class AddRemoveBarber extends DialogFragment implements View.OnClickListe
         contentView.findViewById(R.id.back_button).setOnClickListener(view -> dismiss());
 
         contentView.findViewById(R.id.log_out).setOnClickListener(view -> {
-            mainActivity.prefManager.setString(Const.isLoginOwner,"false");
+            mainActivity.prefManager.setString(Const.isLoginOwner, "false");
             mainActivity.finish();
             dismiss();
         });
@@ -76,6 +76,14 @@ public class AddRemoveBarber extends DialogFragment implements View.OnClickListe
             Intent intent = new Intent(mainActivity, SalonDetailsActivity.class);
             intent.putExtra("edit", "true");
             startActivity(intent);
+        });
+
+        contentView.findViewById(R.id.edit_barber).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainActivity.onBarberUpdate();
+                dismiss();
+            }
         });
 
         return contentView;

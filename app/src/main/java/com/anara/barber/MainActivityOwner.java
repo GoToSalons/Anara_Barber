@@ -6,11 +6,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.anara.barber.Activities.BarberDetailsActivity;
 import com.anara.barber.Adapters.BarbersAdapter;
 import com.anara.barber.ApiRS.BarbersRS;
 import com.anara.barber.Apis.Const;
@@ -136,6 +138,12 @@ public class MainActivityOwner extends AppCompatActivity implements BarbersAdapt
         }
     }
 
+    public void onBarberUpdate() {
+        if (chooseBarbersAdapter != null) {
+            chooseBarbersAdapter.setEdit(true);
+        }
+    }
+
     @Override
     public void onDelete(int barberId, int adapterPosition) {
 
@@ -172,6 +180,14 @@ public class MainActivityOwner extends AppCompatActivity implements BarbersAdapt
             }
         }
 
+    }
+
+    @Override
+    public void onUpdate(int barberId, int adapterPosition) {
+        Intent intent = new Intent(MainActivityOwner.this, BarberDetailsActivity.class);
+        intent.putExtra("barber_id", barberId);
+        intent.putExtra("barber_action", "not new");
+        startActivity(intent);
     }
 
 

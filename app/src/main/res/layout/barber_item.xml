@@ -112,7 +112,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="₹100"
-                android:textColor="@color/colorBlack"/>
+                android:textColor="@color/colorBlack" />
 
         </LinearLayout>
 
@@ -120,8 +120,17 @@
             android:id="@+id/delete_barber"
             android:visibility="invisible"
             android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:src="@drawable/ic_delete"
+            android:src="@drawable/ic_delete" />
+
+        <ImageView
+            android:id="@+id/edit_barber"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_baseline_edit_24"
+            android:layout_alignParentEnd="true"
+            android:visibility="invisible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

@@ -89,12 +89,12 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         mobileNumber = intent.getStringExtra("mobile");
         loginType = intent.getStringExtra(Const.LOGIN_TYPE_KEY);
         mAuth = FirebaseAuth.getInstance();
-//        sendVerificationCode(mobileNumber);
+        sendVerificationCode(mobileNumber);
         PrefManager prefManager = new PrefManager(this);
-        prefManager.setString(Const.isLoginBarber,"true");
-        Intent intent2 = new Intent(OTPActivity.this, ChooseActivity.class);
-        startActivity(intent2);
-        finish();
+        prefManager.setString(Const.isLoginBarber, "true");
+//        Intent intent2 = new Intent(OTPActivity.this, ChooseActivity.class);
+//        startActivity(intent2);
+//        finish();
 //        Intent intent2 = new Intent(OTPActivity.this, SalonDetailsActivity.class);
 //        intent2.putExtra("number", mobileNumber);
 //        startActivity(intent2);
