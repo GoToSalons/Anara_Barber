@@ -114,6 +114,7 @@ public class OwnerDetailsActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -140,37 +141,37 @@ public class OwnerDetailsActivity extends AppCompatActivity implements View.OnCl
             ownerModel.setOwnerNumber(getIntent().getStringExtra("number"));
             ownerModel.setOwnerImages(ownerImagePath);
             updateProfile();
-        }
-        if (owner_name.getText().toString().equals("") || owner_name.getText().toString().length() < 3) {
-            Toast.makeText(this, "Owner Name Must be Longer " + owner_name.getText().toString().length(), Toast.LENGTH_SHORT).show();
-        } else if (e_mail.getText().toString().equals("")) {
-            Toast.makeText(this, "Enter valid email", Toast.LENGTH_SHORT).show();
-        } else if (ownerImagePath.equals("")) {
-            Toast.makeText(this, "select image", Toast.LENGTH_SHORT).show();
-        } else if (bank_name.getText().toString().equals("")) {
-            Toast.makeText(this, "Enter Bank Name", Toast.LENGTH_SHORT).show();
-        } else if (ifsc_code.getText().toString().equals("")) {
-            Toast.makeText(this, "Enter IFSC code", Toast.LENGTH_SHORT).show();
-        } else if (account_number.getText().toString().equals("")) {
-            Toast.makeText(this, "Enter your account number", Toast.LENGTH_SHORT).show();
-        } else if (upi_id.getText().toString().equals("")) {
-            Toast.makeText(this, "Enter your upi id", Toast.LENGTH_SHORT).show();
         } else {
-            ownerModel.setOwnerName(owner_name.getText().toString());
-            ownerModel.setOwnerEmailAddress(e_mail.getText().toString());
-            ownerModel.setBank_name(bank_name.getText().toString());
-            ownerModel.setAccount_number(account_number.getText().toString());
-            ownerModel.setIfsc_code(ifsc_code.getText().toString());
-            ownerModel.setUpi_id(upi_id.getText().toString());
-            ownerModel.setOwnerNumber(getIntent().getStringExtra("number"));
-            ownerModel.setOwnerImages(ownerImagePath);
+            if (owner_name.getText().toString().equals("") || owner_name.getText().toString().length() < 3) {
+                Toast.makeText(this, "Owner Name Must be Longer " + owner_name.getText().toString().length(), Toast.LENGTH_SHORT).show();
+            } else if (e_mail.getText().toString().equals("")) {
+                Toast.makeText(this, "Enter valid email", Toast.LENGTH_SHORT).show();
+            } else if (ownerImagePath.equals("")) {
+                Toast.makeText(this, "select image", Toast.LENGTH_SHORT).show();
+            } else if (bank_name.getText().toString().equals("")) {
+                Toast.makeText(this, "Enter Bank Name", Toast.LENGTH_SHORT).show();
+            } else if (ifsc_code.getText().toString().equals("")) {
+                Toast.makeText(this, "Enter IFSC code", Toast.LENGTH_SHORT).show();
+            } else if (account_number.getText().toString().equals("")) {
+                Toast.makeText(this, "Enter your account number", Toast.LENGTH_SHORT).show();
+            } else if (upi_id.getText().toString().equals("")) {
+                Toast.makeText(this, "Enter your upi id", Toast.LENGTH_SHORT).show();
+            } else {
+                ownerModel.setOwnerName(owner_name.getText().toString());
+                ownerModel.setOwnerEmailAddress(e_mail.getText().toString());
+                ownerModel.setBank_name(bank_name.getText().toString());
+                ownerModel.setAccount_number(account_number.getText().toString());
+                ownerModel.setIfsc_code(ifsc_code.getText().toString());
+                ownerModel.setUpi_id(upi_id.getText().toString());
+                ownerModel.setOwnerNumber(getIntent().getStringExtra("number"));
+                ownerModel.setOwnerImages(ownerImagePath);
 
-            Intent intent = new Intent(OwnerDetailsActivity.this, BarberDetailsActivity.class);
-            intent.putExtra("barber_action", "new");
-            intent.putExtra(Const.salon_DATA_KEY, (Parcelable) salonModel);
-            intent.putExtra(Const.OWNER_DATA_KEY, (Parcelable) ownerModel);
-            startActivity(intent);
-
+                Intent intent = new Intent(OwnerDetailsActivity.this, BarberDetailsActivity.class);
+                intent.putExtra("barber_action", "new");
+                intent.putExtra(Const.salon_DATA_KEY, (Parcelable) salonModel);
+                intent.putExtra(Const.OWNER_DATA_KEY, (Parcelable) ownerModel);
+                startActivity(intent);
+            }
         }
     }
 
@@ -213,9 +214,6 @@ public class OwnerDetailsActivity extends AppCompatActivity implements View.OnCl
                     BaseRs baseRs = (BaseRs) response;
                     if (baseRs.getStatus().equals("success")) {
                         PrefManager prefManager = new PrefManager(this);
-                        prefManager.setString(Const.isLoginOwner, "true");
-                        prefManager.setString(Const.isOwnerRegister, "true");
-
                         OwnerRS ownerRS = baseRs.getsalon();
 
                         prefManager.setString(Const.SALON_ID, String.valueOf(ownerRS.getsalon_id()));
@@ -236,6 +234,7 @@ public class OwnerDetailsActivity extends AppCompatActivity implements View.OnCl
                         prefManager.setString(Const.OWNER_EMAIL, ownerRS.getEmail());
                         prefManager.setString(Const.Account_number, ownerRS.getAccount_number());
                         prefManager.setString(Const.IFSC_CODE, ownerRS.getIfsc_code());
+                        prefManager.setString(Const.UPI_ID, ownerRS.getUpi_id());
 
                         Toast.makeText(this, "" + baseRs.getMessage(), Toast.LENGTH_SHORT).show();
 

@@ -27,6 +27,7 @@ public class BaseRs {
     @SerializedName("salon")
     private OwnerRS salon;
 
+
     @SerializedName("salon_gallery")
     private ArrayList<String> salon_gallery;
 

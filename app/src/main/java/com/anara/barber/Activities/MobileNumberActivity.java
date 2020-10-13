@@ -77,7 +77,6 @@ public class MobileNumberActivity extends AppCompatActivity {
             jsonObject.put("mobile", countryCodePicker.getFullNumberWithPlus());
             Log.e("tag", " = =  = call = = = " + jsonObject.toString());
 
-            //7224909891
             RequestResponseManager.loginBarber(jsonObject, Const.Login_Barber_Request, response -> {
                 if (response != null) {
                     BaseRs baseRs = (BaseRs) response;

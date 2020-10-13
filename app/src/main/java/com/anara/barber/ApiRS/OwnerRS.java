@@ -1,6 +1,7 @@
 package com.anara.barber.ApiRS;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class OwnerRS implements Serializable {
 

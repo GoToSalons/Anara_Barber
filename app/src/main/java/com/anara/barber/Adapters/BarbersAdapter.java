@@ -95,7 +95,7 @@ public class BarbersAdapter extends RecyclerView.Adapter<BarbersAdapter.MyViewHo
         holder.edit_barber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onClick.onUpdate(barberModel.getId(), holder.getAdapterPosition());
+                onClick.onUpdate(barberModel.getId(), barberModel.getMobile(), holder.getAdapterPosition());
             }
         });
 
@@ -109,7 +109,7 @@ public class BarbersAdapter extends RecyclerView.Adapter<BarbersAdapter.MyViewHo
     public interface OnClick {
         void onDelete(int barberId, int adapterPosition);
 
-        void onUpdate(int barberId, int adapterPosition);
+        void onUpdate(int id, String barberNumber, int adapterPosition);
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {

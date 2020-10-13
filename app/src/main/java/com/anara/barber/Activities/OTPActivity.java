@@ -90,14 +90,29 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         loginType = intent.getStringExtra(Const.LOGIN_TYPE_KEY);
         mAuth = FirebaseAuth.getInstance();
         sendVerificationCode(mobileNumber);
-        PrefManager prefManager = new PrefManager(this);
-        prefManager.setString(Const.isLoginBarber, "true");
+
+
+//        PrefManager prefManager = new PrefManager(this);
+//        prefManager.setString(Const.isLoginBarber,"true");
 //        Intent intent2 = new Intent(OTPActivity.this, ChooseActivity.class);
 //        startActivity(intent2);
 //        finish();
 //        Intent intent2 = new Intent(OTPActivity.this, SalonDetailsActivity.class);
 //        intent2.putExtra("number", mobileNumber);
 //        startActivity(intent2);
+
+//        if (loginType.equals(Const.LOGIN_TYPE_OWNER)) {
+//            checkRegister();
+//        } else {
+//            if (progressDialog.isShowing()) {
+//                progressDialog.dismiss();
+//            }
+//            PrefManager prefManager = new PrefManager(this);
+//            prefManager.setString(Const.isLoginBarber,"true");
+//            Intent intent2 = new Intent(OTPActivity.this, ChooseActivity.class);
+//            startActivity(intent2);
+//            finish();
+//        }
         ed1 = findViewById(R.id.ed1);
         ed2 = findViewById(R.id.ed2);
         ed3 = findViewById(R.id.ed3);

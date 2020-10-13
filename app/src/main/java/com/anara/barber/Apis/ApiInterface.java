@@ -12,6 +12,10 @@ public interface ApiInterface {
     Call<String> loginBarber(@Body String serviceId);
 
     @Headers({"Content-type: application/json"})
+    @POST("/admin/api/saloons/saloon-details")
+    Call<String> salonDetails(@Body String serviceId);
+
+    @Headers({"Content-type: application/json"})
     @POST("/admin/api/saloons/register")
     Call<String> registersalon(@Body String serviceId);
 

@@ -218,6 +218,7 @@
 
         <TextView
             android:id="@+id/tv8"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Working Hours:10:00 AM to 1:00 PM"

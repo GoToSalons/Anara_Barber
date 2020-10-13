@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.anara.barber.Activities.BarberDetailsActivity;
+import com.anara.barber.Activities.EditBarberActivity;
 import com.anara.barber.Adapters.BarbersAdapter;
 import com.anara.barber.ApiRS.BarbersRS;
 import com.anara.barber.Apis.Const;
@@ -183,10 +183,11 @@ public class MainActivityOwner extends AppCompatActivity implements BarbersAdapt
     }
 
     @Override
-    public void onUpdate(int barberId, int adapterPosition) {
-        Intent intent = new Intent(MainActivityOwner.this, BarberDetailsActivity.class);
-        intent.putExtra("barber_id", barberId);
-        intent.putExtra("barber_action", "not new");
+    public void onUpdate(int id, String barberNumber, int adapterPosition) {
+        Intent intent = new Intent(MainActivityOwner.this, EditBarberActivity.class);
+        intent.putExtra("barber_id", id);
+        intent.putExtra("barber_number", barberNumber);
+        intent.putExtra("barber_action", "owner");
         startActivity(intent);
     }
 

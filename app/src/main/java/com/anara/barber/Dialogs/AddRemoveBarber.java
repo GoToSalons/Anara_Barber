@@ -34,6 +34,9 @@ public class AddRemoveBarber extends DialogFragment implements View.OnClickListe
         this.mainActivity = mainActivity;
     }
 
+    public AddRemoveBarber() {
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -101,7 +101,7 @@ public class AddServiceDialog extends DialogFragment implements View.OnClickList
 
         if (v.getId()==R.id.add_service){
             salonService.setService_name(service_name.getText().toString());
-            salonService.setService_description(description.getText().toString());
+            salonService.setService_description("Short");
             salonService.setPrice(price.getText().toString());
             salonService.setHours(hours.getText().toString());
             salonService.setMinutes(mins.getText().toString());

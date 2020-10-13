@@ -2,6 +2,7 @@ package com.anara.barber.Activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -30,7 +31,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.anara.barber.Adapters.ServiceAdapter;
+import com.anara.barber.ApiRS.BaseRs;
+import com.anara.barber.ApiRS.OwnerRS;
 import com.anara.barber.Apis.Const;
+import com.anara.barber.Apis.RequestResponseManager;
 import com.anara.barber.Dialogs.AddServiceDialog;
 import com.anara.barber.Model.SalonModel;
 import com.anara.barber.R;
@@ -38,6 +42,8 @@ import com.anara.barber.utils.PrefManager;
 import com.bumptech.glide.Glide;
 import com.shivtechs.maplocationpicker.LocationPickerActivity;
 import com.shivtechs.maplocationpicker.MapUtility;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -72,6 +78,8 @@ public class SalonDetailsActivity extends AppCompatActivity implements View.OnCl
 
     PrefManager prefManager;
 
+    // progress dialog
+    ProgressDialog progressDialog;
 
 
     @Override
@@ -81,6 +89,9 @@ public class SalonDetailsActivity extends AppCompatActivity implements View.OnCl
 
         prefManager = new PrefManager(this);
 
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Please wait......");
+        progressDialog.setCancelable(false);
 
         salonNumber = getIntent().getStringExtra("number");
         edit = getIntent().getStringExtra("edit");
@@ -169,10 +180,66 @@ public class SalonDetailsActivity extends AppCompatActivity implements View.OnCl
                 salonType = "Unisex";
                 unisex.setChecked(true);
             }
+            findViewById(R.id.add_service).setVisibility(View.GONE);
+
+            getSalonDetails();
         }
 
     }
 
+    private void getSalonDetails() {
+        try {
+            progressDialog.show();
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("salon_id", prefManager.getString(Const.SALON_ID,""));
+
+            RequestResponseManager.salonDetails(jsonObject, Const.Login_Barber_Request, response -> {
+                if (response != null) {
+                    BaseRs baseRs = (BaseRs) response;
+                    if (baseRs.getStatus().equals("success")) {
+                        OwnerRS ownerRS = baseRs.getsalon();
+                        ArrayList<String> salon_gallery = baseRs.getSalon_gallery();
+                        for (int requestCode = 0; requestCode < salon_gallery.size(); requestCode++) {
+                            String img = salon_gallery.get(requestCode);
+                            if (requestCode == 0) {
+                                Glide.with(im1).load(img).centerCrop().into(im1);
+                                a1.setVisibility(View.GONE);
+                            } else if (requestCode == 1) {
+                                Glide.with(im2).load(img).centerCrop().into(im2);
+                                a2.setVisibility(View.GONE);
+                            } else if (requestCode == 2) {
+                                Glide.with(im3).load(img).centerCrop().into(im3);
+                                a3.setVisibility(View.GONE);
+                            } else if (requestCode == 3) {
+                                Glide.with(im4).load(img).centerCrop().into(im4);
+                                a4.setVisibility(View.GONE);
+                            }
+                            prefManager.setString(Const.OWNER_NAME, ownerRS.getContact_person());
+                            prefManager.setString(Const.Bank_Name, ownerRS.getBank_name());
+                            prefManager.setString(Const.OWNER_EMAIL, ownerRS.getEmail());
+                            prefManager.setString(Const.Account_number, ownerRS.getAccount_number());
+                            prefManager.setString(Const.IFSC_CODE, ownerRS.getIfsc_code());
+                            prefManager.setString(Const.UPI_ID, ownerRS.getUpi_id());
+
+                        }
+
+                    } else {
+                        Toast.makeText(this, "Salon image not available", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(this, "Server error try again", Toast.LENGTH_SHORT).show();
+                }
+                if (progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
+        }
+    }
 
     @Override
     public void onClick(View view) {

@@ -30,7 +30,10 @@
             android:layout_centerInParent="true"
             android:text="Akim Kasmani"
             android:textColor="@color/colorBlack"
-            android:layout_toEndOf="@+id/profile_image"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:layout_toStartOf="@id/edit_profile"
+            android:layout_toEndOf="@id/profile_image"
             android:textSize="18sp" />
 
         <TextView

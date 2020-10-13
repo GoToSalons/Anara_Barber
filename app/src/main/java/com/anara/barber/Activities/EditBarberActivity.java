@@ -1,5 +1,6 @@
 package com.anara.barber.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -55,6 +57,9 @@ public class EditBarberActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_barber);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please wait......");
         progressDialog.setCancelable(false);
@@ -74,38 +79,40 @@ public class EditBarberActivity extends AppCompatActivity {
         countryCodePicker = findViewById(R.id.cpp);
         countryCodePicker.registerCarrierNumberEditText(phone_number);
 
-        barber_name.setText(prefManager.getString(Const.BARBER_NAME,""));
-        e_mail.setText(prefManager.getString(Const.BARBER_EMAIL,""));
-        e_mail.setText(prefManager.getString(Const.BARBER_EMAIL,""));
-        exp_mon.setText(prefManager.getString(Const.BARBER_EXP_MONTH,""));
-        exp_yrs.setText(prefManager.getString(Const.BARBER_EXP_YEAR,""));
-        String number = prefManager.getString(Const.BARBER_MOBILE,"").replace("+91","");
-        phone_number.setText(number);
+        if (getIntent().getStringExtra("barber_action").equals("barber")) {
+            barber_name.setText(prefManager.getString(Const.BARBER_NAME, ""));
+            e_mail.setText(prefManager.getString(Const.BARBER_EMAIL, ""));
+            exp_mon.setText(prefManager.getString(Const.BARBER_EXP_MONTH, ""));
+            exp_yrs.setText(prefManager.getString(Const.BARBER_EXP_YEAR, ""));
+            String number = prefManager.getString(Const.BARBER_MOBILE, "").replace("+91", "");
+            phone_number.setText(number);
 
-        Glide.with(this).load(prefManager.getString(Const.BARBER_IMAGE,"")).centerCrop().into(profile_image);
+            Glide.with(this).load(prefManager.getString(Const.BARBER_IMAGE, "")).centerCrop().into(profile_image);
 
-        barberProfileImage = prefManager.getString(Const.BARBER_IMAGE,"");
-
+            barberProfileImage = prefManager.getString(Const.BARBER_IMAGE, "");
+        } else {
+            getBarberDetails();
+        }
         findViewById(R.id.continue_button).setOnClickListener(view -> updateBarberProfile());
+
+
     }
 
-    private void updateBarberProfile() {
-        progressDialog.show();
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void getBarberDetails() {
         try {
+            progressDialog.show();
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("mobile", getIntent().getStringExtra("barber_number"));
 
-            JSONObject barberJsonObject = new JSONObject();
-            barberJsonObject.put("barber_id", prefManager.getString(Const.BARBER_ID,""));
-            barberJsonObject.put("name", barber_name.getText().toString());
-            barberJsonObject.put("email", e_mail.getText().toString());
-            barberJsonObject.put("mobile", countryCodePicker.getFullNumberWithPlus());
-            barberJsonObject.put("exp_year", exp_yrs.getText().toString());
-            barberJsonObject.put("exp_month", exp_mon.getText().toString());
-            if (!barberProfileImage.contains("http") && !barberProfileImage.isEmpty()) {
-                barberJsonObject.put("barber_profile", Const.getBase64ImageFromBitmap(barberProfileImage));
-            }
-
-            Log.e("tag"," = = = = == " +barberJsonObject.toString());
-            RequestResponseManager.updateBarberProfile(barberJsonObject, Const.salon_Register_Request, response -> {
+            RequestResponseManager.loginBarber(jsonObject, Const.Login_Barber_Request, response -> {
                 if (response != null) {
                     BaseRs baseRs = (BaseRs) response;
                     if (baseRs.getStatus().equals("success")) {
@@ -118,12 +125,62 @@ public class EditBarberActivity extends AppCompatActivity {
                         prefManager.setString(Const.BARBER_IMAGE, ownerRS.getProfile_image());
                         prefManager.setString(Const.BARBER_EXP_YEAR, ownerRS.getExp_year());
                         prefManager.setString(Const.BARBER_EXP_MONTH, ownerRS.getExp_month());
-                        Toast.makeText(this, "" + baseRs.getMessage(), Toast.LENGTH_SHORT).show();
+                        barber_name.setText(ownerRS.getName());
+                        e_mail.setText(ownerRS.getEmail());
+                        exp_mon.setText(ownerRS.getExp_month());
+                        exp_yrs.setText(ownerRS.getExp_year());
+                        phone_number.setText(ownerRS.getMobile().replace("+91", ""));
 
-                        startActivity(new Intent(this, ChooseActivity.class));
+                        Glide.with(this).load(ownerRS.getProfile_image()).centerCrop().into(profile_image);
+
+                        barberProfileImage = ownerRS.getProfile_image();
+
+                    } else {
+                        Toast.makeText(this, "Barber details not available", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(this, "Server error try again", Toast.LENGTH_SHORT).show();
+                }
+                if (progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
+        }
+    }
+
+    private void updateBarberProfile() {
+        progressDialog.show();
+        try {
+
+            JSONObject barberJsonObject = new JSONObject();
+            if (getIntent().getStringExtra("barber_action").equals("barber")) {
+                barberJsonObject.put("barber_id", prefManager.getString(Const.BARBER_ID, ""));
+            } else {
+                barberJsonObject.put("barber_id", getIntent().getIntExtra("barber_id",0));
+            }
+
+            barberJsonObject.put("name", barber_name.getText().toString());
+            barberJsonObject.put("email", e_mail.getText().toString());
+            barberJsonObject.put("mobile", countryCodePicker.getFullNumberWithPlus());
+            barberJsonObject.put("exp_year", exp_yrs.getText().toString());
+            barberJsonObject.put("exp_month", exp_mon.getText().toString());
+            if (!barberProfileImage.contains("http") && !barberProfileImage.isEmpty()) {
+                barberJsonObject.put("barber_profile", Const.getBase64ImageFromBitmap(barberProfileImage));
+            }
+
+            RequestResponseManager.updateBarberProfile(barberJsonObject, Const.salon_Register_Request, response -> {
+                if (response != null) {
+                    BaseRs baseRs = (BaseRs) response;
+                    if (baseRs.getStatus().equals("success")) {
+                        Toast.makeText(this, "" + baseRs.getMessage(), Toast.LENGTH_SHORT).show();
                         finish();
                     } else {
-                        Toast.makeText(this, ""+baseRs.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "" + baseRs.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                     Log.e("tag", " = =  = call = = = " + baseRs.getStatus());
                 } else {
