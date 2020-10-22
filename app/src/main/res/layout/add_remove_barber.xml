@@ -82,7 +82,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:layout_toEndOf="@id/edit_barbers"
-            android:text="Edit Barbers"
+            android:text="Edit Barber's profile"
             android:textColor="@color/colorBlack"
             android:textSize="16sp" />
     </RelativeLayout>

@@ -22,7 +22,9 @@ import com.anara.barber.R;
 
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 
 public class ShowIncomeActivity extends AppCompatActivity {
@@ -37,6 +39,8 @@ public class ShowIncomeActivity extends AppCompatActivity {
 
     ArrayList<BarbersRS> barbersRS;
     int selectPosition = 0;
+
+    String formattedDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +62,12 @@ public class ShowIncomeActivity extends AppCompatActivity {
         weeklyEarning = findViewById(R.id.weekly_earning);
         monthlyEarning = findViewById(R.id.monthly_earning);
         yearlyEarning = findViewById(R.id.yearly_earning);
+
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        formattedDate = df.format(c.getTime());
+        TextView todayDate = findViewById(R.id.tv2);
+        todayDate.setText(formattedDate);
 
         getBarbersIncome();
 
@@ -86,7 +96,7 @@ public class ShowIncomeActivity extends AppCompatActivity {
             JSONObject jsonObject = new JSONObject();
 
             jsonObject.put("barber_id", barbersRS.get(selectPosition).getId());
-            jsonObject.put("date","06-09-2020");
+            jsonObject.put("date",formattedDate);
 
             RequestResponseManager.getBarberIncome(jsonObject, Const.Barber_Income_Request, response -> {
                 if (response != null) {
